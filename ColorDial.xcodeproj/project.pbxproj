@@ -11,6 +11,8 @@
 		BEDD2D9A1C0C64B3003C67FB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDD2D991C0C64B3003C67FB /* ViewController.swift */; };
 		BEDD2D9C1C0C64B3003C67FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEDD2D9B1C0C64B3003C67FB /* Assets.xcassets */; };
 		BEDD2D9F1C0C64B3003C67FB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEDD2D9D1C0C64B3003C67FB /* Main.storyboard */; };
+		BEDD2DA71C0C693D003C67FB /* ColorSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDD2DA61C0C693D003C67FB /* ColorSlider.swift */; };
+		BEDD2DAB1C0CA2CB003C67FB /* ColorCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDD2DAA1C0CA2CB003C67FB /* ColorCircle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +22,8 @@
 		BEDD2D9B1C0C64B3003C67FB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BEDD2D9E1C0C64B3003C67FB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BEDD2DA01C0C64B3003C67FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BEDD2DA61C0C693D003C67FB /* ColorSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorSlider.swift; sourceTree = "<group>"; };
+		BEDD2DAA1C0CA2CB003C67FB /* ColorCircle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorCircle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +61,8 @@
 				BEDD2D9B1C0C64B3003C67FB /* Assets.xcassets */,
 				BEDD2D9D1C0C64B3003C67FB /* Main.storyboard */,
 				BEDD2DA01C0C64B3003C67FB /* Info.plist */,
+				BEDD2DA61C0C693D003C67FB /* ColorSlider.swift */,
+				BEDD2DAA1C0CA2CB003C67FB /* ColorCircle.swift */,
 			);
 			path = ColorDial;
 			sourceTree = "<group>";
@@ -132,6 +138,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				BEDD2D9A1C0C64B3003C67FB /* ViewController.swift in Sources */,
+				BEDD2DAB1C0CA2CB003C67FB /* ColorCircle.swift in Sources */,
+				BEDD2DA71C0C693D003C67FB /* ColorSlider.swift in Sources */,
 				BEDD2D981C0C64B3003C67FB /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
