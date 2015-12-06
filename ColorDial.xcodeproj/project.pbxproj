@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BE024BE11C14585A00850204 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE024BE01C14585A00850204 /* Regex.swift */; };
 		BEDD2D981C0C64B3003C67FB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDD2D971C0C64B3003C67FB /* AppDelegate.swift */; };
 		BEDD2D9A1C0C64B3003C67FB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDD2D991C0C64B3003C67FB /* ViewController.swift */; };
 		BEDD2D9C1C0C64B3003C67FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEDD2D9B1C0C64B3003C67FB /* Assets.xcassets */; };
@@ -16,6 +17,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BE024BDF1C0FDC8100850204 /* ColorDial.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ColorDial.entitlements; sourceTree = "<group>"; };
+		BE024BE01C14585A00850204 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 		BEDD2D941C0C64B3003C67FB /* ColorDial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ColorDial.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEDD2D971C0C64B3003C67FB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BEDD2D991C0C64B3003C67FB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -56,6 +59,7 @@
 		BEDD2D961C0C64B3003C67FB /* ColorDial */ = {
 			isa = PBXGroup;
 			children = (
+				BE024BDF1C0FDC8100850204 /* ColorDial.entitlements */,
 				BEDD2D971C0C64B3003C67FB /* AppDelegate.swift */,
 				BEDD2D991C0C64B3003C67FB /* ViewController.swift */,
 				BEDD2D9B1C0C64B3003C67FB /* Assets.xcassets */,
@@ -63,6 +67,7 @@
 				BEDD2DA01C0C64B3003C67FB /* Info.plist */,
 				BEDD2DA61C0C693D003C67FB /* ColorSlider.swift */,
 				BEDD2DAA1C0CA2CB003C67FB /* ColorCircle.swift */,
+				BE024BE01C14585A00850204 /* Regex.swift */,
 			);
 			path = ColorDial;
 			sourceTree = "<group>";
@@ -99,6 +104,12 @@
 				TargetAttributes = {
 					BEDD2D931C0C64B3003C67FB = {
 						CreatedOnToolsVersion = 7.1.1;
+						DevelopmentTeam = G46D6BQD74;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -138,6 +149,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BEDD2D9A1C0C64B3003C67FB /* ViewController.swift in Sources */,
+				BE024BE11C14585A00850204 /* Regex.swift in Sources */,
 				BEDD2DAB1C0CA2CB003C67FB /* ColorCircle.swift in Sources */,
 				BEDD2DA71C0C693D003C67FB /* ColorSlider.swift in Sources */,
 				BEDD2D981C0C64B3003C67FB /* AppDelegate.swift in Sources */,
@@ -242,6 +254,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ColorDial/ColorDial.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = ColorDial/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -254,6 +268,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ColorDial/ColorDial.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = ColorDial/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -281,6 +297,7 @@
 				BEDD2DA51C0C64B3003C67FB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

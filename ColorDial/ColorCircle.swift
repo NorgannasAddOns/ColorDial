@@ -67,11 +67,20 @@ class ColorCircle: NSView {
         return value
     }
     
+    func saturate(amount: CGFloat) {
+        let L = 0.3 * fill.redComponent + 0.59 * fill.greenComponent + 0.11 * fill.blueComponent
+        let r = L / amount + fill.redComponent / L
+        let g = L / amount + fill.greenComponent / L
+        let b = L / amount + fill.blueComponent / L
+        fill = NSColor(red: clamp(r), green: clamp(g), blue: clamp(b), alpha: 1)
+    }
+    
     func desaturate(amount: CGFloat) {
         let L = 0.3 * fill.redComponent + 0.59 * fill.greenComponent + 0.11 * fill.blueComponent
-        let r = fill.redComponent + amount * (L - fill.redComponent)
-        let g = fill.greenComponent + amount * (L - fill.greenComponent)
-        let b = fill.blueComponent + amount * (L - fill.blueComponent)
+        let r = L * amount + fill.redComponent * (1-L)
+        let g = L * amount + fill.greenComponent * (1-L)
+        let b = L * amount + fill.blueComponent * (1-L)
+        
         fill = NSColor(red: clamp(r), green: clamp(g), blue: clamp(b), alpha: 1)
     }
     
