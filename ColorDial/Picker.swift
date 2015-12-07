@@ -9,17 +9,18 @@
 import Cocoa
 
 class Picker: NSView {
-//    override var opaque: Bool { return true }
-//    override var acceptsFirstResponder: Bool { return true }
-    let pickerSize: Int = 64
+    let pickerSize: CGFloat = 100.0
+    let zoom: CGFloat = 5.0
     
     var parent: ViewController!
     var circle: NSBezierPath!
     var image: NSImage!
+    var centerColor: NSColor!
+    
+    var delegate: ColorSupplyDelegate?
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)!
-//        setItemPropertiesToDefault()
     }
 
     override func awakeFromNib() {
@@ -29,24 +30,29 @@ class Picker: NSView {
     override func drawRect(dirtyRect: NSRect) {
         super.drawRect(dirtyRect)
 
+        var scaled: NSImage = image
+        
+        let half = pickerSize / 2.0
+        let inset = pickerSize / zoom / 2.0
+        
         if (image != nil) {
-            let scaler = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: pickerSize, pixelsHigh: pickerSize, bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false, colorSpaceName: NSDeviceRGBColorSpace, bytesPerRow: 0, bitsPerPixel: 0) as NSBitmapImageRep!
+            let scaler = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: Int(pickerSize), pixelsHigh: Int(pickerSize), bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false, colorSpaceName: NSDeviceRGBColorSpace, bytesPerRow: 0, bitsPerPixel: 0) as NSBitmapImageRep!
             
             NSGraphicsContext.saveGraphicsState()
             NSGraphicsContext.setCurrentContext(NSGraphicsContext(bitmapImageRep: scaler))
             
-            let scaled = NSImage(size: NSSize(width: pickerSize, height: pickerSize))
+            scaled = NSImage(size: NSSize(width: pickerSize, height: pickerSize))
             
             scaled.lockFocus()
-            image.drawInRect(frame, fromRect: NSRect(x: pickerSize/4, y: pickerSize/4, width: pickerSize/2, height: pickerSize/2), operation: NSCompositingOperation.CompositeSourceOver, fraction: 1.0)
+            image.drawInRect(frame, fromRect: NSRect(x: half - inset, y: half - inset, width: inset * 2.0, height: inset * 2.0), operation: NSCompositingOperation.CompositeSourceOver, fraction: 1.0)
             scaled.unlockFocus()
-            
-            NSColor(patternImage: scaled).setFill()
-            circle.fill()
             
             NSGraphicsContext.restoreGraphicsState()
         }
-            
+        
+        NSColor(patternImage: scaled).setFill()
+        circle.fill()
+        
         NSColor.blackColor().setStroke()
         circle.lineWidth = 2
         circle.stroke()
@@ -54,6 +60,23 @@ class Picker: NSView {
         NSColor.whiteColor().setStroke()
         circle.lineWidth = 1.25
         circle.stroke()
+
+        circle.lineWidth = 1
+        NSColor.gridColor().setStroke()
+        
+        circle.moveToPoint(NSPoint(x: 2, y: half))
+        circle.lineToPoint(NSPoint(x: half - inset/2, y: half))
+        
+        circle.moveToPoint(NSPoint(x: pickerSize - 2, y: half))
+        circle.lineToPoint(NSPoint(x: half + inset/2, y: half))
+        
+        circle.moveToPoint(NSPoint(x: half, y: 2))
+        circle.lineToPoint(NSPoint(x: half, y: half - inset/2))
+        
+        circle.moveToPoint(NSPoint(x: half, y: pickerSize - 2))
+        circle.lineToPoint(NSPoint(x: half, y: half + inset/2))
+        
+        
     }
     
     func timerDidFire(timer: NSTimer!) {
@@ -65,7 +88,7 @@ class Picker: NSView {
     func setItemPropertiesToDefault() {
         circle = NSBezierPath(ovalInRect: NSRect(x: 1, y: 1, width: pickerSize - 2, height: pickerSize - 2))
         
-        NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: "timerDidFire:", userInfo: nil, repeats: true)
+        NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: "timerDidFire:", userInfo: nil, repeats: true)
 
         frame = NSRect(x: 0, y: 0, width: pickerSize, height: pickerSize)
 
@@ -73,7 +96,6 @@ class Picker: NSView {
             rect: frame,
             options: [
                 NSTrackingAreaOptions.ActiveAlways,
-//                NSTrackingAreaOptions.InVisibleRect,
                 NSTrackingAreaOptions.MouseEnteredAndExited,
                 NSTrackingAreaOptions.MouseMoved
             ],
@@ -87,32 +109,43 @@ class Picker: NSView {
     
     var downInView: Bool = false
 
+    var lastColor: NSColor!
     func handleMouseMovement() {
         let m = NSEvent.mouseLocation()
         
-        let nx = Int(m.x) - pickerSize/2
-        let ny = Int(m.y) - pickerSize/2
+        let half = pickerSize / 2.0
+        let nx = m.x - half
+        let ny = m.y - half
         
-        if (nx != Int(window!.frame.origin.x) || ny != Int(window!.frame.origin.y)) {
-            window!.setFrame(NSRect(
-                x: nx,
-                y: ny,
-                width: pickerSize,
-                height: pickerSize),
-                display: true,
-                animate: false
-            )
-            
-            let s = window!.convertRectToScreen(NSRect(origin: m, size: frame.size))
-            
-            let cgimage = CGWindowListCreateImage(s, CGWindowListOption.OptionOnScreenBelowWindow, CGWindowID(window!.windowNumber), CGWindowImageOption.BestResolution)
-            
-            image = NSImage(CGImage: cgimage!, size: frame.size)
-            if let b: NSButton = parent.eyeDropper as NSButton {
-                b.image = image
+        window!.setFrame(NSRect(
+            x: nx,
+            y: ny,
+            width: pickerSize,
+            height: pickerSize),
+            display: true,
+            animate: false
+        )
+        
+        let carbonPoint = carbonScreenPointFromCocoaScreenPoint(NSPoint(x: m.x, y: m.y))
+        let s = NSRect(
+            origin: NSPoint(x: carbonPoint.x - half, y: carbonPoint.y - half),
+            size: frame.size
+        )
+        
+        let cgimage = CGWindowListCreateImage(s, CGWindowListOption.OptionOnScreenBelowWindow, CGWindowID(window!.windowNumber), CGWindowImageOption.BestResolution)
+        
+        let rep = NSBitmapImageRep(CGImage: cgimage!)
+        centerColor = rep.colorAtX(Int(CGFloat(rep.size.width) / 2), y: Int(CGFloat(rep.size.height) / 2))
+        
+        if let delegate = self.delegate {
+            if (!centerColor.isEqualTo(lastColor)) {
+                delegate.colorSampled(centerColor)
+                lastColor = centerColor
             }
-            setNeedsDisplayInRect(frame)
         }
+
+        image = NSImage(CGImage: cgimage!, size: frame.size)
+        setNeedsDisplayInRect(frame)
     }
 
     override func mouseMoved(theEvent: NSEvent) {
@@ -139,7 +172,22 @@ class Picker: NSView {
             if (circle.containsPoint(click)) {
                 NSCursor.unhide()
                 window!.orderOut(window!)
+                if let delegate = self.delegate {
+                    delegate.colorSupplied(centerColor, sender: nil)
+                }
             }
         }
     }
+    
+    func carbonScreenPointFromCocoaScreenPoint(cocoaPoint: NSPoint) -> NSPoint {
+        for screen in NSScreen.screens()! {
+            let sr = NSRect(x: screen.frame.origin.x, y: screen.frame.origin.y - 1, width: screen.frame.size.width, height: screen.frame.size.height + 2)
+            if NSPointInRect(cocoaPoint, sr) {
+                let screenHeight = screen.frame.size.height
+                return NSPoint(x: cocoaPoint.x, y: screenHeight - cocoaPoint.y - 1)
+            }
+        }
+        return NSPoint(x: 0, y: 0)
+    }
+    
 }

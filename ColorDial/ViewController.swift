@@ -46,7 +46,13 @@ extension String {
     }
 }
 
-class ViewController: NSViewController, ColorCircleDelegate, NSTextFieldDelegate {
+
+protocol ColorSupplyDelegate {
+    func colorSupplied(supply: NSColor, sender: NSView?)
+    func colorSampled(sample: NSColor)
+}
+
+class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate {
     var rValue: Int = 0
     var gValue: Int = 0
     var bValue: Int = 0
@@ -121,13 +127,10 @@ class ViewController: NSViewController, ColorCircleDelegate, NSTextFieldDelegate
     @IBAction func eyeDropper(sender: NSButton) {
         flashPress(sender)
         
-        let p = NSReadPixel(NSPoint(x: 100,y: 100))
-        print(p)
-        
         pickerWin.makeKeyAndOrderFront(pickerWin)
         picker.handleMouseMovement()
         picker.becomeFirstResponder()
-        //NSCursor.hide()
+        NSCursor.hide()
     }
     
     @IBAction func hexCopy(sender: NSButton) {
@@ -325,12 +328,25 @@ class ViewController: NSViewController, ColorCircleDelegate, NSTextFieldDelegate
         setSliders()
     }
     
-    @IBAction func colorClicked(sender: ColorCircle) {
-        flashPress(sender)
+    func colorSupplied(supply: NSColor, sender: NSView?) {
+        if sender != nil {
+            flashPress(sender!)
+        }
         editingTextType = ""
-        color = sender.fill
+        color = supply
         setFromColor()
     }
+    
+    func colorSampled(sample: NSColor) {
+        editingTextType = "hexText"
+        hexText.backgroundColor = sample
+        let rInt = clampFloatTo(sample.redComponent * 255)
+        let gInt = clampFloatTo(sample.greenComponent * 255)
+        let bInt = clampFloatTo(sample.blueComponent * 255)
+        hexText.stringValue = String(format: "#%02x%02x%02x", rInt, gInt, bInt)
+    }
+        
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -375,6 +391,7 @@ class ViewController: NSViewController, ColorCircleDelegate, NSTextFieldDelegate
             }
         }
         picker.parent = self
+        picker.delegate = self
 
         pickerWin = NSWindow(contentRect: NSRect(x: 0, y: 0, width: picker.pickerSize, height: picker.pickerSize), styleMask: NSBorderlessWindowMask, backing: NSBackingStoreType.Buffered, `defer`: true)
         
@@ -480,18 +497,6 @@ class ViewController: NSViewController, ColorCircleDelegate, NSTextFieldDelegate
         cc300.setHSV((hValue + 300)%360, s: sValue, v: vValue)
         cc330.setHSV((hValue + 330)%360, s: sValue, v: vValue)
 
-/*
-        ccUp.setHSV(hValue, s: sValue, v: vValue + 10)
-        ccDown.setHSV(hValue, s: sValue, v: vValue - 10)
-        
-        ccPlus.setHSV(hValue, s: sValue, v: vValue)
-        ccPlus.saturate(0.2)
-        
-        ccMinus.setHSV(hValue, s: sValue, v: vValue)
-        ccMinus.desaturate(0.2)
-*/
-        
-//*
         ccUp.setHSV(hValue, s: sValue, v: vValue + 20)
         ccDown.setHSV(hValue, s: sValue, v: vValue - 20)
         ccPlus.setHSV(hValue, s: sValue + 20, v: vValue)
@@ -501,29 +506,7 @@ class ViewController: NSViewController, ColorCircleDelegate, NSTextFieldDelegate
         if (sValue == 100) { ccPlus.hidden = true; } else if (ccPlus.hidden) { ccPlus.hidden = false; }
         if (vValue == 0) { ccDown.hidden = true; } else if (ccDown.hidden) { ccDown.hidden = false; }
         if (sValue == 0) { ccMinus.hidden = true; } else if (ccMinus.hidden) { ccMinus.hidden = false; }
-        
-
-/*
-        ccUp.setHSV(hValue, s: sValue + 10, v: vValue)
-        ccDown.setHSV(hValue, s: sValue - 10, v: vValue)
-        ccPlus.setHSV(hValue, s: sValue, v: vValue + 10)
-        ccMinus.setHSV(hValue, s: sValue, v: vValue - 10)
-        
-/ *
-        ccPlus.setHSV(hValue, s: sValue, v: vValue)
-        ccPlus.adjustColor(1, contrast: 1, saturation: 1.1)
-        ccMinus.setHSV(hValue, s: sValue, v: vValue)
-        ccMinus.desaturate(0.1)
-*/
-        
     }
-
-    override var representedObject: AnyObject? {
-        didSet {
-        // Update the view, if already loaded.
-        }
-    }
-
 
 }
 

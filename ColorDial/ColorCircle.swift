@@ -8,16 +8,12 @@
 
 import Cocoa
 
-protocol ColorCircleDelegate {
-    func colorClicked(sender: ColorCircle)
-}
-
 class ColorCircle: NSView {
     var fill: NSColor = NSColor.blackColor()
     var bg: NSBezierPath? = nil
     var downInView: Bool = false
     
-    var delegate: ColorCircleDelegate?
+    var delegate: ColorSupplyDelegate?
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
@@ -48,7 +44,7 @@ class ColorCircle: NSView {
             if let bg = self.bg {
                 if (bg.containsPoint(click)) {
                     if let delegate = self.delegate {
-                        delegate.colorClicked(self)
+                        delegate.colorSupplied(fill, sender: self)
                     }
                 }
             }
