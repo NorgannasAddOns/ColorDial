@@ -8,17 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		BE024BE11C14585A00850204 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE024BE01C14585A00850204 /* Regex.swift */; };
+		BE354E381C150CA00013FE42 /* Picker.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE354E371C150CA00013FE42 /* Picker.xib */; };
 		BEDD2D981C0C64B3003C67FB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDD2D971C0C64B3003C67FB /* AppDelegate.swift */; };
 		BEDD2D9A1C0C64B3003C67FB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDD2D991C0C64B3003C67FB /* ViewController.swift */; };
 		BEDD2D9C1C0C64B3003C67FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEDD2D9B1C0C64B3003C67FB /* Assets.xcassets */; };
 		BEDD2D9F1C0C64B3003C67FB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEDD2D9D1C0C64B3003C67FB /* Main.storyboard */; };
 		BEDD2DA71C0C693D003C67FB /* ColorSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDD2DA61C0C693D003C67FB /* ColorSlider.swift */; };
 		BEDD2DAB1C0CA2CB003C67FB /* ColorCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDD2DAA1C0CA2CB003C67FB /* ColorCircle.swift */; };
+		BEF50C951C151CD100C12BB8 /* Picker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF50C941C151CD100C12BB8 /* Picker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		BE024BDF1C0FDC8100850204 /* ColorDial.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ColorDial.entitlements; sourceTree = "<group>"; };
 		BE024BE01C14585A00850204 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
+		BE354E371C150CA00013FE42 /* Picker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Picker.xib; sourceTree = "<group>"; };
 		BEDD2D941C0C64B3003C67FB /* ColorDial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ColorDial.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEDD2D971C0C64B3003C67FB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BEDD2D991C0C64B3003C67FB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -27,6 +30,7 @@
 		BEDD2DA01C0C64B3003C67FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BEDD2DA61C0C693D003C67FB /* ColorSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorSlider.swift; sourceTree = "<group>"; };
 		BEDD2DAA1C0CA2CB003C67FB /* ColorCircle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorCircle.swift; sourceTree = "<group>"; };
+		BEF50C941C151CD100C12BB8 /* Picker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Picker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +72,8 @@
 				BEDD2DA61C0C693D003C67FB /* ColorSlider.swift */,
 				BEDD2DAA1C0CA2CB003C67FB /* ColorCircle.swift */,
 				BE024BE01C14585A00850204 /* Regex.swift */,
+				BE354E371C150CA00013FE42 /* Picker.xib */,
+				BEF50C941C151CD100C12BB8 /* Picker.swift */,
 			);
 			path = ColorDial;
 			sourceTree = "<group>";
@@ -137,6 +143,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BEDD2D9C1C0C64B3003C67FB /* Assets.xcassets in Resources */,
+				BE354E381C150CA00013FE42 /* Picker.xib in Resources */,
 				BEDD2D9F1C0C64B3003C67FB /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -149,6 +156,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BEDD2D9A1C0C64B3003C67FB /* ViewController.swift in Sources */,
+				BEF50C951C151CD100C12BB8 /* Picker.swift in Sources */,
 				BE024BE11C14585A00850204 /* Regex.swift in Sources */,
 				BEDD2DAB1C0CA2CB003C67FB /* ColorCircle.swift in Sources */,
 				BEDD2DA71C0C693D003C67FB /* ColorSlider.swift in Sources */,

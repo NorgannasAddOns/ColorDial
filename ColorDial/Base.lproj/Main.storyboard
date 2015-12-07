@@ -1120,6 +1120,7 @@
                         <outlet property="ccPlus" destination="aSa-9Q-5S6" id="QAX-yY-CDb"/>
                         <outlet property="ccUp" destination="0Ge-IM-uQF" id="3x7-2H-ZKc"/>
                         <outlet property="colorWell" destination="t3X-9S-ilx" id="2BI-xH-8qF"/>
+                        <outlet property="eyeDropper" destination="TFG-e0-Z89" id="Mtk-aM-LVQ"/>
                         <outlet property="gSlider" destination="h8m-Gp-dGK" id="j7y-GB-i5V"/>
                         <outlet property="gSliderCell" destination="ueu-Rf-fBg" id="MiK-3A-UQP"/>
                         <outlet property="gStepper" destination="rfh-fD-Kco" id="Pyi-4J-sdU"/>

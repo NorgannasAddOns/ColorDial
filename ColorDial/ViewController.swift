@@ -56,6 +56,9 @@ class ViewController: NSViewController, ColorCircleDelegate, NSTextFieldDelegate
     
     var color: NSColor = NSColor(red: 0, green: 0, blue: 0, alpha: 0)
     
+    var pickerWin: NSWindow!
+    var picker: Picker!
+    
     @IBOutlet weak var colorWell: NSColorWell!
     
     @IBOutlet weak var rSlider: NSSlider!
@@ -107,6 +110,8 @@ class ViewController: NSViewController, ColorCircleDelegate, NSTextFieldDelegate
     @IBOutlet weak var rgbText: NSTextField!
     @IBOutlet weak var hslText: NSTextField!
 
+    @IBOutlet weak var eyeDropper: NSButton!
+    
     func flashPress(item: NSView) {
         NSAnimationContext.currentContext().duration = 1.2;
         item.alphaValue = 0.3
@@ -115,10 +120,14 @@ class ViewController: NSViewController, ColorCircleDelegate, NSTextFieldDelegate
     
     @IBAction func eyeDropper(sender: NSButton) {
         flashPress(sender)
-        self.view.lockFocus()
+        
         let p = NSReadPixel(NSPoint(x: 100,y: 100))
-        self.view.unlockFocus()
         print(p)
+        
+        pickerWin.makeKeyAndOrderFront(pickerWin)
+        picker.handleMouseMovement()
+        picker.becomeFirstResponder()
+        //NSCursor.hide()
     }
     
     @IBAction func hexCopy(sender: NSButton) {
@@ -355,7 +364,24 @@ class ViewController: NSViewController, ColorCircleDelegate, NSTextFieldDelegate
         hexText.delegate = self
         rgbText.delegate = self
         hslText.delegate = self
+
+        let bundle = NSBundle(forClass: self.dynamicType)
+        let nib = NSNib(nibNamed: "Picker", bundle: bundle)
+        var topLevelObjects: NSArray?
+        nib?.instantiateWithOwner(pickerWin, topLevelObjects: &topLevelObjects)
+        for object: AnyObject in topLevelObjects! {
+            if let obj = object as? Picker {
+                self.picker = obj
+            }
+        }
+        picker.parent = self
+
+        pickerWin = NSWindow(contentRect: NSRect(x: 0, y: 0, width: picker.pickerSize, height: picker.pickerSize), styleMask: NSBorderlessWindowMask, backing: NSBackingStoreType.Buffered, `defer`: true)
         
+        pickerWin.backgroundColor = NSColor.clearColor()
+        pickerWin.level = Int(CGWindowLevelForKey(.MaximumWindowLevelKey))
+        pickerWin.contentView?.addSubview(picker)
+
         setFromColor()
     }
     
