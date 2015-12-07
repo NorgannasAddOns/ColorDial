@@ -1,4 +1,4 @@
-# ColorDial
+# <img src="/ColorDial/Assets.xcassets/AppIcon.appiconset/icon_128x128@2x.png" width="64" height="64"/> ColorDial
 
 ![Screenshot](/images/screenshot.png)
 
