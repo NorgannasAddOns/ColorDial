@@ -61,7 +61,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
     var vValue: Int = 0
     
     var color: NSColor = NSColor(red: 0, green: 0, blue: 0, alpha: 0)
-    
+    var textBgColor: NSColor!
     var pickerWin: NSWindow!
     var picker: Picker!
     
@@ -126,11 +126,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
     
     @IBAction func eyeDropper(sender: NSButton) {
         flashPress(sender)
-        
-        pickerWin.makeKeyAndOrderFront(pickerWin)
-        picker.handleMouseMovement()
-        picker.becomeFirstResponder()
-        NSCursor.hide()
+        picker.beginPicking()
     }
     
     @IBAction func hexCopy(sender: NSButton) {
@@ -249,6 +245,8 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
     
     @IBAction func stepperUpdated(sender: NSStepper) {
         editingTextType = ""
+        hexText.window?.makeFirstResponder(nil)
+
         switch (sender) {
         case rStepper:
             rSlider.integerValue = rStepper.integerValue
@@ -281,6 +279,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
     
     @IBAction func sliderUpdated(sender: NSSlider) {
         editingTextType = ""
+        hexText.window?.makeFirstResponder(nil)
 
         var isRGB: Bool = true;
         switch (sender) {
@@ -333,6 +332,8 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
             flashPress(sender!)
         }
         editingTextType = ""
+        hexText.window?.makeFirstResponder(nil)
+        hexText.backgroundColor = NSColor.whiteColor()
         color = supply
         setFromColor()
     }
@@ -344,6 +345,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
         let gInt = clampFloatTo(sample.greenComponent * 255)
         let bInt = clampFloatTo(sample.blueComponent * 255)
         hexText.stringValue = String(format: "#%02x%02x%02x", rInt, gInt, bInt)
+        hexText.window?.makeFirstResponder(nil)
     }
         
 
@@ -398,6 +400,8 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
         pickerWin.backgroundColor = NSColor.clearColor()
         pickerWin.level = Int(CGWindowLevelForKey(.MaximumWindowLevelKey))
         pickerWin.contentView?.addSubview(picker)
+
+        hexText.window?.makeFirstResponder(nil)
 
         setFromColor()
     }
@@ -506,6 +510,8 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
         if (sValue == 100) { ccPlus.hidden = true; } else if (ccPlus.hidden) { ccPlus.hidden = false; }
         if (vValue == 0) { ccDown.hidden = true; } else if (ccDown.hidden) { ccDown.hidden = false; }
         if (sValue == 0) { ccMinus.hidden = true; } else if (ccMinus.hidden) { ccMinus.hidden = false; }
+        
+        textBgColor = hexText.backgroundColor
     }
 
 }

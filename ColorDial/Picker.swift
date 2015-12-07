@@ -9,14 +9,15 @@
 import Cocoa
 
 class Picker: NSView {
-    let pickerSize: CGFloat = 100.0
-    let zoom: CGFloat = 5.0
+    let pickerSize: CGFloat = 99.0
+    let zoom: CGFloat = 10.0
     
     var parent: ViewController!
     var circle: NSBezierPath!
     var image: NSImage!
     var centerColor: NSColor!
-    
+    var picking: Bool = false
+
     var delegate: ColorSupplyDelegate?
     
     required init?(coder: NSCoder) {
@@ -40,6 +41,7 @@ class Picker: NSView {
             
             NSGraphicsContext.saveGraphicsState()
             NSGraphicsContext.setCurrentContext(NSGraphicsContext(bitmapImageRep: scaler))
+            NSGraphicsContext.currentContext()?.imageInterpolation = .None
             
             scaled = NSImage(size: NSSize(width: pickerSize, height: pickerSize))
             
@@ -64,18 +66,11 @@ class Picker: NSView {
         circle.lineWidth = 1
         NSColor.gridColor().setStroke()
         
-        circle.moveToPoint(NSPoint(x: 2, y: half))
-        circle.lineToPoint(NSPoint(x: half - inset/2, y: half))
+        circle.moveToPoint(NSPoint(x: 2,              y: half))
+        circle.lineToPoint(NSPoint(x: pickerSize - 2, y: half))
         
-        circle.moveToPoint(NSPoint(x: pickerSize - 2, y: half))
-        circle.lineToPoint(NSPoint(x: half + inset/2, y: half))
-        
-        circle.moveToPoint(NSPoint(x: half, y: 2))
-        circle.lineToPoint(NSPoint(x: half, y: half - inset/2))
-        
-        circle.moveToPoint(NSPoint(x: half, y: pickerSize - 2))
-        circle.lineToPoint(NSPoint(x: half, y: half + inset/2))
-        
+        circle.moveToPoint(NSPoint(x: half,           y: 2))
+        circle.lineToPoint(NSPoint(x: half,           y: pickerSize - 2))
         
     }
     
@@ -111,6 +106,8 @@ class Picker: NSView {
 
     var lastColor: NSColor!
     func handleMouseMovement() {
+        if (!picking) { return }
+
         let m = NSEvent.mouseLocation()
         
         let half = pickerSize / 2.0
@@ -135,7 +132,7 @@ class Picker: NSView {
         let cgimage = CGWindowListCreateImage(s, CGWindowListOption.OptionOnScreenBelowWindow, CGWindowID(window!.windowNumber), CGWindowImageOption.BestResolution)
         
         let rep = NSBitmapImageRep(CGImage: cgimage!)
-        centerColor = rep.colorAtX(Int(CGFloat(rep.size.width) / 2), y: Int(CGFloat(rep.size.height) / 2))
+        centerColor = rep.colorAtX(Int(CGFloat(rep.size.width) / 2)-1, y: Int(CGFloat(rep.size.height) / 2)-1)
         
         if let delegate = self.delegate {
             if (!centerColor.isEqualTo(lastColor)) {
@@ -172,11 +169,21 @@ class Picker: NSView {
             if (circle.containsPoint(click)) {
                 NSCursor.unhide()
                 window!.orderOut(window!)
+                picking = false
                 if let delegate = self.delegate {
                     delegate.colorSupplied(centerColor, sender: nil)
                 }
             }
         }
+    }
+    
+    func beginPicking() {
+        if (picking) { return }
+        picking = true
+        window?.makeKeyAndOrderFront(window!)
+        becomeFirstResponder()
+        handleMouseMovement()
+        NSCursor.hide()
     }
     
     func carbonScreenPointFromCocoaScreenPoint(cocoaPoint: NSPoint) -> NSPoint {
