@@ -10,13 +10,13 @@ Featuring large and precise 256px wide coloured sliders for accurate drilling do
 
 ### Reticule sampling
 
-<img src="/images/reticlue.png" width="149" height="149"/>
+<img src="/images/reticule.png" width="149" height="149"/>
 
 The sampling tool built into ColorDial comes with a large format reticle which is precisely linearly scaled and sub-pixel capable, able to reach every pixel on your screen, even if you're sporting a retina display with pixels between your pixels. We've got you covered.
 
 ### Demo animation
 
-<img src="/images/anim.png" width="617" height="390"/>
+<img src="/images/anim.gif" width="617" height="390"/>
 
 ## How to get this marvelous software?
 
