@@ -6,7 +6,7 @@
 
 A rich and powerful, open-source color wheel/picker for OS X.
 
-Featuring large and precise 256px wide coloured sliders for accurate drilling down until you find that perfect specimen, text entry boxes for entering direct coordinates in multiple formats, css ready definitions to copy and paste, a handy color wheel to rapidly select complementary colors for your scheme, and a retina scale, sub-pixel capable reticule for sniping that elusive RGB value right off your monitor.
+Featuring large and precise 256px wide colored sliders for accurate drilling down until you find that perfect specimen, text entry boxes for entering direct coordinates in multiple formats, css ready definitions to copy and paste, a handy color wheel to rapidly select complementary colors for your scheme, and a retina scale, sub-pixel capable reticule for sniping that elusive RGB value right off your monitor.
 
 ### Reticule sampling
 
