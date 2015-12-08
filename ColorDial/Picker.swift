@@ -9,8 +9,8 @@
 import Cocoa
 
 class Picker: NSView {
-    let pickerSize: CGFloat = 99.0 // Must be odd number
-    let blockSize: Int = 7 // Must be odd number
+    let pickerSize: CGFloat = 149.0 // Must be odd number
+    let blockSize: Int = 11 // Must be odd number
     
     var parent: ViewController!
     var circle: NSBezierPath!
