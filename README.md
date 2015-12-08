@@ -26,7 +26,11 @@ Binary eleases avaliable on the [releases page](https://github.com/NorgannasAddO
 
 ### Keen for some customization?
 
-Git clone the repo and load it up in XCode. There's no dependancies, so it should just compile and go right off the bat.
+Always wanted to dabble with coding some OS X Swift?
+
+This is the perfect test case, with lots of pure Swift 2 UI code, featuring Storyboard, XIB, and a bunch of lower-level CG code, there's still plenty of stuff to customize and improve, so what are you waiting for?
+
+Clone the repo, load it up in the latest XCode and run. There's no other dependancies needed, so it should just compile and go right off the bat. Easy peasy.
 
 If you make any improvements, we'd love for you to open a pull request, or if you have suggestions or bugs, create an issue.
 
