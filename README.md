@@ -1,12 +1,34 @@
 # <img src="/ColorDial/Assets.xcassets/AppIcon.appiconset/icon_128x128.png" width="32" height="32"/> ColorDial
 
-![Screenshot](/images/screenshot.png)
+<img src="/images/screenshot.png" width="692" height="469"/>
 
-A simple open-source color wheel/picker for OS X.
+## Introducing the last color picker you'll need.
 
-## Download
+A rich and powerful, open-source color wheel/picker for OS X.
 
-Binary eleases avaliable on the [releases page](https://github.com/NorgannasAddOns/ColorDial/releases) or just roll your own.
+Featuring large and precise 256px wide coloured sliders for accurate drilling down until you find that perfect specimen, text entry boxes for entering direct coordinates in multiple formats, css ready definitions to copy and paste, a handy color wheel to rapidly select complementary colors for your scheme, and a retina scale, sub-pixel capable reticule for sniping that elusive RGB value right off your monitor.
+
+### Reticule sampling
+
+<img src="/images/reticlue.png" width="149" height="149"/>
+
+The sampling tool built into ColorDial comes with a large format reticle which is precisely linearly scaled and sub-pixel capable, able to reach every pixel on your screen, even if you're sporting a retina display with pixels between your pixels. We've got you covered.
+
+### Demo animation
+
+<img src="/images/anim.png" width="617" height="390"/>
+
+## How to get this marvelous software?
+
+### Download one we prepared earlier
+
+Binary eleases avaliable on the [releases page](https://github.com/NorgannasAddOns/ColorDial/releases)
+
+### Keen for some customization?
+
+Git clone the repo and load it up in XCode. There's no dependancies, so it should just compile and go right off the bat.
+
+If you make any improvements, we'd love for you to open a pull request, or if you have suggestions or bugs, create an issue.
 
 ## License
 
