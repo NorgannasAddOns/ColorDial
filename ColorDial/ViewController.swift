@@ -126,7 +126,10 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
     
     @IBAction func eyeDropper(sender: NSButton) {
         flashPress(sender)
-        picker.beginPicking()
+        //picker.beginPicking()
+        picker.picking = true
+        pickerWin.makeKeyAndOrderFront(pickerWin)
+        NSCursor.hide()
     }
     
     @IBAction func hexCopy(sender: NSButton) {
