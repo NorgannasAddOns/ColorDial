@@ -6,11 +6,11 @@
 
 A rich and powerful, open-source color wheel/picker for OS X.
 
-Featuring large and precise 256px wide colored sliders for accurate drilling down until you find that perfect specimen, text entry boxes for entering direct coordinates in multiple formats, css ready definitions to copy and paste, a handy color wheel to rapidly select complementary colors for your scheme, and a retina scale, sub-pixel capable reticule for sniping that elusive RGB value right off your monitor.
+Featuring large and precise 256px wide colored sliders for accurate drilling down until you find that perfect specimen, text entry boxes for entering direct coordinates in multiple formats, css ready definitions to copy and paste, a handy color wheel to rapidly select complementary colors for your scheme, and a retina scale, sub-pixel capable reticle for sniping that elusive RGB value right off your monitor.
 
-### Reticule sampling
+### Reticle sampling
 
-<img src="/images/reticule.png" width="149" height="149"/>
+<img src="/images/reticle.png" width="149" height="149"/>
 
 The sampling tool built into ColorDial comes with a large format reticle which is precisely linearly scaled (crisp edges, no blur) and sub-pixel capable, able to reach every pixel on your screen, even if you're sporting a retina display with pixels between your pixels. We've got you covered.
 
