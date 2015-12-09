@@ -111,6 +111,13 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
     @IBOutlet weak var ccMinus: ColorCircle!
     @IBOutlet weak var ccDown: ColorCircle!
     @IBOutlet weak var ccUp: ColorCircle!
+
+    @IBOutlet weak var cc1: ColorCircle!
+    @IBOutlet weak var cc2: ColorCircle!
+    @IBOutlet weak var cc3: ColorCircle!
+    @IBOutlet weak var cc4: ColorCircle!
+    @IBOutlet weak var cc5: ColorCircle!
+
     
     @IBOutlet weak var hexText: NSTextField!
     @IBOutlet weak var rgbText: NSTextField!
@@ -375,6 +382,12 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
         ccPlus.delegate = self
         ccMinus.delegate = self
         
+        cc1.delegate = self
+        cc2.delegate = self
+        cc3.delegate = self
+        cc4.delegate = self
+        cc5.delegate = self
+        
         rText.delegate = self
         gText.delegate = self
         bText.delegate = self
@@ -433,6 +446,71 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
         return value
     }
     
+    func addHue(h: Int, _ add: Int) -> Int {
+        return (h + add) % 360
+    }
+    
+    func addValueOverflowCap(v: Int, _ add: Int, cap: Int = 100, min: Int = -1, max: Int = -1) -> Int {
+        var w = v + add
+        if (min > -1 && w < min) { w = min }
+        if (max > -1 && w > max) { w = max }
+
+        if w > cap {
+            return cap
+        } else if w < 0 {
+            return 0
+        }
+        return w
+    }
+    
+    func addValueOverflowFlip(v: Int, _ add: Int, cap: Int = 100, lcap: Int = 0, min: Int = -1, max: Int = -1) -> Int {
+        var w = v + add
+        if (min > -1 && w < min) { w = min }
+        if (max > -1 && w > max) { w = max }
+        
+        // If we overflow, need to subtract instead
+        if (w > cap || w < lcap) {
+            return v - add
+        }
+        
+        return w
+    }
+
+    func addValueOverflowBounce(v: Int, _ add: Int, cap: Int = 100, lcap: Int = 0, min: Int = -1, max: Int = -1) -> Int {
+        var w = v + add
+        if (min > -1 && w < min) { w = min }
+        if (max > -1 && w > max) { w = max }
+        
+        // If we overflow, need to subtract overflow amount
+        if (w > cap) {
+            return cap - (w - cap)
+        } else if (w < lcap) {
+            return lcap + (lcap - w)
+        }
+        return w
+    }
+    
+    func addValueOverflowSlow(v: Int, _ add: Int, cap: Int = 100, min: Int = -1, max: Int = -1) -> Int {
+        var w = v + add
+        if (min > -1 && w < min) { w = min }
+        if (max > -1 && w > max) { w = max }
+        
+        // Stop us from overflowing by slowing add down (by 50%) as we approch cap.
+        if (w > cap - add) {
+            let d = cap - add - w
+            w -= Int(floor(CGFloat(d) / 2))
+            return w
+        } else if (w < 0 - add) {
+            let d = cap - add - w
+            w += Int(floor(CGFloat(d) / 2))
+        }
+        return w
+    }
+    
+    func addValueOverflowOppose(v: Int, _ add: Int, cap: Int = 100) -> Int {
+        return (v + add) % cap
+    }
+
     func setSliders() {
         let rInt = clampTo(rValue)
         let gInt = clampTo(gValue)
@@ -492,22 +570,62 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
         
         
         cc0.setHSV(hValue, s: sValue, v: vValue)
-        cc30.setHSV((hValue + 30)%360, s: sValue, v: vValue)
-        cc60.setHSV((hValue + 60)%360, s: sValue, v: vValue)
-        cc90.setHSV((hValue + 90)%360, s: sValue, v: vValue)
-        cc120.setHSV((hValue + 120)%360, s: sValue, v: vValue)
-        cc150.setHSV((hValue + 150)%360, s: sValue, v: vValue)
-        cc180.setHSV((hValue + 180)%360, s: sValue, v: vValue)
-        cc210.setHSV((hValue + 210)%360, s: sValue, v: vValue)
-        cc240.setHSV((hValue + 240)%360, s: sValue, v: vValue)
-        cc270.setHSV((hValue + 270)%360, s: sValue, v: vValue)
-        cc300.setHSV((hValue + 300)%360, s: sValue, v: vValue)
-        cc330.setHSV((hValue + 330)%360, s: sValue, v: vValue)
+        cc30.setHSV(addHue(hValue, 30), s: sValue, v: vValue)
+        cc60.setHSV(addHue(hValue, 60), s: sValue, v: vValue)
+        cc90.setHSV(addHue(hValue, 90), s: sValue, v: vValue)
+        cc120.setHSV(addHue(hValue, 120), s: sValue, v: vValue)
+        cc150.setHSV(addHue(hValue, 150), s: sValue, v: vValue)
+        cc180.setHSV(addHue(hValue, 180), s: sValue, v: vValue)
+        cc210.setHSV(addHue(hValue, 210), s: sValue, v: vValue)
+        cc240.setHSV(addHue(hValue, 240), s: sValue, v: vValue)
+        cc270.setHSV(addHue(hValue, 270), s: sValue, v: vValue)
+        cc300.setHSV(addHue(hValue, 300), s: sValue, v: vValue)
+        cc330.setHSV(addHue(hValue, 330), s: sValue, v: vValue)
 
         ccUp.setHSV(hValue, s: sValue, v: vValue + 20)
         ccDown.setHSV(hValue, s: sValue, v: vValue - 20)
         ccPlus.setHSV(hValue, s: sValue + 20, v: vValue)
         ccMinus.setHSV(hValue, s: sValue - 20, v: vValue)
+
+        cc3.setHSV(hValue, s: sValue, v: vValue)
+        
+        let harmony = "complementary"
+        switch (harmony) {
+        case "analogous":
+            cc1.setHSV(addHue(hValue, -30), s: addValueOverflowBounce(sValue, 5), v: addValueOverflowSlow(vValue, 5, min: 20))
+            cc2.setHSV(addHue(hValue, -15), s: addValueOverflowBounce(sValue, 5), v: addValueOverflowFlip(vValue, 9, min: 20))
+            cc4.setHSV(addHue(hValue,  15), s: addValueOverflowBounce(sValue, 5), v: addValueOverflowFlip(vValue, 9, min: 20))
+            cc5.setHSV(addHue(hValue,  30), s: addValueOverflowBounce(sValue, 5), v: addValueOverflowSlow(vValue, 5, min: 20))
+            break
+        case "complementary":
+            cc1.setHSV(addHue(hValue,   0), s: addValueOverflowSlow(sValue, 10), v: addValueOverflowFlip(vValue, -30, lcap: 20))
+            cc2.setHSV(addHue(hValue,   0), s: addValueOverflowCap(sValue, -10), v: addValueOverflowCap(vValue, 30))
+            cc4.setHSV(addHue(hValue, 180), s: addValueOverflowCap(sValue, 20), v: addValueOverflowFlip(vValue, -30, lcap: 20))
+            cc5.setHSV(addHue(hValue, 180), s: sValue, v: vValue)
+            break
+        // compound
+            // 30, 0.1, 0.2
+            // 30, -0.4, 0.4
+            // 165, -0.25, 0.05
+            // 150, 0.1, 0.2
+        // monochromatic
+            // 0, 0, 0.3
+            // 0, -0.3, 0.1
+            // 0, -0.3, 0.3
+            // 0, 0, 0.6
+        // shades
+            // 0, 0, -0.25
+            // 0, 0, -0.5
+            // 0, 0, -0.75
+            // 0, 0, -0.9
+        // triad
+            // 0, 0.1, -0.3
+            // 120, -0.1, 0.05
+            // -120, 0.1, -0.2
+            // -120, 0.05, 0.3
+        default: break
+        }
+        
         
         if (vValue == 100) { ccUp.hidden = true; } else if (ccUp.hidden) { ccUp.hidden = false; }
         if (sValue == 100) { ccPlus.hidden = true; } else if (ccPlus.hidden) { ccPlus.hidden = false; }
