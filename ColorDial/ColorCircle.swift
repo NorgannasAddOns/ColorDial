@@ -51,8 +51,8 @@ class ColorCircle: NSView {
         }
     }
     
-    func setHSV(h: Int, s: Int, v: Int) {
-        fill = NSColor(hue: clamp(CGFloat(h)/360), saturation: clamp(CGFloat(s)/100), brightness: clamp(CGFloat(v)/100), alpha: 1)
+    func setHSV(h: CGFloat, s: CGFloat, l: CGFloat) {
+        fill = NSColor(hue: clamp(h/360 % 360), saturation: clamp(s/100), brightness: clamp(l/100), alpha: 1)
         
         self.setNeedsDisplayInRect(self.bounds)
     }
@@ -62,24 +62,7 @@ class ColorCircle: NSView {
         if (value < 0) { return 0 }
         return value
     }
-    
-    func saturate(amount: CGFloat) {
-        let L = 0.3 * fill.redComponent + 0.59 * fill.greenComponent + 0.11 * fill.blueComponent
-        let r = L / amount + fill.redComponent / L
-        let g = L / amount + fill.greenComponent / L
-        let b = L / amount + fill.blueComponent / L
-        fill = NSColor(red: clamp(r), green: clamp(g), blue: clamp(b), alpha: 1)
-    }
-    
-    func desaturate(amount: CGFloat) {
-        let L = 0.3 * fill.redComponent + 0.59 * fill.greenComponent + 0.11 * fill.blueComponent
-        let r = L * amount + fill.redComponent * (1-L)
-        let g = L * amount + fill.greenComponent * (1-L)
-        let b = L * amount + fill.blueComponent * (1-L)
         
-        fill = NSColor(red: clamp(r), green: clamp(g), blue: clamp(b), alpha: 1)
-    }
-    
     func mix(value: CGFloat, with: CGFloat, factor: CGFloat) -> CGFloat {
         return value*(1-factor) + with*factor
     }

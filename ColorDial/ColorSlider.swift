@@ -28,10 +28,10 @@ class ColorSlider: NSSliderCell {
     }
 
     
-    func setSaturation(h:Int, v:Int) {
+    func setSaturation(h:Int, l:Int) {
         grad = NSGradient.init(
-            startingColor: NSColor(hue: CGFloat(h)/360, saturation: 0, brightness: CGFloat(v)/100, alpha: 1),
-            endingColor: NSColor(hue: CGFloat(h)/360, saturation: 1, brightness: CGFloat(v)/100, alpha: 1)
+            startingColor: NSColor(hue: CGFloat(h)/360, saturation: 0, brightness: CGFloat(l)/100, alpha: 1),
+            endingColor: NSColor(hue: CGFloat(h)/360, saturation: 1, brightness: CGFloat(l)/100, alpha: 1)
         )
     }
     
@@ -42,24 +42,24 @@ class ColorSlider: NSSliderCell {
         )
     }
     
-    func setHue(s:Int, v:Int) {
+    func setHue(s:Int, l:Int) {
         let ss = CGFloat(s)/100
-        let vv = CGFloat(v)/100
+        let ll = CGFloat(l)/100
         
         grad = NSGradient.init(colors: [
-            NSColor(hue: 0/360, saturation: ss, brightness: vv, alpha: 1),
-            NSColor(hue: 30/360, saturation: ss, brightness: vv, alpha: 1),
-            NSColor(hue: 60/360, saturation: ss, brightness: vv, alpha: 1),
-            NSColor(hue: 90/360, saturation: ss, brightness: vv, alpha: 1),
-            NSColor(hue: 120/360, saturation: ss, brightness: vv, alpha: 1),
-            NSColor(hue: 150/360, saturation: ss, brightness: vv, alpha: 1),
-            NSColor(hue: 180/360, saturation: ss, brightness: vv, alpha: 1),
-            NSColor(hue: 210/360, saturation: ss, brightness: vv, alpha: 1),
-            NSColor(hue: 240/360, saturation: ss, brightness: vv, alpha: 1),
-            NSColor(hue: 270/360, saturation: ss, brightness: vv, alpha: 1),
-            NSColor(hue: 300/360, saturation: ss, brightness: vv, alpha: 1),
-            NSColor(hue: 330/360, saturation: ss, brightness: vv, alpha: 1),
-            NSColor(hue: 360/360, saturation: ss, brightness: vv, alpha: 1),
+            NSColor(hue: 0/360, saturation: ss, brightness: ll, alpha: 1),
+            NSColor(hue: 30/360, saturation: ss, brightness: ll, alpha: 1),
+            NSColor(hue: 60/360, saturation: ss, brightness: ll, alpha: 1),
+            NSColor(hue: 90/360, saturation: ss, brightness: ll, alpha: 1),
+            NSColor(hue: 120/360, saturation: ss, brightness: ll, alpha: 1),
+            NSColor(hue: 150/360, saturation: ss, brightness: ll, alpha: 1),
+            NSColor(hue: 180/360, saturation: ss, brightness: ll, alpha: 1),
+            NSColor(hue: 210/360, saturation: ss, brightness: ll, alpha: 1),
+            NSColor(hue: 240/360, saturation: ss, brightness: ll, alpha: 1),
+            NSColor(hue: 270/360, saturation: ss, brightness: ll, alpha: 1),
+            NSColor(hue: 300/360, saturation: ss, brightness: ll, alpha: 1),
+            NSColor(hue: 330/360, saturation: ss, brightness: ll, alpha: 1),
+            NSColor(hue: 360/360, saturation: ss, brightness: ll, alpha: 1),
         ])
     }
     
