@@ -16,7 +16,7 @@ The sampling tool built into ColorDial comes with a large format reticle which i
 
 ### Demo animation
 
-<img src="/images/anim.gif" width="617" height="390"/>
+<img src="/images/anim.gif" width="308" height="175"/>
 
 ## How to get this marvelous software?
 
