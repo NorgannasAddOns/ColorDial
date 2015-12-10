@@ -73,9 +73,9 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
         get { return Int(round(sFloat * 100)) }
         set { sFloat = clamp(CGFloat(newValue) / 100) }
     }
-    var lValue: Int {
-        get { return Int(round(lFloat * 100)) }
-        set { lFloat = clamp(CGFloat(newValue) / 100) }
+    var vValue: Int {
+        get { return Int(round(vFloat * 100)) }
+        set { vFloat = clamp(CGFloat(newValue) / 100) }
     }
     
     var rFloat: CGFloat = 0
@@ -83,7 +83,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
     var bFloat: CGFloat = 0
     var hFloat: CGFloat = 0
     var sFloat: CGFloat = 0
-    var lFloat: CGFloat = 0
+    var vFloat: CGFloat = 0
     
     var color: NSColor = NSColor(red: 0, green: 0, blue: 0, alpha: 0)
     var lockedColor: NSColor = NSColor(red: 0, green: 0, blue: 0, alpha: 0)
@@ -99,28 +99,28 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
     @IBOutlet weak var bSlider: NSSlider!
     @IBOutlet weak var hSlider: NSSlider!
     @IBOutlet weak var sSlider: NSSlider!
-    @IBOutlet weak var lSlider: NSSlider!
+    @IBOutlet weak var vSlider: NSSlider!
 
     @IBOutlet weak var rText: NSTextField!
     @IBOutlet weak var gText: NSTextField!
     @IBOutlet weak var bText: NSTextField!
     @IBOutlet weak var hText: NSTextField!
     @IBOutlet weak var sText: NSTextField!
-    @IBOutlet weak var lText: NSTextField!
+    @IBOutlet weak var vText: NSTextField!
     
     @IBOutlet weak var rStepper: NSStepper!
     @IBOutlet weak var gStepper: NSStepper!
     @IBOutlet weak var bStepper: NSStepper!
     @IBOutlet weak var hStepper: NSStepper!
     @IBOutlet weak var sStepper: NSStepper!
-    @IBOutlet weak var lStepper: NSStepper!
+    @IBOutlet weak var vStepper: NSStepper!
     
     @IBOutlet weak var rSliderCell: ColorSlider!
     @IBOutlet weak var gSliderCell: ColorSlider!
     @IBOutlet weak var bSliderCell: ColorSlider!
     @IBOutlet weak var hSliderCell: ColorSlider!
     @IBOutlet weak var sSliderCell: ColorSlider!
-    @IBOutlet weak var lSliderCell: ColorSlider!
+    @IBOutlet weak var vSliderCell: ColorSlider!
     
     @IBOutlet weak var cc0: ColorCircle!
     @IBOutlet weak var cc30: ColorCircle!
@@ -329,10 +329,10 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
             sValue = clampTo(sSlider.integerValue)
             updateSliders(false)
             break
-        case lText:
-            if lSlider.integerValue == lText.integerValue { return }
-            lSlider.integerValue = lText.integerValue
-            lValue = clampTo(lSlider.integerValue)
+        case vText:
+            if vSlider.integerValue == vText.integerValue { return }
+            vSlider.integerValue = vText.integerValue
+            vValue = clampTo(vSlider.integerValue)
             updateSliders(false)
             break
         case hexText:
@@ -403,10 +403,10 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
             sSlider.integerValue = sStepper.integerValue
             sliderUpdated(sSlider)
             break
-        case lStepper:
-            if lSlider.integerValue == lStepper.integerValue { return }
-            lSlider.integerValue = lStepper.integerValue
-            sliderUpdated(lSlider)
+        case vStepper:
+            if vSlider.integerValue == vStepper.integerValue { return }
+            vSlider.integerValue = vStepper.integerValue
+            sliderUpdated(vSlider)
             break
         default:
             break
@@ -436,8 +436,8 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
             sValue = clampTo(sSlider.integerValue, max: 100)
             isRGB = false
             break
-        case lSlider:
-            lValue = clampTo(lSlider.integerValue, max: 100)
+        case vSlider:
+            vValue = clampTo(vSlider.integerValue, max: 100)
             isRGB = false
             break
         default:
@@ -452,9 +452,9 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
             color = NSColor(red: rFloat, green: gFloat, blue: bFloat, alpha: 1.0)
             hFloat = color.hueComponent
             sFloat = color.saturationComponent
-            lFloat = color.brightnessComponent
+            vFloat = color.brightnessComponent
         } else {
-            color = NSColor(hue: hFloat, saturation: sFloat, brightness: lFloat, alpha: 1.0)
+            color = NSColor(hue: hFloat, saturation: sFloat, brightness: vFloat, alpha: 1.0)
             rFloat = color.redComponent
             gFloat = color.greenComponent
             bFloat = color.blueComponent
@@ -520,7 +520,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
         bText.delegate = self
         hText.delegate = self
         sText.delegate = self
-        lText.delegate = self
+        vText.delegate = self
 
         hexText.delegate = self
         rgbText.delegate = self
@@ -556,17 +556,9 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
     }
     
     func setFromColor() {
-/*
-        hValue = clampFloatTo(color.hueComponent * 360, max: 359)
-        sValue = clampFloatTo(color.saturationComponent * 100, max: 100)
-        lValue = clampFloatTo(color.brightnessComponent * 100, max: 100)
-        rValue = clampFloatTo(color.redComponent * 255)
-        gValue = clampFloatTo(color.greenComponent * 255)
-        bValue = clampFloatTo(color.blueComponent * 255)
-*/
         hFloat = color.hueComponent
         sFloat = color.saturationComponent
-        lFloat = color.brightnessComponent
+        vFloat = color.brightnessComponent
         rFloat = color.redComponent
         gFloat = color.greenComponent
         bFloat = color.blueComponent
@@ -694,44 +686,44 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
         let bInt = clampTo(bValue)
         let hInt = clampTo(hValue, max: 359)
         let sInt = clampTo(sValue, max: 100)
-        let lInt = clampTo(lValue, max: 100)
+        let vInt = clampTo(vValue, max: 100)
         
         rText.integerValue = rInt
         gText.integerValue = gInt
         bText.integerValue = bInt
         hText.integerValue = hInt
         sText.integerValue = sInt
-        lText.integerValue = lInt
+        vText.integerValue = vInt
 
         rStepper.integerValue = rInt
         gStepper.integerValue = gInt
         bStepper.integerValue = bInt
         hStepper.integerValue = hInt
         sStepper.integerValue = sInt
-        lStepper.integerValue = lInt
+        vStepper.integerValue = vInt
 
         rSlider.integerValue = rInt
         gSlider.integerValue = gInt
         bSlider.integerValue = bInt
         hSlider.integerValue = hInt
         sSlider.integerValue = sInt
-        lSlider.integerValue = lInt
+        vSlider.integerValue = vInt
         
         colorWell.color = color
         
         rSliderCell.setColors(0, g1: gValue, b1: bValue, r2: 255, g2: gValue, b2: bValue)
         gSliderCell.setColors(rValue, g1: 0, b1: bValue, r2: rValue, g2: 255, b2: bValue)
         bSliderCell.setColors(rValue, g1: gValue, b1: 0, r2: rValue, g2: gValue, b2: 255)
-        hSliderCell.setHue(sValue, l: lValue)
-        sSliderCell.setSaturation(hValue, l: lValue)
-        lSliderCell.setBrightness(hValue, s: sValue)
+        hSliderCell.setHue(sValue, v: vValue)
+        sSliderCell.setSaturation(hValue, v: vValue)
+        vSliderCell.setBrightness(hValue, s: sValue)
         
         rSlider.setNeedsDisplay()
         gSlider.setNeedsDisplay()
         bSlider.setNeedsDisplay()
         hSlider.setNeedsDisplay()
         sSlider.setNeedsDisplay()
-        lSlider.setNeedsDisplay()
+        vSlider.setNeedsDisplay()
         
         if (editingTextType != "hexText") {
             hexText.stringValue = String(format: "#%02x%02x%02x", rInt, gInt, bInt)
@@ -742,77 +734,78 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
         }
         
         if (editingTextType != "hslText") {
+            let lInt = -1;
             hslText.stringValue = String(format: "hsl(%d, %d%%, %d%%)", hInt, sInt, lInt)
         }
 
         let h = lockedColor.hueComponent * 360
         let s = lockedColor.saturationComponent * 100
-        let l = lockedColor.brightnessComponent * 100
+        let v = lockedColor.brightnessComponent * 100
         
-        cc0.setHSV(h, s: s, l: l)
-        cc30.setHSV(addHue(h, 30), s: s, l: l)
-        cc60.setHSV(addHue(h, 60), s: s, l: l)
-        cc90.setHSV(addHue(h, 90), s: s, l: l)
-        cc120.setHSV(addHue(h, 120), s: s, l: l)
-        cc150.setHSV(addHue(h, 150), s: s, l: l)
-        cc180.setHSV(addHue(h, 180), s: s, l: l)
-        cc210.setHSV(addHue(h, 210), s: s, l: l)
-        cc240.setHSV(addHue(h, 240), s: s, l: l)
-        cc270.setHSV(addHue(h, 270), s: s, l: l)
-        cc300.setHSV(addHue(h, 300), s: s, l: l)
-        cc330.setHSV(addHue(h, 330), s: s, l: l)
+        cc0.setHSV(h, s: s, v: v)
+        cc30.setHSV(addHue(h, 30), s: s, v: v)
+        cc60.setHSV(addHue(h, 60), s: s, v: v)
+        cc90.setHSV(addHue(h, 90), s: s, v: v)
+        cc120.setHSV(addHue(h, 120), s: s, v: v)
+        cc150.setHSV(addHue(h, 150), s: s, v: v)
+        cc180.setHSV(addHue(h, 180), s: s, v: v)
+        cc210.setHSV(addHue(h, 210), s: s, v: v)
+        cc240.setHSV(addHue(h, 240), s: s, v: v)
+        cc270.setHSV(addHue(h, 270), s: s, v: v)
+        cc300.setHSV(addHue(h, 300), s: s, v: v)
+        cc330.setHSV(addHue(h, 330), s: s, v: v)
 
-        ccUp.setHSV(h, s: s, l: l + 20)
-        ccDown.setHSV(h, s: s, l: l - 20)
-        ccPlus.setHSV(h, s: s + 20, l: l)
-        ccMinus.setHSV(h, s: s - 20, l: l)
+        ccUp.setHSV(h, s: s, v: v + 20)
+        ccDown.setHSV(h, s: s, v: v - 20)
+        ccPlus.setHSV(h, s: s + 20, v: v)
+        ccMinus.setHSV(h, s: s - 20, v: v)
 
-        cc3.setHSV(h, s: s, l: l)
+        cc3.setHSV(h, s: s, v: v)
         
         switch (harmony) {
         case "analogous":
-            cc1.setHSV(addHue(h,  30), s: addValueOverflowBounce(s, 5), l: addValueOverflowSlow(l, 5, min: 20))
-            cc2.setHSV(addHue(h,  15), s: addValueOverflowBounce(s, 5), l: addValueOverflowFlip(l, 9, min: 20))
-            cc4.setHSV(addHue(h, -15), s: addValueOverflowBounce(s, 5), l: addValueOverflowFlip(l, 9, min: 20))
-            cc5.setHSV(addHue(h, -30), s: addValueOverflowBounce(s, 5), l: addValueOverflowSlow(l, 5, min: 20))
+            cc1.setHSV(addHue(h,  30), s: addValueOverflowBounce(s, 5), v: addValueOverflowSlow(v, 5, min: 20))
+            cc2.setHSV(addHue(h,  15), s: addValueOverflowBounce(s, 5), v: addValueOverflowFlip(v, 9, min: 20))
+            cc4.setHSV(addHue(h, -15), s: addValueOverflowBounce(s, 5), v: addValueOverflowFlip(v, 9, min: 20))
+            cc5.setHSV(addHue(h, -30), s: addValueOverflowBounce(s, 5), v: addValueOverflowSlow(v, 5, min: 20))
             break
         case "complementary":
-            cc1.setHSV(addHue(h,   0), s: addValueOverflowSlow(s, 10), l: addValueOverflowFlip(l, -30, lcap: 20))
-            cc2.setHSV(addHue(h,   0), s: addValueOverflowCap(s, -10), l: addValueOverflowCap(l, 30))
-            cc4.setHSV(addHue(h, 180), s: addValueOverflowCap(s, 20), l: addValueOverflowFlip(l, -30, lcap: 20))
-            cc5.setHSV(addHue(h, 180), s: s, l: l)
+            cc1.setHSV(addHue(h,   0), s: addValueOverflowSlow(s, 10), v: addValueOverflowFlip(v, -30, lcap: 20))
+            cc2.setHSV(addHue(h,   0), s: addValueOverflowCap(s, -10), v: addValueOverflowCap(v, 30))
+            cc4.setHSV(addHue(h, 180), s: addValueOverflowCap(s, 20), v: addValueOverflowFlip(v, -30, lcap: 20))
+            cc5.setHSV(addHue(h, 180), s: s, v: v)
             break
         case "compound":
-            cc1.setHSV(addHue(h, 30), s: addValueOverflowFlip(s, 10), l: addValueOverflowFlip(l, 20))
-            cc2.setHSV(addHue(h, 30), s: addValueOverflowFlip(s, -40), l: addValueOverflowFlip(l, 40))
-            cc4.setHSV(addHue(h, 165), s: addValueOverflowFlip(s, -25), l: addValueOverflowSlow(l, 5, brake: 40))
-            cc5.setHSV(addHue(h, 150), s: addValueOverflowFlip(s, 10), l: addValueOverflowCap(l, 20))
+            cc1.setHSV(addHue(h, 30), s: addValueOverflowFlip(s, 10), v: addValueOverflowFlip(v, 20))
+            cc2.setHSV(addHue(h, 30), s: addValueOverflowFlip(s, -40), v: addValueOverflowFlip(v, 40))
+            cc4.setHSV(addHue(h, 165), s: addValueOverflowFlip(s, -25), v: addValueOverflowSlow(v, 5, brake: 40))
+            cc5.setHSV(addHue(h, 150), s: addValueOverflowFlip(s, 10), v: addValueOverflowCap(v, 20))
             break
         case "monochromatic":
-            cc1.setHSV(addHue(h, 0), s: addValueOverflowCap(s, 0), l: addValueOverflowFlip(l, 30))
-            cc2.setHSV(addHue(h, 0), s: addValueOverflowFlip(s, -30), l: addValueOverflowSlow(l, 10, brake: 50))
-            cc4.setHSV(addHue(h, 0), s: addValueOverflowFlip(s, -30), l: addValueOverflowFlip(l, 30))
-            cc5.setHSV(addHue(h, 0), s: addValueOverflowCap(s, 0), l: addValueOverflowOppose(l, 60, roffs: 20))
+            cc1.setHSV(addHue(h, 0), s: addValueOverflowCap(s, 0), v: addValueOverflowFlip(v, 30))
+            cc2.setHSV(addHue(h, 0), s: addValueOverflowFlip(s, -30), v: addValueOverflowSlow(v, 10, brake: 50))
+            cc4.setHSV(addHue(h, 0), s: addValueOverflowFlip(s, -30), v: addValueOverflowFlip(v, 30))
+            cc5.setHSV(addHue(h, 0), s: addValueOverflowCap(s, 0), v: addValueOverflowOppose(v, 60, roffs: 20))
             break
         case "shades":
-            cc1.setHSV(addHue(h, 0), s: addValueOverflowCap(s, 0), l: addValueOverflowFlip(l, -25, lcap: 20))
-            cc2.setHSV(addHue(h, 0), s: addValueOverflowCap(s, 0), l: addValueOverflowFlip(l, -50, lcap: 20))
-            cc4.setHSV(addHue(h, 0), s: addValueOverflowCap(s, 0), l: addValueOverflowFlip(l, -75))
-            cc5.setHSV(addHue(h, 0), s: addValueOverflowCap(s, 0), l: addValueOverflowSlow(l, -10, brake: 15))
+            cc1.setHSV(addHue(h, 0), s: addValueOverflowCap(s, 0), v: addValueOverflowFlip(v, -25, lcap: 20))
+            cc2.setHSV(addHue(h, 0), s: addValueOverflowCap(s, 0), v: addValueOverflowFlip(v, -50, lcap: 20))
+            cc4.setHSV(addHue(h, 0), s: addValueOverflowCap(s, 0), v: addValueOverflowFlip(v, -75))
+            cc5.setHSV(addHue(h, 0), s: addValueOverflowCap(s, 0), v: addValueOverflowSlow(v, -10, brake: 15))
             break
         case "triadic":
-            cc1.setHSV(addHue(h, 0), s: addValueOverflowFlip(s, 10), l: addValueOverflowFlip(l, -30, lcap: 20))
-            cc2.setHSV(addHue(h, 120), s: addValueOverflowFlip(s, -10), l: addValueOverflowSlow(l, 5, min: 20, brake: 30))
-            cc4.setHSV(addHue(h, -120), s: addValueOverflowFlip(s, 10), l: addValueOverflowFlip(l, -20, lcap: 20))
-            cc5.setHSV(addHue(h, -120), s: addValueOverflowFlip(s, 5), l: addValueOverflowFlip(l, 30))
+            cc1.setHSV(addHue(h, 0), s: addValueOverflowFlip(s, 10), v: addValueOverflowFlip(v, -30, lcap: 20))
+            cc2.setHSV(addHue(h, 120), s: addValueOverflowFlip(s, -10), v: addValueOverflowSlow(v, 5, min: 20, brake: 30))
+            cc4.setHSV(addHue(h, -120), s: addValueOverflowFlip(s, 10), v: addValueOverflowFlip(v, -20, lcap: 20))
+            cc5.setHSV(addHue(h, -120), s: addValueOverflowFlip(s, 5), v: addValueOverflowFlip(v, 30))
             break
         default: break
         }
         
         
-        if (l == 100) { ccUp.hidden = true; } else if (ccUp.hidden) { ccUp.hidden = false; }
+        if (v == 100) { ccUp.hidden = true; } else if (ccUp.hidden) { ccUp.hidden = false; }
         if (s == 100) { ccPlus.hidden = true; } else if (ccPlus.hidden) { ccPlus.hidden = false; }
-        if (l == 0) { ccDown.hidden = true; } else if (ccDown.hidden) { ccDown.hidden = false; }
+        if (v == 0) { ccDown.hidden = true; } else if (ccDown.hidden) { ccDown.hidden = false; }
         if (s == 0) { ccMinus.hidden = true; } else if (ccMinus.hidden) { ccMinus.hidden = false; }
         
         textBgColor = hexText.backgroundColor

@@ -1267,10 +1267,6 @@
                         <outlet property="hText" destination="eoN-fA-ehL" id="Ucu-lq-orU"/>
                         <outlet property="hexText" destination="aKD-Kv-X0c" id="2zd-ZC-gBO"/>
                         <outlet property="hslText" destination="S0E-T7-ugE" id="bmP-0a-0IX"/>
-                        <outlet property="lSlider" destination="kaM-9c-4XC" id="xHM-bP-wEf"/>
-                        <outlet property="lSliderCell" destination="Bmh-e8-Kgv" id="Wdg-Bp-o94"/>
-                        <outlet property="lStepper" destination="lXh-wD-Yz1" id="MMW-hC-Brq"/>
-                        <outlet property="lText" destination="mQV-RI-st9" id="jLd-Zl-7Me"/>
                         <outlet property="lockButton" destination="shu-lB-rbB" id="5bM-76-Jdv"/>
                         <outlet property="modeButton" destination="lz3-qT-ztq" id="c11-oW-d2d"/>
                         <outlet property="monochromaticHarmony" destination="Smw-r6-gkg" id="WI8-dH-I8I"/>
@@ -1285,6 +1281,10 @@
                         <outlet property="sText" destination="aol-eE-aUr" id="ntT-k7-gah"/>
                         <outlet property="shadesHarmony" destination="kYr-cs-Tzm" id="Emo-17-YLQ"/>
                         <outlet property="triadicHarmony" destination="rM2-0k-99v" id="yLy-YC-UQt"/>
+                        <outlet property="vSlider" destination="kaM-9c-4XC" id="xHM-bP-wEf"/>
+                        <outlet property="vSliderCell" destination="Bmh-e8-Kgv" id="Wdg-Bp-o94"/>
+                        <outlet property="vStepper" destination="lXh-wD-Yz1" id="MMW-hC-Brq"/>
+                        <outlet property="vText" destination="mQV-RI-st9" id="jLd-Zl-7Me"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

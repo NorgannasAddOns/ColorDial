@@ -51,8 +51,8 @@ class ColorCircle: NSView {
         }
     }
     
-    func setHSV(h: CGFloat, s: CGFloat, l: CGFloat) {
-        fill = NSColor(hue: clamp(h/360 % 360), saturation: clamp(s/100), brightness: clamp(l/100), alpha: 1)
+    func setHSV(h: CGFloat, s: CGFloat, v: CGFloat) {
+        fill = NSColor(hue: clamp(h/360 % 360), saturation: clamp(s/100), brightness: clamp(v/100), alpha: 1)
         
         self.setNeedsDisplayInRect(self.bounds)
     }
