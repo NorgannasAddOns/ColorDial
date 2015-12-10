@@ -159,10 +159,11 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
     @IBOutlet weak var monochromaticHarmony: NSButton!
     
     @IBOutlet weak var lockButton: NSButton!
+    @IBOutlet weak var modeButton: NSButton!
     
-    func flashPress(item: NSView) {
-        NSAnimationContext.currentContext().duration = 1.2;
-        item.alphaValue = 0.3
+    func flashPress(item: NSView, _ flash: CGFloat = 0.3, _ dur: CGFloat = 1.2) {
+        NSAnimationContext.currentContext().duration = Double(dur);
+        item.alphaValue = flash
         item.animator().alphaValue = 1
     }
     
@@ -204,13 +205,25 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
     
     @IBAction func lockPressed(sender: NSButton) {
         if sender.state == 0 {
+            sender.title = "🔓"
             lockedColor = color
             setSliders()
+        } else {
+            sender.title = "🔒"
         }
     }
-    @IBAction func harmonyPressed(sender: NSButton) {
-        flashPress(sender)
+    
+    @IBAction func modePressed(sender: NSButton) {
+        if sender.state == 1 {
+            sender.title = "🎨"
+        } else {
+            sender.title = "📐"
+        }
 
+        setSliders()
+    }
+    
+    @IBAction func harmonyPressed(sender: NSButton) {
         switch sender {
         case complementaryHarmony:
             harmony = "complementary"
@@ -240,7 +253,14 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
         compoundHarmony.state = 0
         triadicHarmony.state = 0
         shadesHarmony.state = 0
+        complementaryHarmony.alphaValue = 0.8
+        monochromaticHarmony.alphaValue = 0.8
+        analogousHarmony.alphaValue = 0.8
+        compoundHarmony.alphaValue = 0.8
+        triadicHarmony.alphaValue = 0.8
+        shadesHarmony.alphaValue = 0.8
         
+        flashPress(sender, 0.8, 0.6)
         sender.state = 1
         setSliders()
     }
@@ -526,6 +546,8 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
 
         hexText.window?.makeFirstResponder(nil)
 
+        harmonyPressed(analogousHarmony)
+        
         setFromColor()
     }
     
@@ -571,6 +593,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
     }
 
     func artistToHue(hue: CGFloat) -> CGFloat {
+        if modeButton.state == 0 { return hue }
         if hue < 60 { return (round((hue) * (35 / 60))) }
         if hue < 122 { return mapRange(hue, 60,  122, 35,  60) }
         if hue < 165 { return mapRange(hue, 122, 165, 60,  120) }
@@ -581,6 +604,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
     }
     
     func hueToArtist (hue: CGFloat) -> CGFloat {
+        if modeButton.state == 0 { return hue }
         if hue < 35 { return (round(CGFloat(hue) * (60 / 35))) }
         if hue < 60 { return mapRange(hue, 35,  60,  60,  122) }
         if hue < 120 { return mapRange(hue, 60,  120, 122, 165) }
@@ -591,7 +615,8 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
     }
     
     func addHue(h: CGFloat, _ add: CGFloat) -> CGFloat {
-        return artistToHue((hueToArtist(h) + add) % 360)
+        let g = hueToArtist(h) + add
+        return artistToHue((g + 360) % 360)
     }
     
     func addValueOverflowCap(v: CGFloat, _ add: CGFloat, cap: CGFloat = 100, min: CGFloat = -1, max: CGFloat = -1) -> CGFloat {
@@ -653,8 +678,10 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
         return w
     }
     
-    func addValueOverflowOppose(v: CGFloat, _ add: CGFloat, cap: CGFloat = 100) -> CGFloat {
-        return (v + add) % cap
+    func addValueOverflowOppose(v: CGFloat, _ add: CGFloat, cap: CGFloat = 100, roffs: CGFloat = 0) -> CGFloat {
+        var w = v + add
+        if w > cap { w = (roffs + w) % cap }
+        return w
     }
 
     func setSliders() {
@@ -762,22 +789,22 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
             cc5.setHSV(addHue(h, 150), s: addValueOverflowFlip(s, 10), l: addValueOverflowCap(l, 20))
             break
         case "monochromatic":
-            cc1.setHSV(addHue(h, 0), s: addValueOverflowCap(s, 0), l: addValueOverflowCap(l, 30))
-            cc2.setHSV(addHue(h, 0), s: addValueOverflowCap(s, -30), l: addValueOverflowCap(l, 10))
-            cc4.setHSV(addHue(h, 0), s: addValueOverflowCap(s, -30), l: addValueOverflowCap(l, 30))
-            cc5.setHSV(addHue(h, 0), s: addValueOverflowCap(s, 0), l: addValueOverflowCap(l, 60))
+            cc1.setHSV(addHue(h, 0), s: addValueOverflowCap(s, 0), l: addValueOverflowFlip(l, 30))
+            cc2.setHSV(addHue(h, 0), s: addValueOverflowFlip(s, -30), l: addValueOverflowSlow(l, 10, brake: 50))
+            cc4.setHSV(addHue(h, 0), s: addValueOverflowFlip(s, -30), l: addValueOverflowFlip(l, 30))
+            cc5.setHSV(addHue(h, 0), s: addValueOverflowCap(s, 0), l: addValueOverflowOppose(l, 60, roffs: 20))
             break
         case "shades":
-            cc1.setHSV(addHue(h, 0), s: addValueOverflowCap(s, 0), l: addValueOverflowCap(l, -25))
-            cc2.setHSV(addHue(h, 0), s: addValueOverflowCap(s, 0), l: addValueOverflowCap(l, -50))
-            cc4.setHSV(addHue(h, 0), s: addValueOverflowCap(s, 0), l: addValueOverflowCap(l, -75))
-            cc5.setHSV(addHue(h, 0), s: addValueOverflowCap(s, 0), l: addValueOverflowCap(l, -90))
+            cc1.setHSV(addHue(h, 0), s: addValueOverflowCap(s, 0), l: addValueOverflowFlip(l, -25, lcap: 20))
+            cc2.setHSV(addHue(h, 0), s: addValueOverflowCap(s, 0), l: addValueOverflowFlip(l, -50, lcap: 20))
+            cc4.setHSV(addHue(h, 0), s: addValueOverflowCap(s, 0), l: addValueOverflowFlip(l, -75))
+            cc5.setHSV(addHue(h, 0), s: addValueOverflowCap(s, 0), l: addValueOverflowSlow(l, -10, brake: 15))
             break
         case "triadic":
-            cc1.setHSV(addHue(h, 0), s: addValueOverflowCap(s, 10), l: addValueOverflowCap(l, -30))
-            cc2.setHSV(addHue(h, 120), s: addValueOverflowCap(s, -10), l: addValueOverflowCap(l, 5))
-            cc4.setHSV(addHue(h, -120), s: addValueOverflowCap(s, 10), l: addValueOverflowCap(l, -20))
-            cc5.setHSV(addHue(h, -120), s: addValueOverflowCap(s, 5), l: addValueOverflowCap(l, 30))
+            cc1.setHSV(addHue(h, 0), s: addValueOverflowFlip(s, 10), l: addValueOverflowFlip(l, -30, lcap: 20))
+            cc2.setHSV(addHue(h, 120), s: addValueOverflowFlip(s, -10), l: addValueOverflowSlow(l, 5, min: 20, brake: 30))
+            cc4.setHSV(addHue(h, -120), s: addValueOverflowFlip(s, 10), l: addValueOverflowFlip(l, -20, lcap: 20))
+            cc5.setHSV(addHue(h, -120), s: addValueOverflowFlip(s, 5), l: addValueOverflowFlip(l, 30))
             break
         default: break
         }
