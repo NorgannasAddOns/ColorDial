@@ -27,6 +27,13 @@ class ColorCircle: NSView {
         self.setNeedsDisplayInRect(self.bounds)
     }
     
+    
+    func changeShapeToSquare() {
+        bg = NSBezierPath(roundedRect: NSRect(x:self.bounds.origin.x + 1, y: self.bounds.origin.y + 1, width: self.bounds.size.width - 2, height: self.bounds.size.height - 2), xRadius: 5, yRadius: 5)
+        setNeedsDisplayInRect(self.bounds)
+    }
+
+    
     override func mouseDown(theEvent: NSEvent) {
         downInView = false
         let click = self.convertPoint(theEvent.locationInWindow, fromView: nil)

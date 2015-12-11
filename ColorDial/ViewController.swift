@@ -47,6 +47,27 @@ extension String {
 }
 
 
+extension NSUserDefaults {
+    func setNSColor(value: NSColor, forKey: String) {
+        var c = [Double](count: 3, repeatedValue: 0)
+        c[0] = Double(value.redComponent)
+        c[1] = Double(value.greenComponent)
+        c[2] = Double(value.blueComponent)
+        self.setObject(c, forKey: forKey)
+    }
+    
+    func NSColorForKey(defaultName: String) -> NSColor? {
+        if let c = self.arrayForKey(defaultName) {
+            let r = c[0] as! Double
+            let g = c[1] as! Double
+            let b = c[2] as! Double
+            return NSColor(red: CGFloat(r), green: CGFloat(g), blue: CGFloat(b), alpha: 1)
+        }
+        return nil
+    }
+}
+
+
 protocol ColorSupplyDelegate {
     func colorSupplied(supply: NSColor, sender: NSView?)
     func colorSampled(sample: NSColor)
@@ -91,6 +112,8 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
     var pickerWin: NSWindow!
     var picker: Picker!
     var harmony = "analogous"
+    
+    let defaults = NSUserDefaults.standardUserDefaults()
     
     @IBOutlet weak var colorWell: NSColorWell!
     
@@ -144,7 +167,17 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
     @IBOutlet weak var cc3: ColorCircle!
     @IBOutlet weak var cc4: ColorCircle!
     @IBOutlet weak var cc5: ColorCircle!
-    
+
+    var cch = [ColorCircle?](count: 8, repeatedValue: nil)
+    @IBOutlet weak var cch1: ColorCircle!
+    @IBOutlet weak var cch2: ColorCircle!
+    @IBOutlet weak var cch3: ColorCircle!
+    @IBOutlet weak var cch4: ColorCircle!
+    @IBOutlet weak var cch5: ColorCircle!
+    @IBOutlet weak var cch6: ColorCircle!
+    @IBOutlet weak var cch7: ColorCircle!
+    @IBOutlet weak var cch8: ColorCircle!
+
     @IBOutlet weak var hexText: NSTextField!
     @IBOutlet weak var rgbText: NSTextField!
     @IBOutlet weak var hslText: NSTextField!
@@ -213,13 +246,18 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
         }
     }
     
-    @IBAction func modePressed(sender: NSButton) {
-        if sender.state == 1 {
-            sender.title = "🎨"
+    func setModeIcon() {
+        if modeButton.state == 1 {
+            modeButton.title = "🎨"
         } else {
-            sender.title = "📐"
+            modeButton.title = "📐"
         }
-
+    }
+    
+    @IBAction func modePressed(sender: NSButton) {
+        setModeIcon()
+        defaults.setBool(sender.state == 0, forKey: "scientificMode")
+        
         setSliders()
     }
     
@@ -292,9 +330,12 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
     override func controlTextDidEndEditing(obj: NSNotification) {
         editingTextType = ""
     }
-    
-    override func doCommandBySelector(aSelector: Selector) {
-        print(aSelector)
+        override func keyDown(theEvent: NSEvent) {
+        debugPrint("Keydown", theEvent)
+        
+        if (theEvent.keyCode == 53 && picker.picking) {
+            picker.closePicker()
+        }
     }
     
     @IBAction func inputUpdated(sender: NSTextField) {
@@ -471,7 +512,22 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
         hexText.window?.makeFirstResponder(nil)
         hexText.backgroundColor = NSColor.whiteColor()
         color = supply
+        
         setFromColor()
+        if sender == cc1 { return }
+        if sender == cc2 { return }
+        if sender == cc3 { return }
+        if sender == cc4 { return }
+        if sender == cc5 { return }
+
+        if sender == ccUp { return }
+        if sender == ccDown { return }
+        if sender == ccPlus { return }
+        if sender == ccMinus { return }
+
+        if cch.contains({ $0 == sender }) { return }
+        
+        addColorToHistory(color)
     }
     
     func colorSampled(sample: NSColor) {
@@ -483,13 +539,65 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
         hexText.stringValue = String(format: "#%02x%02x%02x", rInt, gInt, bInt)
         hexText.window?.makeFirstResponder(nil)
     }
+    
+    func addColorToHistory(add: NSColor) {
+        var shuffleFrom = 7
         
-
+        if cch1.fill.isEqualTo(add) { return }
+        
+        for var i = 1; i < 7; i++ {
+            if cch[i]!.fill.isEqualTo(add) {
+                shuffleFrom = i
+                break
+            }
+        }
+        
+        for var i = shuffleFrom; i >= 0; i-- {
+            var c: NSColor
+            if i > 0 {
+                c = cch[i-1]!.fill
+            } else {
+                c = add
+            }
+            
+            cch[i]!.setColor(c)
+            defaults.setNSColor(c, forKey: String(format: "historyColor%d", i+1))
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        color = NSColor(red: 0.1, green: 0.5, blue: 0.75, alpha: 1)
+        if let storedColor = defaults.NSColorForKey("currentColor") {
+            color = storedColor
+        } else {
+            color = NSColor(red: 0.1, green: 0.5, blue: 0.75, alpha: 1)
+        }
+        
+        let scientificMode = defaults.boolForKey("scientificMode")
+        modeButton.state = scientificMode ? 0 : 1
+        setModeIcon()
+
+        cch[0] = cch1
+        cch[1] = cch2
+        cch[2] = cch3
+        cch[3] = cch4
+        cch[4] = cch5
+        cch[5] = cch6
+        cch[6] = cch7
+        cch[7] = cch8
+        
+        for var i = 0; i < 8; i++ {
+            if let storedColor = defaults.NSColorForKey(String(format: "historyColor%d", i+1)) {
+                cch[i]!.setColor(storedColor)
+            } else {
+                let ii = CGFloat(i)
+                cch[i]!.setHSV(15+ii*35, s: 40+ii*6, v: 95-ii*4)
+            }
+            cch[i]?.delegate = self
+            cch[i]?.changeShapeToSquare()
+        }
+        
         colorWell.color = color
         
         cc0.delegate = self
@@ -504,16 +612,28 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
         cc270.delegate = self
         cc300.delegate = self
         cc330.delegate = self
+        
         ccUp.delegate = self
         ccDown.delegate = self
         ccPlus.delegate = self
         ccMinus.delegate = self
+        
+        ccUp.changeShapeToSquare()
+        ccDown.changeShapeToSquare()
+        ccPlus.changeShapeToSquare()
+        ccMinus.changeShapeToSquare()
         
         cc1.delegate = self
         cc2.delegate = self
         cc3.delegate = self
         cc4.delegate = self
         cc5.delegate = self
+        
+        cc1.changeShapeToSquare()
+        cc2.changeShapeToSquare()
+        cc3.changeShapeToSquare()
+        cc4.changeShapeToSquare()
+        cc5.changeShapeToSquare()
         
         rText.delegate = self
         gText.delegate = self
@@ -548,6 +668,12 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
 
         harmonyPressed(analogousHarmony)
         
+        
+        NSEvent.addLocalMonitorForEventsMatchingMask(.KeyDownMask) { (aEvent) -> NSEvent! in
+            self.keyDown(aEvent)
+            return aEvent
+        }
+
         setFromColor()
     }
     
@@ -589,10 +715,11 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
         let g = convertHueRGBtoRYB(h) + add
         return convertHueRYBtoRGB((360 + g) % 360)
     }
-  
+    
     func setSliders() {
         if lockButton.state == 0 && color != lockedColor {
             lockedColor = color
+            defaults.setNSColor(color, forKey: "currentColor")
         }
         
         let rInt = clampTo(rValue)

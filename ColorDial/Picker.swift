@@ -68,7 +68,6 @@ class Picker: NSView {
     }
     // }}}
     
-    
     required init?(coder: NSCoder) {
         super.init(coder: coder)!
     }
@@ -184,6 +183,11 @@ class Picker: NSView {
             handleMouseMovement()
         }
     }
+    
+    func changeShapeToSquare() {
+        circle = NSBezierPath(roundedRect: NSRect(x:1, y:1, width: pickerSize - 2, height: pickerSize - 2), xRadius: 5, yRadius: 5)
+        setNeedsDisplayInRect(self.bounds)
+    }
 
     func setItemPropertiesToDefault() {
         circle = NSBezierPath(ovalInRect: NSRect(x: 1, y: 1, width: pickerSize - 2, height: pickerSize - 2))
@@ -285,6 +289,12 @@ class Picker: NSView {
             downInView = true
         }
     }
+
+    func closePicker() {
+        NSCursor.unhide()
+        window!.orderOut(window!)
+        picking = false
+    }
     
     override func mouseUp(theEvent: NSEvent) {
         if (downInView) {
@@ -292,9 +302,10 @@ class Picker: NSView {
             
             let click = self.convertPoint(theEvent.locationInWindow, fromView: nil)
             if (circle.containsPoint(click)) {
-                NSCursor.unhide()
-                window!.orderOut(window!)
-                picking = false
+                if !theEvent.modifierFlags.contains(NSEventModifierFlags.CommandKeyMask) {
+                    closePicker();
+                }
+                
                 if let delegate = self.delegate {
                     delegate.colorSupplied(centerColor, sender: nil)
                 }
