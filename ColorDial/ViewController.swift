@@ -489,7 +489,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        color = NSColor(red: 0.2, green: 0.6, blue: 0.8, alpha: 1)
+        color = NSColor(red: 0.1, green: 0.5, blue: 0.75, alpha: 1)
         colorWell.color = color
         
         cc0.delegate = self
@@ -654,6 +654,14 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
             var a: CGFloat = 0
             color.get(&h, saturation: &s, lightness: &l, alpha: &a)
             
+            if (l > 0.999) { ccUp.hidden = true; } else if (ccUp.hidden) { ccUp.hidden = false; }
+            
+            if (l < 0.001) { ccDown.hidden = true; } else if (ccDown.hidden) { ccDown.hidden = false; }
+
+            if (s > 0.999) { ccPlus.hidden = true; } else if (ccPlus.hidden) { ccPlus.hidden = false; }
+
+            if (s < 0.001) { ccMinus.hidden = true; } else if (ccMinus.hidden) { ccMinus.hidden = false; }
+            
             hslText.stringValue = String(format: "hsl(%0.1f, %0.0f%%, %0.0f%%)", h*360, s*100, l*100)
         }
 
@@ -674,11 +682,11 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
         cc300.setHSV(addHue(h, 300), s: s, v: v)
         cc330.setHSV(addHue(h, 330), s: s, v: v)
 
-        ccUp.lighten(lockedColor, n: 0.1)
-        ccDown.lighten(lockedColor, n: -0.1)
+        ccUp.lighten(lockedColor, n: 0.05)
+        ccDown.lighten(lockedColor, n: -0.05)
 
-        ccPlus.saturate(lockedColor, n: 0.1)
-        ccMinus.saturate(lockedColor, n: -0.1)
+        ccPlus.saturate(lockedColor, n: 0.05)
+        ccMinus.saturate(lockedColor, n: -0.05)
 
 //        ccUp.setHSV(h, s: s, v: v + 20)
 //        ccDown.setHSV(h, s: s, v: v - 20)

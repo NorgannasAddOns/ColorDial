@@ -778,32 +778,60 @@
                                 </constraints>
                                 <animations/>
                             </customView>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="aSa-9Q-5S6" customClass="ColorCircle" customModule="ColorDial">
+                            <customView toolTip="Saturate" translatesAutoresizingMaskIntoConstraints="NO" id="aSa-9Q-5S6" customClass="ColorCircle" customModule="ColorDial">
                                 <rect key="frame" x="456" y="246" width="27" height="26"/>
+                                <subviews>
+                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tHU-EX-4rp">
+                                        <rect key="frame" x="0.0" y="0.0" width="27" height="26"/>
+                                        <animations/>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="arrowup" id="Udl-hF-sT5"/>
+                                    </imageView>
+                                </subviews>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="27" id="9n9-00-4Fa"/>
                                     <constraint firstAttribute="height" constant="26" id="d32-EN-W5a"/>
                                 </constraints>
                                 <animations/>
                             </customView>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="nvN-Jj-32h" customClass="ColorCircle" customModule="ColorDial">
+                            <customView toolTip="Desaturate" translatesAutoresizingMaskIntoConstraints="NO" id="nvN-Jj-32h" customClass="ColorCircle" customModule="ColorDial">
                                 <rect key="frame" x="456" y="207" width="27" height="27"/>
+                                <subviews>
+                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dAQ-Lx-8Rm">
+                                        <rect key="frame" x="0.0" y="0.0" width="27" height="26"/>
+                                        <animations/>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="arrowdown" id="pfE-Cn-VAX"/>
+                                    </imageView>
+                                </subviews>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="27" id="cgB-1p-RHA"/>
                                     <constraint firstAttribute="height" constant="27" id="u7r-oe-uLl"/>
                                 </constraints>
                                 <animations/>
                             </customView>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="0Ge-IM-uQF" customClass="ColorCircle" customModule="ColorDial">
+                            <customView toolTip="Lighten" translatesAutoresizingMaskIntoConstraints="NO" id="0Ge-IM-uQF" customClass="ColorCircle" customModule="ColorDial">
                                 <rect key="frame" x="475" y="227" width="27" height="26"/>
+                                <subviews>
+                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bbG-Xf-5bU">
+                                        <rect key="frame" x="0.0" y="0.0" width="27" height="26"/>
+                                        <animations/>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="lighton" id="Xma-zF-FWc"/>
+                                    </imageView>
+                                </subviews>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="27" id="Avu-gM-FII"/>
                                     <constraint firstAttribute="height" constant="26" id="mzh-yj-HdI"/>
                                 </constraints>
                                 <animations/>
                             </customView>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="er1-Y6-ulC" customClass="ColorCircle" customModule="ColorDial">
+                            <customView toolTip="Darken" translatesAutoresizingMaskIntoConstraints="NO" id="er1-Y6-ulC" customClass="ColorCircle" customModule="ColorDial">
                                 <rect key="frame" x="437" y="227" width="27" height="26"/>
+                                <subviews>
+                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="H9Q-Wl-o6c">
+                                        <rect key="frame" x="0.0" y="0.0" width="27" height="26"/>
+                                        <animations/>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="lightoff" id="h3e-bD-OnF"/>
+                                    </imageView>
+                                </subviews>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="26" id="OTY-0r-pQj"/>
                                     <constraint firstAttribute="width" constant="27" id="d93-Mk-1w0"/>
@@ -1287,6 +1315,12 @@
                         <outlet property="vText" destination="mQV-RI-st9" id="jLd-Zl-7Me"/>
                     </connections>
                 </viewController>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="pKJ-q5-nEl">
+                    <rect key="frame" x="0.0" y="0.0" width="27" height="26"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <animations/>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="arrowup" id="5EH-Rf-TFC"/>
+                </imageView>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="79" y="756.5"/>
@@ -1296,10 +1330,14 @@
         <image name="Clipboard" width="140" height="175"/>
         <image name="Eyedropper" width="149" height="149"/>
         <image name="analogous" width="64" height="44"/>
+        <image name="arrowdown" width="280" height="430"/>
+        <image name="arrowup" width="280" height="430"/>
         <image name="background" width="798" height="798"/>
         <image name="brushed" width="114" height="114"/>
         <image name="complementary" width="64" height="44"/>
         <image name="compound" width="64" height="44"/>
+        <image name="lightoff" width="280" height="430"/>
+        <image name="lighton" width="280" height="430"/>
         <image name="monochromatic" width="64" height="44"/>
         <image name="shades" width="64" height="44"/>
         <image name="triadic" width="64" height="44"/>
