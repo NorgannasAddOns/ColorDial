@@ -54,27 +54,27 @@ protocol ColorSupplyDelegate {
 
 class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate {
     var rValue: Int {
-        get { return Int(round(rFloat * 255)) }
+        get { return Int(round(rFloat.isNaN ? 0 : rFloat * 255)) }
         set { rFloat = clamp(CGFloat(newValue) / 255) }
     }
     var gValue: Int {
-        get { return Int(round(gFloat * 255)) }
+        get { return Int(round(gFloat.isNaN ? 0 : gFloat * 255)) }
         set { gFloat = clamp(CGFloat(newValue) / 255) }
     }
     var bValue: Int {
-        get { return Int(round(bFloat * 255)) }
+        get { return Int(round(bFloat.isNaN ? 0 : bFloat * 255)) }
         set { bFloat = clamp(CGFloat(newValue) / 255) }
     }
     var hValue: Int {
-        get { return Int(round(hFloat * 360)) }
+        get { return Int(round(hFloat.isNaN ? 0 : hFloat * 360)) }
         set { hFloat = clamp(CGFloat(newValue) / 360) }
     }
     var sValue: Int {
-        get { return Int(round(sFloat * 100)) }
+        get { return Int(round(sFloat.isNaN ? 0 : sFloat * 100)) }
         set { sFloat = clamp(CGFloat(newValue) / 100) }
     }
     var vValue: Int {
-        get { return Int(round(vFloat * 100)) }
+        get { return Int(round(vFloat.isNaN ? 0 : vFloat * 100)) }
         set { vFloat = clamp(CGFloat(newValue) / 100) }
     }
     
@@ -567,6 +567,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
     }
     
     func clamp(value: CGFloat, max: CGFloat = 1, min: CGFloat = 0) -> CGFloat {
+        if value.isNaN { return 0 }
         return value > 1 ? 1 : value < 0 ? 0 : value
     }
     
@@ -647,14 +648,19 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
         }
         
         if (editingTextType != "hslText") {
-            let lInt = -1;
-            hslText.stringValue = String(format: "hsl(%d, %d%%, %d%%)", hInt, sInt, lInt)
+            var h: CGFloat = 0
+            var s: CGFloat = 0
+            var l: CGFloat = 0
+            var a: CGFloat = 0
+            color.get(&h, saturation: &s, lightness: &l, alpha: &a)
+            
+            hslText.stringValue = String(format: "hsl(%0.1f, %0.0f%%, %0.0f%%)", h*360, s*100, l*100)
         }
 
         let h = lockedColor.hueComponent * 360
         let s = lockedColor.saturationComponent * 100
         let v = lockedColor.brightnessComponent * 100
-        
+
         cc0.setHSV(h, s: s, v: v)
         cc30.setHSV(addHue(h, 30), s: s, v: v)
         cc60.setHSV(addHue(h, 60), s: s, v: v)
@@ -668,15 +674,16 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
         cc300.setHSV(addHue(h, 300), s: s, v: v)
         cc330.setHSV(addHue(h, 330), s: s, v: v)
 
-        ccUp.setHSV(h, s: s, v: v)
-        ccUp.lighten(0.05)
-        ccUp.setHSV(h, s: s, v: v)
-        ccUp.lighten(-0.05)
-        
+        ccUp.lighten(lockedColor, n: 0.1)
+        ccDown.lighten(lockedColor, n: -0.1)
+
+        ccPlus.saturate(lockedColor, n: 0.1)
+        ccMinus.saturate(lockedColor, n: -0.1)
+
 //        ccUp.setHSV(h, s: s, v: v + 20)
 //        ccDown.setHSV(h, s: s, v: v - 20)
-        ccPlus.setHSV(h, s: s + 20, v: v)
-        ccMinus.setHSV(h, s: s - 20, v: v)
+//        ccPlus.setHSV(h, s: s + 20, v: v)
+//        ccMinus.setHSV(h, s: s - 20, v: v)
 
         cc3.setHSV(h, s: s, v: v)
         
@@ -719,12 +726,6 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
             break
         default: break
         }
-        
-        
-        if (v == 100) { ccUp.hidden = true; } else if (ccUp.hidden) { ccUp.hidden = false; }
-        if (s == 100) { ccPlus.hidden = true; } else if (ccPlus.hidden) { ccPlus.hidden = false; }
-        if (v == 0) { ccDown.hidden = true; } else if (ccDown.hidden) { ccDown.hidden = false; }
-        if (s == 0) { ccMinus.hidden = true; } else if (ccMinus.hidden) { ccMinus.hidden = false; }
         
         textBgColor = hexText.backgroundColor
     }

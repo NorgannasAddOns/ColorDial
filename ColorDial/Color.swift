@@ -10,56 +10,39 @@ import Cocoa
 
 extension NSColor {
     func get(hue: UnsafeMutablePointer<CGFloat>, saturation: UnsafeMutablePointer<CGFloat>, lightness: UnsafeMutablePointer<CGFloat>, alpha: UnsafeMutablePointer<CGFloat>) {
-        var r, g, b, h, s, l: CGFloat
+        var h, s, l: CGFloat
         
-        r = 0
-        g = 0
-        b = 0
-
-        self.getRed(&r, green: &g, blue: &b, alpha: alpha)
+        //let color = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)!
+        
+        let r = self.redComponent
+        let g = self.greenComponent
+        let b = self.blueComponent
+        let a = self.alphaComponent
         
         h = 0
         s = 0
-        let v: CGFloat = max(r, g, b)
-        let m: CGFloat = min(r, g, b)
+        let maxi: CGFloat = max(r, g, b)
+        let mini: CGFloat = min(r, g, b)
         
-        l = (m + v) / 2
-        if l < 0 {
-            hue.initialize(h)
-            saturation.initialize(s)
-            lightness.initialize(l)
-            return
+        l = (mini + maxi) / 2
+        if l >= 0 {
+            let d = maxi - mini
+            s = l > 0.5 ? d / (2 - maxi - mini) : d / (maxi + mini)
+            if r == maxi {
+                h = (g - b) / d + (g < b ? 6 : 0)
+            } else if g == maxi {
+                h = (b - r) / d + 2
+            } else if b == maxi {
+                h = (r - g) / d + 4
+            }
+            
+            h /= 6
         }
-        
-        let vm = v - m
-        s = vm
-        
-        if s <= 0 {
-            hue.initialize(h)
-            saturation.initialize(s)
-            lightness.initialize(l)
-            return
-        }
-        
-        s /= l <= 0.5 ? v + m : 2 - vm
-
-        let r2 = (v - r) / vm
-        let g2 = (v - g) / vm
-        let b2 = (v - b) / vm
-        
-        if r == v {
-            h = g == m ? 5 + b2 : 1 - g2
-        } else if (g == v) {
-            h = b == m ? 1 + r2 : 3 - b2
-        } else {
-            h = r == m ? 3 + g2 : 5 - r2
-        }
-        
-        h /= 6
         
         hue.initialize(h)
         saturation.initialize(s)
         lightness.initialize(l)
+        alpha.initialize(a)
     }
     
     static func colorWith(hue: CGFloat, saturation: CGFloat, lightness: CGFloat, alpha: CGFloat) -> NSColor {
@@ -67,34 +50,35 @@ extension NSColor {
             return NSColor(red: lightness, green: lightness, blue: lightness, alpha: alpha)
         }
         
-        let t2 = lightness < 0.5 ? lightness * (1 + saturation) : lightness + saturation - lightness * saturation
-        let t1 = 2 * lightness - t2
+        let q = lightness < 0.5 ? lightness * (1 + saturation) : lightness + saturation - lightness * saturation
+        let p = 2 * lightness - q
         
-        var c = [CGFloat](count: 3, repeatedValue: hue)
-        c[0] = hue + 1 / 3
-        c[1] = hue
-        c[2] = hue + 1 / 3
+        var rgb = [CGFloat](count: 3, repeatedValue: 0)
+        rgb[0] = hue + 1 / 3
+        rgb[1] = hue
+        rgb[2] = hue - 1 / 3
         
         for var i = 0; i < 3; i++ {
-            if c[i] < 0 {
-                c[i] += 1
+            if rgb[i] < 0 {
+                rgb[i] += 1
             }
-            if c[i] > 1 {
-                c[i] -= 1
+            if rgb[i] > 1 {
+                rgb[i] -= 1
             }
             
-            if c[i] * 6 < 1 {
-                c[i] = t1 + (t2 - t1) * c[i] * 6
-            } else if c[i] * 2 < 1 {
-                c[i] = t2
-            } else if c[i] * 3 < 2 {
-                c[i] = t1 + (t2 - t1) * ((2/3) - c[i]) * 6
+            if rgb[i] * 6 < 1 {
+                rgb[i] = p + (q - p) * rgb[i] * 6
+            } else if rgb[i] * 2 < 1 {
+                rgb[i] = q
+            } else if rgb[i] * 3 < 2 {
+                rgb[i] = p + (q - p) * ((2/3) - rgb[i]) * 6
             } else {
-                c[i] = t1
+                rgb[i] = p
             }
         }
         
-        return NSColor(red: c[0], green: c[1], blue: c[2], alpha: alpha)
+        let color = NSColor(red: rgb[0], green: rgb[1], blue: rgb[2], alpha: alpha)
+        return color
     }
 }
 
