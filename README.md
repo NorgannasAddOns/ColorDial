@@ -1,6 +1,6 @@
 # <img src="/ColorDial/Assets.xcassets/AppIcon.appiconset/icon_128x128.png" width="32" height="32"/> ColorDial
 
-<img src="/images/screenshot.png" width="764" height="461"/>
+<img src="/images/screenshot.png" width="805" height="461"/>
 
 ## Introducing the last color picker you'll need.
 
