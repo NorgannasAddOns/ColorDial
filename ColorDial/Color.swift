@@ -80,6 +80,15 @@ extension NSColor {
         let color = NSColor(red: rgb[0], green: rgb[1], blue: rgb[2], alpha: alpha)
         return color
     }
+    
+    func colorDifference(with: NSColor) -> CGFloat {
+        let r: CGFloat = pow(self.redComponent-with.redComponent, 2.0)
+        let g: CGFloat = pow(self.greenComponent-with.greenComponent, 2.0)
+        let b: CGFloat = pow(self.blueComponent-with.blueComponent, 2.0)
+
+        let d: CGFloat = sqrt(r + g + b)
+        return d
+    }
 }
 
 

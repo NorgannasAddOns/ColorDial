@@ -116,6 +116,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
     let defaults = NSUserDefaults.standardUserDefaults()
     
     @IBOutlet weak var colorWell: NSColorWell!
+    @IBOutlet weak var tipLabel: NSTextField!
     
     @IBOutlet weak var rSlider: NSSlider!
     @IBOutlet weak var gSlider: NSSlider!
@@ -168,7 +169,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
     @IBOutlet weak var cc4: ColorCircle!
     @IBOutlet weak var cc5: ColorCircle!
 
-    var cch = [ColorCircle?](count: 8, repeatedValue: nil)
+    var cch = [ColorCircle?](count: 14, repeatedValue: nil)
     @IBOutlet weak var cch1: ColorCircle!
     @IBOutlet weak var cch2: ColorCircle!
     @IBOutlet weak var cch3: ColorCircle!
@@ -177,6 +178,12 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
     @IBOutlet weak var cch6: ColorCircle!
     @IBOutlet weak var cch7: ColorCircle!
     @IBOutlet weak var cch8: ColorCircle!
+    @IBOutlet weak var cch9: ColorCircle!
+    @IBOutlet weak var cch10: ColorCircle!
+    @IBOutlet weak var cch11: ColorCircle!
+    @IBOutlet weak var cch12: ColorCircle!
+    @IBOutlet weak var cch13: ColorCircle!
+    @IBOutlet weak var cch14: ColorCircle!
 
     @IBOutlet weak var hexText: NSTextField!
     @IBOutlet weak var rgbText: NSTextField!
@@ -202,7 +209,8 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
     
     @IBAction func eyeDropper(sender: NSButton) {
         flashPress(sender)
-        //picker.beginPicking()
+
+        tipLabel.stringValue = "⌘-click when picking to pick multiple colors at once, press escape to close picker."
         picker.picking = true
         pickerWin.makeKeyAndOrderFront(pickerWin)
         NSCursor.hide()
@@ -330,11 +338,15 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
     override func controlTextDidEndEditing(obj: NSNotification) {
         editingTextType = ""
     }
-        override func keyDown(theEvent: NSEvent) {
+    
+    override func keyDown(theEvent: NSEvent) {
         debugPrint("Keydown", theEvent)
         
         if (theEvent.keyCode == 53 && picker.picking) {
             picker.closePicker()
+            editingTextType = ""
+            hexText.window?.makeFirstResponder(nil)
+            hexText.backgroundColor = NSColor.whiteColor()
         }
     }
     
@@ -514,18 +526,8 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
         color = supply
         
         setFromColor()
-        if sender == cc1 { return }
-        if sender == cc2 { return }
-        if sender == cc3 { return }
-        if sender == cc4 { return }
-        if sender == cc5 { return }
-
-        if sender == ccUp { return }
-        if sender == ccDown { return }
-        if sender == ccPlus { return }
-        if sender == ccMinus { return }
-
-        if cch.contains({ $0 == sender }) { return }
+        
+        if (sender is ColorCircle && sender != cc0) { return }
         
         addColorToHistory(color)
     }
@@ -541,16 +543,19 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
     }
     
     func addColorToHistory(add: NSColor) {
-        var shuffleFrom = 7
+        var shuffleFrom = cch.count - 1
         
         if cch1.fill.isEqualTo(add) { return }
         
-        for var i = 1; i < 7; i++ {
-            if cch[i]!.fill.isEqualTo(add) {
+        for var i = 0; i < shuffleFrom; i++ {
+            let d = cch[i]!.fill.colorDifference(add)
+            if d < 0.001 {
                 shuffleFrom = i
                 break
             }
         }
+        
+        if (shuffleFrom == 0) { return }
         
         for var i = shuffleFrom; i >= 0; i-- {
             var c: NSColor
@@ -567,7 +572,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         if let storedColor = defaults.NSColorForKey("currentColor") {
             color = storedColor
         } else {
@@ -586,13 +591,19 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
         cch[5] = cch6
         cch[6] = cch7
         cch[7] = cch8
+        cch[8] = cch9
+        cch[9] = cch10
+        cch[10] = cch11
+        cch[11] = cch12
+        cch[12] = cch13
+        cch[13] = cch14
         
-        for var i = 0; i < 8; i++ {
+        for var i = 0; i < cch.count; i++ {
             if let storedColor = defaults.NSColorForKey(String(format: "historyColor%d", i+1)) {
                 cch[i]!.setColor(storedColor)
             } else {
                 let ii = CGFloat(i)
-                cch[i]!.setHSV(15+ii*35, s: 40+ii*6, v: 95-ii*4)
+                cch[i]!.setHSV(15+ii*25, s: 40+ii*6, v: 95-ii*3)
             }
             cch[i]?.delegate = self
             cch[i]?.changeShapeToSquare()
@@ -717,6 +728,8 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
     }
     
     func setSliders() {
+        tipLabel.stringValue = "Click + on the color dial to add the current color to history swatches."
+
         if lockButton.state == 0 && color != lockedColor {
             lockedColor = color
             defaults.setNSColor(color, forKey: "currentColor")

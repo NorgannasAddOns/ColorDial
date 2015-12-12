@@ -29,7 +29,7 @@ class ColorCircle: NSView {
     
     
     func changeShapeToSquare() {
-        bg = NSBezierPath(roundedRect: NSRect(x:self.bounds.origin.x + 1, y: self.bounds.origin.y + 1, width: self.bounds.size.width - 2, height: self.bounds.size.height - 2), xRadius: 5, yRadius: 5)
+        bg = NSBezierPath(roundedRect: NSRect(x:self.bounds.origin.x + 1, y: self.bounds.origin.y + 1, width: self.bounds.size.width - 2, height: self.bounds.size.height - 2), xRadius: 3, yRadius: 3)
         setNeedsDisplayInRect(self.bounds)
     }
 
@@ -57,6 +57,11 @@ class ColorCircle: NSView {
             }
         }
     }
+    
+    override func mouseDragged(theEvent: NSEvent) {
+        NSColorPanel.dragColor(fill, withEvent: theEvent, fromView: self)
+    }
+    
     
     func setColor(c: NSColor) {
         fill = c
