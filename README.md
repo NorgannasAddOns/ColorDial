@@ -8,7 +8,7 @@ A rich and powerful, open-source color wheel/picker for OS X.
 
 Featuring large and precise 256px wide colored sliders for accurate drilling down until you find that perfect specimen, text entry boxes for entering direct coordinates in multiple formats, css ready definitions to copy and paste, a handy color wheel to rapidly select complementary colors for your scheme, and a retina scale, sub-pixel capable reticle for sniping that elusive RGB value right off your monitor.
 
-<a href="https://github.com/NorgannasAddOns/ColorDial/releases"><img src="/images/download.png" width="260" height="300"/></a>
+<a href="https://github.com/NorgannasAddOns/ColorDial/releases"><img src="/images/download.png" width="65" height="75"/></a>
 
 ### Reticle sampling
 
@@ -28,7 +28,7 @@ When you sample a color, it gets automatically added to your history and you can
 
 Binary releases avaliable on the [releases page](https://github.com/NorgannasAddOns/ColorDial/releases)
 
-<a href="https://github.com/NorgannasAddOns/ColorDial/releases"><img src="/images/download.png" width="260" height="300"/></a>
+<a href="https://github.com/NorgannasAddOns/ColorDial/releases"><img src="/images/download.png" width="65" height="75"/></a>
 
 ### Keen for some customization?
 
