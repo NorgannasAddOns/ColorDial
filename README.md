@@ -18,7 +18,15 @@ The sampling tool built into ColorDial comes with a large format reticle which i
 
 When you sample a color, it gets automatically added to your history and you can hold down the ⌘ (command) key while clicking to sample multiple colors at once. Press escape to cancel. 
 
+### Features
+
+Here's a visual introduction to the ColorDial interface features to get you started:
+
+<img src="/images/colordial-features.jpg"/>
+
 ### Demo animation
+
+This demo animation is of an older version of ColorDial which doesn't have as many of the new features, but it gives an idea of the usage:
 
 <img src="/images/anim.gif" width="308" height="175"/>
 
