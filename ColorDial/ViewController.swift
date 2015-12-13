@@ -8,72 +8,7 @@
 
 import Cocoa
 
-extension String {
-    func hexNibbleAt(i: Int) -> Int {
-        let c = self[i] as Character
-        switch (c) {
-        case "0": return 0
-        case "1": return 1
-        case "2": return 2
-        case "3": return 3
-        case "4": return 4
-        case "5": return 5
-        case "6": return 6
-        case "7": return 7
-        case "8": return 8
-        case "9": return 9
-        case "a", "A": return 10
-        case "b", "B": return 11
-        case "c", "C": return 12
-        case "d", "D": return 13
-        case "e", "E": return 14
-        case "f", "F": return 15
-        default: break
-        }
-        return 0
-    }
-    
-    func hexByteAt(i: Int) -> Int {
-        return hexNibbleAt(i) * 16 + hexNibbleAt(i+1)
-    }
-    
-    subscript (i: Int) -> Character {
-        return self[self.startIndex.advancedBy(i)]
-    }
-    
-    subscript (r: Range<Int>) -> String {
-        return substringWithRange(Range(start: startIndex.advancedBy(r.startIndex), end: startIndex.advancedBy(r.endIndex)))
-    }
-}
-
-
-extension NSUserDefaults {
-    func setNSColor(value: NSColor, forKey: String) {
-        var c = [Double](count: 3, repeatedValue: 0)
-        c[0] = Double(value.redComponent)
-        c[1] = Double(value.greenComponent)
-        c[2] = Double(value.blueComponent)
-        self.setObject(c, forKey: forKey)
-    }
-    
-    func NSColorForKey(defaultName: String) -> NSColor? {
-        if let c = self.arrayForKey(defaultName) {
-            let r = c[0] as! Double
-            let g = c[1] as! Double
-            let b = c[2] as! Double
-            return NSColor(red: CGFloat(r), green: CGFloat(g), blue: CGFloat(b), alpha: 1)
-        }
-        return nil
-    }
-}
-
-
-protocol ColorSupplyDelegate {
-    func colorSupplied(supply: NSColor, sender: NSView?)
-    func colorSampled(sample: NSColor)
-}
-
-class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate {
+class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, NSTextFieldDelegate {
     var rValue: Int {
         get { return Int(round(rFloat.isNaN ? 0 : rFloat * 255)) }
         set { rFloat = clamp(CGFloat(newValue) / 255) }
@@ -570,6 +505,14 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
         }
     }
     
+    func windowWillClose(notification: NSNotification) {
+        exit(0)
+    }
+    
+    override func viewDidAppear() {
+        self.view.window!.delegate = self
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -686,10 +629,6 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSTextFieldDelegate
         }
 
         setFromColor()
-    }
-    
-    override func viewDidDisappear() {
-        exit(EXIT_SUCCESS)
     }
     
     func setFromColor() {

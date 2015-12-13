@@ -10,6 +10,9 @@
 		BE024BE11C14585A00850204 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE024BE01C14585A00850204 /* Regex.swift */; };
 		BE354E381C150CA00013FE42 /* Picker.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE354E371C150CA00013FE42 /* Picker.xib */; };
 		BE41B73B1C1877C300B38688 /* TiledImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE41B73A1C1877C300B38688 /* TiledImage.swift */; };
+		BE9A51801C1D182F0092FA64 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9A517F1C1D182F0092FA64 /* String.swift */; };
+		BE9A51841C1D188F0092FA64 /* NSUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9A51831C1D188F0092FA64 /* NSUserDefaults.swift */; };
+		BE9A51861C1D18BE0092FA64 /* ColorSupplyDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9A51851C1D18BE0092FA64 /* ColorSupplyDelegate.swift */; };
 		BEBC6C881C19CC2A008EA17A /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBC6C871C19CC2A008EA17A /* Color.swift */; };
 		BEDD2D981C0C64B3003C67FB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDD2D971C0C64B3003C67FB /* AppDelegate.swift */; };
 		BEDD2D9A1C0C64B3003C67FB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDD2D991C0C64B3003C67FB /* ViewController.swift */; };
@@ -25,6 +28,9 @@
 		BE024BE01C14585A00850204 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 		BE354E371C150CA00013FE42 /* Picker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Picker.xib; sourceTree = "<group>"; };
 		BE41B73A1C1877C300B38688 /* TiledImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TiledImage.swift; sourceTree = "<group>"; };
+		BE9A517F1C1D182F0092FA64 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		BE9A51831C1D188F0092FA64 /* NSUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSUserDefaults.swift; sourceTree = "<group>"; };
+		BE9A51851C1D18BE0092FA64 /* ColorSupplyDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorSupplyDelegate.swift; sourceTree = "<group>"; };
 		BEBC6C871C19CC2A008EA17A /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		BEDD2D941C0C64B3003C67FB /* ColorDial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ColorDial.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEDD2D971C0C64B3003C67FB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -80,6 +86,9 @@
 				BE354E371C150CA00013FE42 /* Picker.xib */,
 				BEF50C941C151CD100C12BB8 /* Picker.swift */,
 				BE41B73A1C1877C300B38688 /* TiledImage.swift */,
+				BE9A517F1C1D182F0092FA64 /* String.swift */,
+				BE9A51831C1D188F0092FA64 /* NSUserDefaults.swift */,
+				BE9A51851C1D18BE0092FA64 /* ColorSupplyDelegate.swift */,
 			);
 			path = ColorDial;
 			sourceTree = "<group>";
@@ -164,11 +173,14 @@
 				BEDD2D9A1C0C64B3003C67FB /* ViewController.swift in Sources */,
 				BEF50C951C151CD100C12BB8 /* Picker.swift in Sources */,
 				BE024BE11C14585A00850204 /* Regex.swift in Sources */,
+				BE9A51841C1D188F0092FA64 /* NSUserDefaults.swift in Sources */,
+				BE9A51801C1D182F0092FA64 /* String.swift in Sources */,
 				BE41B73B1C1877C300B38688 /* TiledImage.swift in Sources */,
 				BEDD2DAB1C0CA2CB003C67FB /* ColorCircle.swift in Sources */,
 				BEBC6C881C19CC2A008EA17A /* Color.swift in Sources */,
 				BEDD2DA71C0C693D003C67FB /* ColorSlider.swift in Sources */,
 				BEDD2D981C0C64B3003C67FB /* AppDelegate.swift in Sources */,
+				BE9A51861C1D18BE0092FA64 /* ColorSupplyDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
