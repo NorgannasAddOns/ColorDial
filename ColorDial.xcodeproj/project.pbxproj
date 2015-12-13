@@ -103,8 +103,6 @@
 				BEDD2D901C0C64B3003C67FB /* Sources */,
 				BEDD2D911C0C64B3003C67FB /* Frameworks */,
 				BEDD2D921C0C64B3003C67FB /* Resources */,
-				BE9A51881C1D21DF0092FA64 /* ShellScript */,
-				BE9A51891C1D23710092FA64 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -166,37 +164,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		BE9A51881C1D21DF0092FA64 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "./inc-build";
-			showEnvVarsInLog = 0;
-		};
-		BE9A51891C1D23710092FA64 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-			shellPath = /bin/sh;
-			shellScript = "./inc-version";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		BEDD2D901C0C64B3003C67FB /* Sources */ = {
@@ -318,7 +285,7 @@
 				CODE_SIGN_ENTITLEMENTS = ColorDial/ColorDial.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.6.28;
+				CURRENT_PROJECT_VERSION = 1.6.32;
 				INFOPLIST_FILE = ColorDial/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.norganna.ColorDial;
@@ -334,7 +301,7 @@
 				CODE_SIGN_ENTITLEMENTS = ColorDial/ColorDial.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.6.28;
+				CURRENT_PROJECT_VERSION = 1.6.32;
 				INFOPLIST_FILE = ColorDial/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.norganna.ColorDial;

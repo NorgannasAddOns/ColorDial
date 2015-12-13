@@ -249,6 +249,8 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
     var editingTextType: String = ""
     
     var hexPattern: Regex = Regex("^#?([\\da-z]{3}|[\\da-z]{6,})$")
+    var rgbPattern: Regex = Regex("([\\d\\.]+),\\s*([\\d\\.]+),\\s*([\\d\\.]+)")
+    var hslPattern: Regex = Regex("([\\d\\.]+),\\s*([\\d\\.]+)%?,\\s*([\\d\\.]+)%?")
     
     override func controlTextDidChange(obj: NSNotification) {
         if let field = obj.object as? NSTextField {
@@ -323,14 +325,66 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
             vValue = clampTo(vSlider.integerValue)
             updateSliders(false)
             break
+        case rgbText:
+            let value = sender.stringValue
+            let matches = rgbPattern.match(value)
+            
+            if matches.count > 0 {
+                if let r = Double(matches[0].stringAtRange(value, 1)) {
+                    if let g = Double(matches[0].stringAtRange(value, 2)) {
+                        if let b = Double(matches[0].stringAtRange(value, 3)) {
+                            let rv = clamp(CGFloat(r / 255))
+                            let gv = clamp(CGFloat(g / 255))
+                            let bv = clamp(CGFloat(b / 255))
+                            
+                            rgbText.textColor = NSColor.textColor()
+                            if rv == rFloat && gv == gFloat && bv == bFloat { return }
+
+                            rFloat = rv
+                            gFloat = gv
+                            bFloat = bv
+                            updateSliders(true)
+                            return
+                        }
+                    }
+                }
+            }
+            rgbText.textColor = NSColor(red: 176/255, green: 37/255, blue: 12/255, alpha: 1)
+            break
+        case hslText:
+            let value = sender.stringValue
+            let matches = hslPattern.match(value)
+            
+            if matches.count > 0 {
+                if let h = Double(matches[0].stringAtRange(value, 1)) {
+                    if let s = Double(matches[0].stringAtRange(value, 2)) {
+                        if let l = Double(matches[0].stringAtRange(value, 3)) {
+                            let hsl = NSColor.colorWith(clamp(CGFloat(h/360)), saturation: clamp(CGFloat(s/100)), lightness: clamp(CGFloat(l/100)), alpha: 1)
+                            
+                            let rv = hsl.redComponent
+                            let gv = hsl.greenComponent
+                            let bv = hsl.blueComponent
+                            
+                            hslText.textColor = NSColor.textColor()
+                            if rv == rFloat && gv == gFloat && bv == bFloat { return }
+
+                            rFloat = hsl.redComponent
+                            gFloat = hsl.greenComponent
+                            bFloat = hsl.blueComponent
+                            updateSliders(true)
+                            return
+                        }
+                    }
+                }
+            }
+            hslText.textColor = NSColor(red: 176/255, green: 37/255, blue: 12/255, alpha: 1)
+            break
         case hexText:
             let value = sender.stringValue
             let matches = hexPattern.match(value)
             
             if matches.count > 0 {
-                let nsrange = matches[0].rangeAtIndex(1)
-                let range = value.rangeFromNSRange(nsrange)
-                let code = value.substringWithRange(range!)
+                let code = matches[0].stringAtRange(value, 1)
                 
                 if (code.characters.count == 3) {
                     let r = code.hexNibbleAt(0) * 17
@@ -617,6 +671,8 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
         pickerWin.backgroundColor = NSColor.clearColor()
         pickerWin.level = Int(CGWindowLevelForKey(.MaximumWindowLevelKey))
         pickerWin.contentView?.addSubview(picker)
+        pickerWin.hasShadow = true
+        pickerWin.invalidateShadow()
 
         hexText.window?.makeFirstResponder(nil)
 
@@ -741,7 +797,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
 
             if (s < 0.001) { ccMinus.hidden = true; } else if (ccMinus.hidden) { ccMinus.hidden = false; }
             
-            hslText.stringValue = String(format: "hsl(%0.1f, %0.0f%%, %0.0f%%)", h*360, s*100, l*100)
+            hslText.stringValue = String(format: "hsl(%0.1f, %0.1f%%, %0.1f%%)", h*360, s*100, l*100)
         }
 
         let h = lockedColor.hueComponent * 360

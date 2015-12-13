@@ -20,6 +20,14 @@ extension String {
     }
 }
 
+extension NSTextCheckingResult {
+    func stringAtRange(value: String, _ index: Int) -> String {
+        let nsrange = self.rangeAtIndex(index)
+        let range = value.rangeFromNSRange(nsrange)
+        return value.substringWithRange(range!)
+    }
+}
+
 class Regex {
     let internalExpression: NSRegularExpression
     let pattern: String
