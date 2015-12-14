@@ -104,6 +104,8 @@ a {
   .project-tagline {
     font-size: 1rem; } }
 
+.main-content a.btn {
+  background-color: rgba(13, 96, 148, 0.67); }
 .main-content :first-child {
   margin-top: 0; }
 .main-content img {
