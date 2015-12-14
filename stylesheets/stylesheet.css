@@ -10,7 +10,7 @@ body {
   color: #606c71;
   background: url(../images/body-bg.png) top left repeat;
   background: rgba(255,255,255, 0.4);
-  box-shadow: 0 10px 80px rgba(0,0,0, 0.2);
+  box-shadow: 0 0 80px rgba(0,0,0, 0.2);
 }
 
 a {
