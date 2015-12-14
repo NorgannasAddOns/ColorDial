@@ -7,7 +7,9 @@ body {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 1.5;
-  color: #606c71; }
+  color: #606c71;
+  background: url(/images/body-bg.png) top left repeat;
+}
 
 a {
   color: #1e6bb8;
