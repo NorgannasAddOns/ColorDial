@@ -9,8 +9,6 @@ body {
   line-height: 1.5;
   color: #606c71;
   background: url(../images/body-bg.png) top left repeat;
-  background: rgba(255,255,255, 0.4);
-  box-shadow: 0 0 80px rgba(0,0,0, 0.2);
 }
 
 a {
@@ -108,6 +106,10 @@ a {
   .project-tagline {
     font-size: 1rem; } }
 
+.main-content {
+  background: rgba(255,255,255, 0.4);
+  box-shadow: 0 0 80px rgba(0,0,0, 0.2);
+}
 .main-content a.btn {
   background-color: rgba(13, 96, 148, 0.67); }
 .main-content :first-child {
