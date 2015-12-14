@@ -1,20 +1,3 @@
-<style>
-a.btn {
-    background-color: rgba(13, 96, 148, 0.67);
-    display: inline-block;
-    margin-bottom: 1rem;
-    color: rgba(255, 255, 255, 0.7);
-    background-color: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.2);
-    border-style: solid;
-    border-width: 1px;
-    border-radius: 0.3rem;
-    transition: color 0.2s, background-color 0.2s, border-color 0.2s;
-    text-decoration: none;
-    font-size: 1.1rem;
-}
-</style>
-
 # <img src="/ColorDial/Assets.xcassets/AppIcon.appiconset/icon_128x128.png" width="32" height="32"/> ColorDial
 
 <img src="/images/screenshot.png" width="805" height="461"/>
@@ -25,7 +8,7 @@ A rich and powerful, open-source color wheel/picker for OS X.
 
 Featuring large and precise 256px wide colored sliders for accurate drilling down until you find that perfect specimen, text entry boxes for entering direct coordinates in multiple formats, css ready definitions to copy and paste, a handy color wheel to rapidly select complementary colors for your scheme, and a retina scale, sub-pixel capable reticle for sniping that elusive RGB value right off your monitor.
 
-<a href="https://github.com/NorgannasAddOns/ColorDial/releases/download/1.6.32/ColorDial-1.6.zip" class="btn">Download binary</a>
+<a href="https://github.com/NorgannasAddOns/ColorDial/releases/download/1.6.32/ColorDial-1.6.zip" style="background-color: rgba(13, 96, 148, 0.67); display: inline-block; margin-bottom: 1rem; color: rgba(255, 255, 255, 0.7); background-color: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); border-style: solid; border-width: 1px; border-radius: 0.3rem; transition: color 0.2s, background-color 0.2s, border-color 0.2s; text-decoration: none; font-size: 1.1rem;">Download binary</a>
 
 ### Reticle sampling
 
@@ -53,7 +36,7 @@ This demo animation is of an older version of ColorDial which doesn't have as ma
 
 Binary releases avaliable on the [releases page](https://github.com/NorgannasAddOns/ColorDial/releases)
 
-<a href="https://github.com/NorgannasAddOns/ColorDial/releases"><img src="/images/download.png" width="65" height="75"/></a>
+<a href="https://github.com/NorgannasAddOns/ColorDial/releases/download/1.6.32/ColorDial-1.6.zip" style="background-color: rgba(13, 96, 148, 0.67); display: inline-block; margin-bottom: 1rem; color: rgba(255, 255, 255, 0.7); background-color: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); border-style: solid; border-width: 1px; border-radius: 0.3rem; transition: color 0.2s, background-color 0.2s, border-color 0.2s; text-decoration: none; font-size: 1.1rem;">Download binary</a>
 
 ### Keen for some customization?
 
