@@ -87,8 +87,8 @@ class Picker: NSView {
         let offs = Int(floor(CGFloat(blockSize) / 2))
         let size = Int(pickerSize)
         
-        for (var p = -offs; p <= offs; p++) {
-            for (var q = -offs; q <= offs; q++) {
+        for p in -offs ... offs {
+            for q in -offs ... offs {
                 let bx = x + p;
                 let by = y + q;
                 
@@ -115,8 +115,8 @@ class Picker: NSView {
         let mid = Int(floor(CGFloat(limit) / 2))
         let offs = Int(floor(CGFloat(blockSize) / 2))
         
-        for (var x = -mid; x < mid; x++) {
-            for (var y = -mid; y < mid; y++) {
+        for x in -mid ..< mid {
+            for y in -mid ..< mid {
                 let c = imageRep.colorAtX(cmid + x + offsX, y: cmid + y + offsY)!
                 
                 if (x == 0 && y == 0) {
@@ -192,7 +192,7 @@ class Picker: NSView {
     func setItemPropertiesToDefault() {
         circle = NSBezierPath(ovalInRect: NSRect(x: 1, y: 1, width: pickerSize - 2, height: pickerSize - 2))
         
-        NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: "timerDidFire:", userInfo: nil, repeats: true)
+        NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: #selector(Picker.timerDidFire(_:)), userInfo: nil, repeats: true)
 
         frame = NSRect(x: 0, y: 0, width: pickerSize, height: pickerSize)
 

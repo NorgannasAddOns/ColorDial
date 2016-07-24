@@ -536,7 +536,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
         
         if cch1.fill.isEqualTo(add) { return }
         
-        for var i = 0; i < shuffleFrom; i++ {
+        for i in 0 ..< shuffleFrom {
             let d = cch[i]!.fill.colorDifference(add)
             if d < 0.001 {
                 shuffleFrom = i
@@ -546,7 +546,8 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
         
         if (shuffleFrom == 0) { return }
         
-        for var i = shuffleFrom; i >= 0; i-- {
+        for j in 1 ... shuffleFrom {
+            let i = shuffleFrom - j
             var c: NSColor
             if i > 0 {
                 c = cch[i-1]!.fill
@@ -595,7 +596,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
         cch[12] = cch13
         cch[13] = cch14
         
-        for var i = 0; i < cch.count; i++ {
+        for i in 0 ..< cch.count {
             if let storedColor = defaults.NSColorForKey(String(format: "historyColor%d", i+1)) {
                 cch[i]!.setColor(storedColor)
             } else {
@@ -666,7 +667,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
         picker.parent = self
         picker.delegate = self
 
-        pickerWin = NSWindow(contentRect: NSRect(x: 0, y: 0, width: picker.pickerSize, height: picker.pickerSize), styleMask: NSBorderlessWindowMask, backing: NSBackingStoreType.Buffered, `defer`: true)
+        pickerWin = NSWindow(contentRect: NSRect(x: 0, y: 0, width: picker.pickerSize, height: picker.pickerSize), styleMask: NSBorderlessWindowMask, backing: NSBackingStoreType.Buffered, defer: true)
         
         pickerWin.backgroundColor = NSColor.clearColor()
         pickerWin.level = Int(CGWindowLevelForKey(.MaximumWindowLevelKey))

@@ -58,7 +58,7 @@ extension NSColor {
         rgb[1] = hue
         rgb[2] = hue - 1 / 3
         
-        for var i = 0; i < 3; i++ {
+        for i in 0 ..< 3 {
             if rgb[i] < 0 {
                 rgb[i] += 1
             }
