@@ -8,17 +8,17 @@
 
 import Cocoa
 
-extension NSUserDefaults {
-    func setNSColor(value: NSColor, forKey: String) {
-        var c = [Double](count: 3, repeatedValue: 0)
+extension UserDefaults {
+    func setNSColor(_ value: NSColor, forKey: String) {
+        var c = [Double](repeating: 0, count: 3)
         c[0] = Double(value.redComponent)
         c[1] = Double(value.greenComponent)
         c[2] = Double(value.blueComponent)
-        self.setObject(c, forKey: forKey)
+        self.set(c, forKey: forKey)
     }
     
-    func NSColorForKey(defaultName: String) -> NSColor? {
-        if let c = self.arrayForKey(defaultName) {
+    func NSColorForKey(_ defaultName: String) -> NSColor? {
+        if let c = self.array(forKey: defaultName) {
             let r = c[0] as! Double
             let g = c[1] as! Double
             let b = c[2] as! Double

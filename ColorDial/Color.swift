@@ -9,7 +9,7 @@
 import Cocoa
 
 extension NSColor {
-    func get(hue: UnsafeMutablePointer<CGFloat>, saturation: UnsafeMutablePointer<CGFloat>, lightness: UnsafeMutablePointer<CGFloat>, alpha: UnsafeMutablePointer<CGFloat>) {
+    func get(_ hue: UnsafeMutablePointer<CGFloat>, saturation: UnsafeMutablePointer<CGFloat>, lightness: UnsafeMutablePointer<CGFloat>, alpha: UnsafeMutablePointer<CGFloat>) {
         var h, s, l: CGFloat
         
         //let color = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)!
@@ -39,13 +39,13 @@ extension NSColor {
             h /= 6
         }
         
-        hue.initialize(h)
-        saturation.initialize(s)
-        lightness.initialize(l)
-        alpha.initialize(a)
+        hue.initialize(to: h)
+        saturation.initialize(to: s)
+        lightness.initialize(to: l)
+        alpha.initialize(to: a)
     }
     
-    static func colorWith(hue: CGFloat, saturation: CGFloat, lightness: CGFloat, alpha: CGFloat) -> NSColor {
+    static func colorWith(_ hue: CGFloat, saturation: CGFloat, lightness: CGFloat, alpha: CGFloat) -> NSColor {
         if saturation == 0 {
             return NSColor(red: lightness, green: lightness, blue: lightness, alpha: alpha)
         }
@@ -53,7 +53,7 @@ extension NSColor {
         let q = lightness < 0.5 ? lightness * (1 + saturation) : lightness + saturation - lightness * saturation
         let p = 2 * lightness - q
         
-        var rgb = [CGFloat](count: 3, repeatedValue: 0)
+        var rgb = [CGFloat](repeating: 0, count: 3)
         rgb[0] = hue + 1 / 3
         rgb[1] = hue
         rgb[2] = hue - 1 / 3
@@ -81,7 +81,7 @@ extension NSColor {
         return color
     }
     
-    func colorDifference(with: NSColor) -> CGFloat {
+    func colorDifference(_ with: NSColor) -> CGFloat {
         let r: CGFloat = pow(self.redComponent-with.redComponent, 2.0)
         let g: CGFloat = pow(self.greenComponent-with.greenComponent, 2.0)
         let b: CGFloat = pow(self.blueComponent-with.blueComponent, 2.0)
@@ -92,11 +92,11 @@ extension NSColor {
 }
 
 
-func mapRange(value: CGFloat, _ fromLower: CGFloat, _ fromUpper: CGFloat, _ toLower: CGFloat, _ toUpper: CGFloat) -> CGFloat {
+func mapRange(_ value: CGFloat, _ fromLower: CGFloat, _ fromUpper: CGFloat, _ toLower: CGFloat, _ toUpper: CGFloat) -> CGFloat {
     return (round((toLower) + (value - fromLower) * ((toUpper - toLower) / (fromUpper - fromLower))));
 }
 
-func convertHueRYBtoRGB(hue: CGFloat) -> CGFloat {
+func convertHueRYBtoRGB(_ hue: CGFloat) -> CGFloat {
     if hue < 60 { return (round((hue) * (35 / 60))) }
     if hue < 122 { return mapRange(hue, 60,  122, 35,  60) }
     if hue < 165 { return mapRange(hue, 122, 165, 60,  120) }
@@ -106,7 +106,7 @@ func convertHueRYBtoRGB(hue: CGFloat) -> CGFloat {
     return mapRange(hue, 330, 360, 300, 360)
 }
 
-func convertHueRGBtoRYB (hue: CGFloat) -> CGFloat {
+func convertHueRGBtoRYB (_ hue: CGFloat) -> CGFloat {
     if hue < 35 { return (round(CGFloat(hue) * (60 / 35))) }
     if hue < 60 { return mapRange(hue, 35,  60,  60,  122) }
     if hue < 120 { return mapRange(hue, 60,  120, 122, 165) }
@@ -116,7 +116,7 @@ func convertHueRGBtoRYB (hue: CGFloat) -> CGFloat {
     return mapRange(hue, 300, 360, 330, 360)
 }
 
-func addValueOverflowCap(v: CGFloat, _ add: CGFloat, cap: CGFloat = 100, min: CGFloat = -1, max: CGFloat = -1) -> CGFloat {
+func addValueOverflowCap(_ v: CGFloat, _ add: CGFloat, cap: CGFloat = 100, min: CGFloat = -1, max: CGFloat = -1) -> CGFloat {
     var w = v + add
     if (min > -1 && w < min) { w = min }
     if (max > -1 && w > max) { w = max }
@@ -129,7 +129,7 @@ func addValueOverflowCap(v: CGFloat, _ add: CGFloat, cap: CGFloat = 100, min: CG
     return w
 }
 
-func addValueOverflowFlip(v: CGFloat, _ add: CGFloat, cap: CGFloat = 100, lcap: CGFloat = 0, min: CGFloat = -1, max: CGFloat = -1) -> CGFloat {
+func addValueOverflowFlip(_ v: CGFloat, _ add: CGFloat, cap: CGFloat = 100, lcap: CGFloat = 0, min: CGFloat = -1, max: CGFloat = -1) -> CGFloat {
     var w = v + add
     if (min > -1 && w < min) { w = min }
     if (max > -1 && w > max) { w = max }
@@ -142,7 +142,7 @@ func addValueOverflowFlip(v: CGFloat, _ add: CGFloat, cap: CGFloat = 100, lcap: 
     return w
 }
 
-func addValueOverflowBounce(v: CGFloat, _ add: CGFloat, cap: CGFloat = 100, lcap: CGFloat = 0, min: CGFloat = -1, max: CGFloat = -1) -> CGFloat {
+func addValueOverflowBounce(_ v: CGFloat, _ add: CGFloat, cap: CGFloat = 100, lcap: CGFloat = 0, min: CGFloat = -1, max: CGFloat = -1) -> CGFloat {
     var w = v + add
     if (min > -1 && w < min) { w = min }
     if (max > -1 && w > max) { w = max }
@@ -156,7 +156,7 @@ func addValueOverflowBounce(v: CGFloat, _ add: CGFloat, cap: CGFloat = 100, lcap
     return w
 }
 
-func addValueOverflowSlow(v: CGFloat, _ add: CGFloat, cap: CGFloat = 100, lcap: CGFloat = 0, min: CGFloat = -1, max: CGFloat = -1, brake: CGFloat = -1) -> CGFloat {
+func addValueOverflowSlow(_ v: CGFloat, _ add: CGFloat, cap: CGFloat = 100, lcap: CGFloat = 0, min: CGFloat = -1, max: CGFloat = -1, brake: CGFloat = -1) -> CGFloat {
     var w = v + add
     if (min > -1 && w < min) { w = min }
     if (max > -1 && w > max) { w = max }
@@ -175,9 +175,9 @@ func addValueOverflowSlow(v: CGFloat, _ add: CGFloat, cap: CGFloat = 100, lcap: 
     return w
 }
 
-func addValueOverflowOppose(v: CGFloat, _ add: CGFloat, cap: CGFloat = 100, roffs: CGFloat = 0) -> CGFloat {
+func addValueOverflowOppose(_ v: CGFloat, _ add: CGFloat, cap: CGFloat = 100, roffs: CGFloat = 0) -> CGFloat {
     var w = v + add
-    if w > cap { w = (roffs + w) % cap }
+    if w > cap { w = (roffs + w).truncatingRemainder(dividingBy: cap) }
     return w
 }
 

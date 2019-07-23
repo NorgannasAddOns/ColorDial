@@ -9,7 +9,7 @@
 import Foundation
 
 extension String {
-    func rangeFromNSRange(nsRange : NSRange) -> Range<String.Index>? {
+    func rangeFromNSRange(_ nsRange : NSRange) -> Range<String.Index>? {
         let from16 = utf16.startIndex.advancedBy(nsRange.location, limit: utf16.endIndex)
         let to16 = from16.advancedBy(nsRange.length, limit: utf16.endIndex)
         if let from = String.Index(from16, within: self),
@@ -21,10 +21,10 @@ extension String {
 }
 
 extension NSTextCheckingResult {
-    func stringAtRange(value: String, _ index: Int) -> String {
-        let nsrange = self.rangeAtIndex(index)
+    func stringAtRange(_ value: String, _ index: Int) -> String {
+        let nsrange = self.rangeAt(index)
         let range = value.rangeFromNSRange(nsrange)
-        return value.substringWithRange(range!)
+        return value.substring(with: range!)
     }
 }
 
@@ -35,20 +35,20 @@ class Regex {
     init(_ pattern: String) {
         self.pattern = pattern
         try! self.internalExpression = NSRegularExpression(
-            pattern: pattern, options: .CaseInsensitive
+            pattern: pattern, options: .caseInsensitive
         )
     }
     
-    func match(input: String) -> [NSTextCheckingResult] {
-        let matches = self.internalExpression.matchesInString(
-            input,
+    func match(_ input: String) -> [NSTextCheckingResult] {
+        let matches = self.internalExpression.matches(
+            in: input,
             options: [],
             range: NSMakeRange(0, input.characters.count)
         )
         return matches
     }
     
-    func test(input: String) -> Bool {
+    func test(_ input: String) -> Bool {
         return match(input).count > 0
     }
 }

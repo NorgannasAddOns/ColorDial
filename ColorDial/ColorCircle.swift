@@ -9,7 +9,7 @@
 import Cocoa
 
 class ColorCircle: NSView {
-    var fill: NSColor = NSColor.blackColor()
+    var fill: NSColor = NSColor.black
     var bg: NSBezierPath? = nil
     var downInView: Bool = false
     
@@ -24,32 +24,32 @@ class ColorCircle: NSView {
         
         bg = NSBezierPath(roundedRect: rect, xRadius: rect.width / 2, yRadius: rect.height / 2)
                 
-        self.setNeedsDisplayInRect(self.bounds)
+        self.setNeedsDisplay(self.bounds)
     }
     
     
     func changeShapeToSquare() {
         bg = NSBezierPath(roundedRect: NSRect(x:self.bounds.origin.x + 1, y: self.bounds.origin.y + 1, width: self.bounds.size.width - 2, height: self.bounds.size.height - 2), xRadius: 3, yRadius: 3)
-        setNeedsDisplayInRect(self.bounds)
+        setNeedsDisplay(self.bounds)
     }
 
     
-    override func mouseDown(theEvent: NSEvent) {
+    override func mouseDown(with theEvent: NSEvent) {
         downInView = false
-        let click = self.convertPoint(theEvent.locationInWindow, fromView: nil)
+        let click = self.convert(theEvent.locationInWindow, from: nil)
         if let bg = self.bg {
-            if (bg.containsPoint(click)) {
+            if (bg.contains(click)) {
                 downInView = true
             }
         }
     }
     
-    override func mouseUp(theEvent: NSEvent) {
+    override func mouseUp(with theEvent: NSEvent) {
         if (downInView) {
             downInView = false
-            let click = self.convertPoint(theEvent.locationInWindow, fromView: nil)
+            let click = self.convert(theEvent.locationInWindow, from: nil)
             if let bg = self.bg {
-                if (bg.containsPoint(click)) {
+                if (bg.contains(click)) {
                     if let delegate = self.delegate {
                         delegate.colorSupplied(fill, sender: self)
                     }
@@ -58,18 +58,18 @@ class ColorCircle: NSView {
         }
     }
     
-    override func mouseDragged(theEvent: NSEvent) {
-        NSColorPanel.dragColor(fill, withEvent: theEvent, fromView: self)
+    override func mouseDragged(with theEvent: NSEvent) {
+        NSColorPanel.dragColor(fill, with: theEvent, from: self)
     }
     
     
-    func setColor(c: NSColor) {
+    func setColor(_ c: NSColor) {
         fill = c
-        self.setNeedsDisplayInRect(self.bounds)
+        self.setNeedsDisplay(self.bounds)
     }
     
     
-    func lighten(color: NSColor, n: CGFloat) {
+    func lighten(_ color: NSColor, n: CGFloat) {
         var h: CGFloat = 0
         var s: CGFloat = 0
         var l: CGFloat = 0
@@ -77,10 +77,10 @@ class ColorCircle: NSView {
         color.get(&h, saturation: &s, lightness: &l, alpha: &a)
         
         fill = NSColor.colorWith(h, saturation: s, lightness: clamp(l + n), alpha: a)
-        self.setNeedsDisplayInRect(self.bounds)
+        self.setNeedsDisplay(self.bounds)
     }
 
-    func saturate(color: NSColor, n: CGFloat) {
+    func saturate(_ color: NSColor, n: CGFloat) {
         var h: CGFloat = 0
         var s: CGFloat = 0
         var l: CGFloat = 0
@@ -88,26 +88,26 @@ class ColorCircle: NSView {
         color.get(&h, saturation: &s, lightness: &l, alpha: &a)
         
         fill = NSColor.colorWith(h, saturation: clamp(s + n), lightness: l, alpha: a)
-        self.setNeedsDisplayInRect(self.bounds)
+        self.setNeedsDisplay(self.bounds)
     }
         
-    func setHSV(h: CGFloat, s: CGFloat, v: CGFloat) {
-        fill = NSColor(hue: clamp(h/360 % 360), saturation: clamp(s/100), brightness: clamp(v/100), alpha: 1)
+    func setHSV(_ h: CGFloat, s: CGFloat, v: CGFloat) {
+        fill = NSColor(hue: clamp((h/360).truncatingRemainder(dividingBy: 360)), saturation: clamp(s/100), brightness: clamp(v/100), alpha: 1)
         
-        self.setNeedsDisplayInRect(self.bounds)
+        self.setNeedsDisplay(self.bounds)
     }
     
-    func clamp(value: CGFloat) -> CGFloat {
+    func clamp(_ value: CGFloat) -> CGFloat {
         if (value >= 1) { return 0.99999 }
         if (value <= 0) { return 0.00001 }
         return value
     }
         
-    func mix(value: CGFloat, with: CGFloat, factor: CGFloat) -> CGFloat {
+    func mix(_ value: CGFloat, with: CGFloat, factor: CGFloat) -> CGFloat {
         return value*(1-factor) + with*factor
     }
     
-    func adjustColor(brightness: CGFloat, contrast: CGFloat, saturation: CGFloat) {
+    func adjustColor(_ brightness: CGFloat, contrast: CGFloat, saturation: CGFloat) {
         let r = fill.redComponent
         let g = fill.greenComponent
         let b = fill.blueComponent
@@ -131,18 +131,18 @@ class ColorCircle: NSView {
         fill = NSColor(red: clamp(cr), green: clamp(cg), blue: clamp(cb), alpha: 1)
     }
     
-    override func drawRect(dirtyRect: NSRect) {
-        super.drawRect(dirtyRect)
+    override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
         if let bg = self.bg {
-            NSColor.blackColor().setStroke()
+            NSColor.black.setStroke()
             fill.setFill()
             bg.fill()
 
-            NSColor.blackColor().setStroke()
+            NSColor.black.setStroke()
             bg.lineWidth = 2
             bg.stroke()
             
-            NSColor.whiteColor().setStroke()
+            NSColor.white.setStroke()
             bg.lineWidth = 1.25
             bg.stroke()
         }

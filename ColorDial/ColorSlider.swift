@@ -12,37 +12,37 @@ class ColorSlider: NSSliderCell {
     var grad: NSGradient! = nil
     
     required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)!
+        super.init(coder: aDecoder)
         
         grad = NSGradient.init(
-            startingColor: NSColor(red: 0, green: 0, blue: 0, alpha: 1),
-            endingColor: NSColor(red: 1, green: 1, blue: 1, alpha: 1)
+            starting: NSColor(red: 0, green: 0, blue: 0, alpha: 1),
+            ending: NSColor(red: 1, green: 1, blue: 1, alpha: 1)
         )
     }
     
-    func setColors(r1:Int, g1:Int, b1:Int, r2:Int, g2:Int, b2:Int) {
+    func setColors(_ r1:Int, g1:Int, b1:Int, r2:Int, g2:Int, b2:Int) {
         grad = NSGradient.init(
-            startingColor: NSColor(red: CGFloat(r1)/255, green: CGFloat(g1)/255, blue: CGFloat(b1)/255, alpha: 1),
-            endingColor: NSColor(red: CGFloat(r2)/255, green: CGFloat(g2)/255, blue: CGFloat(b2)/255, alpha: 1)
+            starting: NSColor(red: CGFloat(r1)/255, green: CGFloat(g1)/255, blue: CGFloat(b1)/255, alpha: 1),
+            ending: NSColor(red: CGFloat(r2)/255, green: CGFloat(g2)/255, blue: CGFloat(b2)/255, alpha: 1)
         )
     }
 
     
-    func setSaturation(h:Int, v:Int) {
+    func setSaturation(_ h:Int, v:Int) {
         grad = NSGradient.init(
-            startingColor: NSColor(hue: CGFloat(h)/360, saturation: 0, brightness: CGFloat(v)/100, alpha: 1),
-            endingColor: NSColor(hue: CGFloat(h)/360, saturation: 1, brightness: CGFloat(v)/100, alpha: 1)
+            starting: NSColor(hue: CGFloat(h)/360, saturation: 0, brightness: CGFloat(v)/100, alpha: 1),
+            ending: NSColor(hue: CGFloat(h)/360, saturation: 1, brightness: CGFloat(v)/100, alpha: 1)
         )
     }
     
-    func setBrightness(h:Int, s:Int) {
+    func setBrightness(_ h:Int, s:Int) {
         grad = NSGradient.init(
-            startingColor: NSColor(hue: CGFloat(h)/360, saturation: CGFloat(s)/100, brightness: 0, alpha: 1),
-            endingColor: NSColor(hue: CGFloat(h)/360, saturation: CGFloat(s)/100, brightness: 1, alpha: 1)
+            starting: NSColor(hue: CGFloat(h)/360, saturation: CGFloat(s)/100, brightness: 0, alpha: 1),
+            ending: NSColor(hue: CGFloat(h)/360, saturation: CGFloat(s)/100, brightness: 1, alpha: 1)
         )
     }
     
-    func setHue(s:Int, v:Int) {
+    func setHue(_ s:Int, v:Int) {
         let ss = CGFloat(s)/100
         let vv = CGFloat(v)/100
         
@@ -63,7 +63,7 @@ class ColorSlider: NSSliderCell {
         ])
     }
     
-    override func drawBarInside(aRect: NSRect, flipped: Bool) {
+    override func drawBar(inside aRect: NSRect, flipped: Bool) {
         var rect = aRect
         
         rect.offsetInPlace(dx: 5, dy: -5)
@@ -82,6 +82,6 @@ class ColorSlider: NSSliderCell {
         
         let bg = NSBezierPath(roundedRect: rect, xRadius: barRadius, yRadius: barRadius)
         
-        grad.drawInBezierPath(bg, angle: 0)
+        grad.draw(in: bg, angle: 0)
     }
 }

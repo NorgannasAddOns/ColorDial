@@ -18,8 +18,8 @@ class TiledImage: NSImageView {
         self.path = NSBezierPath(rect: self.bounds)
     }
     
-    override func drawRect(dirtyRect: NSRect) {
-        super.drawRect(dirtyRect)
+    override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
         bg.setFill()
         path.fill()
     }

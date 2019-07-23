@@ -9,6 +9,6 @@
 import Cocoa
 
 protocol ColorSupplyDelegate {
-    func colorSupplied(supply: NSColor, sender: NSView?)
-    func colorSampled(sample: NSColor)
+    func colorSupplied(_ supply: NSColor, sender: NSView?)
+    func colorSampled(_ sample: NSColor)
 }

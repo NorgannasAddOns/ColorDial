@@ -48,7 +48,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
     var picker: Picker!
     var harmony = "analogous"
     
-    let defaults = NSUserDefaults.standardUserDefaults()
+    let defaults = UserDefaults.standard
     
     @IBOutlet weak var colorWell: NSColorWell!
     @IBOutlet weak var tipLabel: NSTextField!
@@ -104,7 +104,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
     @IBOutlet weak var cc4: ColorCircle!
     @IBOutlet weak var cc5: ColorCircle!
 
-    var cch = [ColorCircle?](count: 14, repeatedValue: nil)
+    var cch = [ColorCircle?](repeating: nil, count: 14)
     @IBOutlet weak var cch1: ColorCircle!
     @IBOutlet weak var cch2: ColorCircle!
     @IBOutlet weak var cch3: ColorCircle!
@@ -136,13 +136,13 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
     @IBOutlet weak var lockButton: NSButton!
     @IBOutlet weak var modeButton: NSButton!
     
-    func flashPress(item: NSView, _ flash: CGFloat = 0.3, _ dur: CGFloat = 1.2) {
-        NSAnimationContext.currentContext().duration = Double(dur);
+    func flashPress(_ item: NSView, _ flash: CGFloat = 0.3, _ dur: CGFloat = 1.2) {
+        NSAnimationContext.current().duration = Double(dur);
         item.alphaValue = flash
         item.animator().alphaValue = 1
     }
     
-    @IBAction func eyeDropper(sender: NSButton) {
+    @IBAction func eyeDropper(_ sender: NSButton) {
         flashPress(sender)
 
         tipLabel.stringValue = "⌘-click when picking to pick multiple colors at once, press escape to close picker."
@@ -151,35 +151,35 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
         NSCursor.hide()
     }
     
-    @IBAction func hexCopy(sender: NSButton) {
+    @IBAction func hexCopy(_ sender: NSButton) {
         flashPress(sender)
-        let pb = NSPasteboard.generalPasteboard()
+        let pb = NSPasteboard.general()
         pb.clearContents()
-        pb.writeObjects([hexText.stringValue])
+        pb.writeObjects([hexText.stringValue as NSPasteboardWriting])
     }
     
-    @IBAction func rgbCopy(sender: NSButton) {
+    @IBAction func rgbCopy(_ sender: NSButton) {
         flashPress(sender)
-        let pb = NSPasteboard.generalPasteboard()
+        let pb = NSPasteboard.general()
         pb.clearContents()
-        pb.writeObjects([rgbText.stringValue])
+        pb.writeObjects([rgbText.stringValue as NSPasteboardWriting])
     }
     
-    @IBAction func hslCopy(sender: NSButton) {
+    @IBAction func hslCopy(_ sender: NSButton) {
         flashPress(sender)
-        let pb = NSPasteboard.generalPasteboard()
+        let pb = NSPasteboard.general()
         pb.clearContents()
-        pb.writeObjects([hslText.stringValue])
+        pb.writeObjects([hslText.stringValue as NSPasteboardWriting])
     }
     
-    @IBAction func colorUpdated(sender: AnyObject) {
+    @IBAction func colorUpdated(_ sender: AnyObject) {
         if let cw = sender as? NSColorWell {
             color = cw.color
             setFromColor()
         }
     }
     
-    @IBAction func lockPressed(sender: NSButton) {
+    @IBAction func lockPressed(_ sender: NSButton) {
         if sender.state == 0 {
             sender.title = "🔓"
             lockedColor = color
@@ -197,14 +197,14 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
         }
     }
     
-    @IBAction func modePressed(sender: NSButton) {
+    @IBAction func modePressed(_ sender: NSButton) {
         setModeIcon()
-        defaults.setBool(sender.state == 0, forKey: "scientificMode")
+        defaults.set(sender.state == 0, forKey: "scientificMode")
         
         setSliders()
     }
     
-    @IBAction func harmonyPressed(sender: NSButton) {
+    @IBAction func harmonyPressed(_ sender: NSButton) {
         switch sender {
         case complementaryHarmony:
             harmony = "complementary"
@@ -252,7 +252,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
     var rgbPattern: Regex = Regex("([\\d\\.]+),\\s*([\\d\\.]+),\\s*([\\d\\.]+)")
     var hslPattern: Regex = Regex("([\\d\\.]+),\\s*([\\d\\.]+)%?,\\s*([\\d\\.]+)%?")
     
-    override func controlTextDidChange(obj: NSNotification) {
+    override func controlTextDidChange(_ obj: Notification) {
         if let field = obj.object as? NSTextField {
             inputUpdated(field)
             switch (field) {
@@ -272,22 +272,22 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
         }
     }
     
-    override func controlTextDidEndEditing(obj: NSNotification) {
+    override func controlTextDidEndEditing(_ obj: Notification) {
         editingTextType = ""
     }
     
-    override func keyDown(theEvent: NSEvent) {
+    override func keyDown(with theEvent: NSEvent) {
         debugPrint("Keydown", theEvent)
         
         if (theEvent.keyCode == 53 && picker.picking) {
             picker.closePicker()
             editingTextType = ""
             hexText.window?.makeFirstResponder(nil)
-            hexText.backgroundColor = NSColor.whiteColor()
+            hexText.backgroundColor = NSColor.white
         }
     }
     
-    @IBAction func inputUpdated(sender: NSTextField) {
+    @IBAction func inputUpdated(_ sender: NSTextField) {
         switch (sender) {
         case rText:
             if rSlider.integerValue == rText.integerValue { return }
@@ -337,7 +337,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
                             let gv = clamp(CGFloat(g / 255))
                             let bv = clamp(CGFloat(b / 255))
                             
-                            rgbText.textColor = NSColor.textColor()
+                            rgbText.textColor = NSColor.textColor
                             if rv == rFloat && gv == gFloat && bv == bFloat { return }
 
                             rFloat = rv
@@ -365,7 +365,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
                             let gv = hsl.greenComponent
                             let bv = hsl.blueComponent
                             
-                            hslText.textColor = NSColor.textColor()
+                            hslText.textColor = NSColor.textColor
                             if rv == rFloat && gv == gFloat && bv == bFloat { return }
 
                             rFloat = hsl.redComponent
@@ -415,7 +415,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
         }
     }
     
-    @IBAction func stepperUpdated(sender: NSStepper) {
+    @IBAction func stepperUpdated(_ sender: NSStepper) {
         editingTextType = ""
         hexText.window?.makeFirstResponder(nil)
 
@@ -455,7 +455,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
         }
     }
     
-    @IBAction func sliderUpdated(sender: NSSlider) {
+    @IBAction func sliderUpdated(_ sender: NSSlider) {
         editingTextType = ""
         hexText.window?.makeFirstResponder(nil)
 
@@ -489,7 +489,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
         updateSliders(isRGB)
     }
     
-    func updateSliders(isRGB: Bool) {
+    func updateSliders(_ isRGB: Bool) {
         if (isRGB) {
             color = NSColor(red: rFloat, green: gFloat, blue: bFloat, alpha: 1.0)
             hFloat = color.hueComponent
@@ -505,13 +505,13 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
         setSliders()
     }
     
-    func colorSupplied(supply: NSColor, sender: NSView?) {
+    func colorSupplied(_ supply: NSColor, sender: NSView?) {
         if sender != nil {
             flashPress(sender!)
         }
         editingTextType = ""
         hexText.window?.makeFirstResponder(nil)
-        hexText.backgroundColor = NSColor.whiteColor()
+        hexText.backgroundColor = NSColor.white
         color = supply
         
         setFromColor()
@@ -521,7 +521,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
         addColorToHistory(color)
     }
     
-    func colorSampled(sample: NSColor) {
+    func colorSampled(_ sample: NSColor) {
         editingTextType = "hexText"
         hexText.backgroundColor = sample
         let rInt = clampFloatTo(sample.redComponent * 255)
@@ -531,10 +531,10 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
         hexText.window?.makeFirstResponder(nil)
     }
     
-    func addColorToHistory(add: NSColor) {
+    func addColorToHistory(_ add: NSColor) {
         var shuffleFrom = cch.count - 1
         
-        if cch1.fill.isEqualTo(add) { return }
+        if cch1.fill.isEqual(to: add) { return }
         
         for i in 0 ..< shuffleFrom {
             let d = cch[i]!.fill.colorDifference(add)
@@ -560,7 +560,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
         }
     }
     
-    func windowWillClose(notification: NSNotification) {
+    func windowWillClose(_ notification: Notification) {
         exit(0)
     }
     
@@ -577,7 +577,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
             color = NSColor(red: 0.1, green: 0.5, blue: 0.75, alpha: 1)
         }
         
-        let scientificMode = defaults.boolForKey("scientificMode")
+        let scientificMode = defaults.bool(forKey: "scientificMode")
         modeButton.state = scientificMode ? 0 : 1
         setModeIcon()
 
@@ -655,10 +655,10 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
         rgbText.delegate = self
         hslText.delegate = self
 
-        let bundle = NSBundle(forClass: self.dynamicType)
+        let bundle = Bundle(for: type(of: self))
         let nib = NSNib(nibNamed: "Picker", bundle: bundle)
         var topLevelObjects: NSArray?
-        nib?.instantiateWithOwner(pickerWin, topLevelObjects: &topLevelObjects)
+        nib?.instantiate(withOwner: pickerWin, topLevelObjects: &topLevelObjects!)
         for object: AnyObject in topLevelObjects! {
             if let obj = object as? Picker {
                 self.picker = obj
@@ -667,10 +667,10 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
         picker.parent = self
         picker.delegate = self
 
-        pickerWin = NSWindow(contentRect: NSRect(x: 0, y: 0, width: picker.pickerSize, height: picker.pickerSize), styleMask: NSBorderlessWindowMask, backing: NSBackingStoreType.Buffered, defer: true)
+        pickerWin = NSWindow(contentRect: NSRect(x: 0, y: 0, width: picker.pickerSize, height: picker.pickerSize), styleMask: NSBorderlessWindowMask, backing: NSBackingStoreType.buffered, defer: true)
         
-        pickerWin.backgroundColor = NSColor.clearColor()
-        pickerWin.level = Int(CGWindowLevelForKey(.MaximumWindowLevelKey))
+        pickerWin.backgroundColor = NSColor.clear
+        pickerWin.level = Int(CGWindowLevelForKey(.maximumWindow))
         pickerWin.contentView?.addSubview(picker)
         pickerWin.hasShadow = true
         pickerWin.invalidateShadow()
@@ -680,8 +680,8 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
         harmonyPressed(analogousHarmony)
         
         
-        NSEvent.addLocalMonitorForEventsMatchingMask(.KeyDownMask) { (aEvent) -> NSEvent! in
-            self.keyDown(aEvent)
+        NSEvent.addLocalMonitorForEvents(matching: .keyDown) { (aEvent) -> NSEvent! in
+            self.keyDown(with: aEvent)
             return aEvent
         }
 
@@ -699,28 +699,28 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
         setSliders()
     }
     
-    func clamp(value: CGFloat, max: CGFloat = 1, min: CGFloat = 0) -> CGFloat {
+    func clamp(_ value: CGFloat, max: CGFloat = 1, min: CGFloat = 0) -> CGFloat {
         if value.isNaN { return 0 }
         return value > 1 ? 1 : value < 0 ? 0 : value
     }
     
-    func clampFloatTo (value: CGFloat, max: Int = 255, min: Int = 0) -> Int {
+    func clampFloatTo (_ value: CGFloat, max: Int = 255, min: Int = 0) -> Int {
         return clampTo(Int(round(value)), max: max, min: min)
     }
     
-    func clampTo (value: Int, max: Int = 255, min: Int = 0) -> Int {
+    func clampTo (_ value: Int, max: Int = 255, min: Int = 0) -> Int {
         if (value < min) { return min; }
         if (value > max) { return max; }
         return value
     }
     
-    func addHue(h: CGFloat, _ add: CGFloat) -> CGFloat {
+    func addHue(_ h: CGFloat, _ add: CGFloat) -> CGFloat {
         if modeButton.state == 0 {
-            return (360 + h + add) % 360
+            return (360 + h + add).truncatingRemainder(dividingBy: 360)
         }
         
         let g = convertHueRGBtoRYB(h) + add
-        return convertHueRYBtoRGB((360 + g) % 360)
+        return convertHueRYBtoRGB((360 + g).truncatingRemainder(dividingBy: 360))
     }
     
     func setSliders() {
@@ -790,13 +790,13 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
             var a: CGFloat = 0
             color.get(&h, saturation: &s, lightness: &l, alpha: &a)
             
-            if (l > 0.999) { ccUp.hidden = true; } else if (ccUp.hidden) { ccUp.hidden = false; }
+            if (l > 0.999) { ccUp.isHidden = true; } else if (ccUp.isHidden) { ccUp.isHidden = false; }
             
-            if (l < 0.001) { ccDown.hidden = true; } else if (ccDown.hidden) { ccDown.hidden = false; }
+            if (l < 0.001) { ccDown.isHidden = true; } else if (ccDown.isHidden) { ccDown.isHidden = false; }
 
-            if (s > 0.999) { ccPlus.hidden = true; } else if (ccPlus.hidden) { ccPlus.hidden = false; }
+            if (s > 0.999) { ccPlus.isHidden = true; } else if (ccPlus.isHidden) { ccPlus.isHidden = false; }
 
-            if (s < 0.001) { ccMinus.hidden = true; } else if (ccMinus.hidden) { ccMinus.hidden = false; }
+            if (s < 0.001) { ccMinus.isHidden = true; } else if (ccMinus.isHidden) { ccMinus.isHidden = false; }
             
             hslText.stringValue = String(format: "hsl(%0.1f, %0.1f%%, %0.1f%%)", h*360, s*100, l*100)
         }

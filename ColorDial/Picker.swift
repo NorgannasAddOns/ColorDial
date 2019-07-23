@@ -37,34 +37,34 @@ class Picker: NSView {
         var b:UInt8 = 0
     }
     
-    private let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
-    private let bitmapInfo:CGBitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.PremultipliedFirst.rawValue)
+    fileprivate let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
+    fileprivate let bitmapInfo:CGBitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedFirst.rawValue)
     
-    internal func imageFromARGB32Bitmap(pixels: [PixelData], width: Int, height: Int)->NSImage {
+    internal func imageFromARGB32Bitmap(_ pixels: [PixelData], width: Int, height: Int)->NSImage {
         let bitsPerComponent: Int = 8
         let bitsPerPixel: Int = 32
         
         assert(pixels.count == Int(width * height))
         
         var data = pixels // Copy to mutable []
-        let providerRef = CGDataProviderCreateWithCFData(
-            NSData(bytes: &data, length: data.count * sizeof(PixelData))
+        let providerRef = CGDataProvider(
+            data: Data(bytes: UnsafePointer<UInt8>(&data), count: data.count * sizeof(PixelData))
         )
         
-        let cgimage = CGImageCreate(
-            width,
-            height,
-            bitsPerComponent,
-            bitsPerPixel,
-            width * Int(sizeof(PixelData)),
-            rgbColorSpace,
-            bitmapInfo,
-            providerRef,
-            nil,
-            true,
-            CGColorRenderingIntent.RenderingIntentDefault
+        let cgimage = CGImage(
+            width: width,
+            height: height,
+            bitsPerComponent: bitsPerComponent,
+            bitsPerPixel: bitsPerPixel,
+            bytesPerRow: width * Int(sizeof(PixelData)),
+            space: rgbColorSpace,
+            bitmapInfo: bitmapInfo,
+            provider: providerRef,
+            decode: nil,
+            shouldInterpolate: true,
+            intent: CGColorRenderingIntent.defaultIntent
         )
-        return NSImage(CGImage: cgimage!, size: NSSize(width: width, height: height))
+        return NSImage(cgImage: cgimage!, size: NSSize(width: width, height: height))
     }
     // }}}
     
@@ -79,7 +79,7 @@ class Picker: NSView {
     /**
      * Draws a block of blockSize x blockSize around the pixel at x, y.
      */
-    func drawBlock(x: Int, y: Int, c: NSColor, blockSize: Int) {
+    func drawBlock(_ x: Int, y: Int, c: NSColor, blockSize: Int) {
         let r = UInt8(c.redComponent * 255)
         let g = UInt8(c.greenComponent * 255)
         let b = UInt8(c.blueComponent * 255)
@@ -103,8 +103,8 @@ class Picker: NSView {
         }
     }
     
-    override func drawRect(dirtyRect: NSRect) {
-        super.drawRect(dirtyRect)
+    override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
         if (image == nil) { return }
 
         objc_sync_enter(self);
@@ -117,7 +117,7 @@ class Picker: NSView {
         
         for x in -mid ..< mid {
             for y in -mid ..< mid {
-                let c = imageRep.colorAtX(cmid + x + offsX, y: cmid + y + offsY)!
+                let c = imageRep.colorAt(x: cmid + x + offsX, y: cmid + y + offsY)!
                 
                 if (x == 0 && y == 0) {
                     centerColor = c
@@ -142,7 +142,7 @@ class Picker: NSView {
         )
 
         if let delegate = self.delegate {
-            if (!centerColor.isEqualTo(lastColor)) {
+            if (!centerColor.isEqual(to: lastColor)) {
                 delegate.colorSampled(centerColor)
                 lastColor = centerColor
             }
@@ -155,62 +155,62 @@ class Picker: NSView {
         NSColor(patternImage: scaled).setFill()
         circle.fill()
         
-        NSColor.blackColor().setStroke()
+        NSColor.black.setStroke()
         circle.lineWidth = 2
         circle.stroke()
         
-        NSColor.whiteColor().setStroke()
+        NSColor.white.setStroke()
         circle.lineWidth = 1
         circle.stroke()
 
         
-        circle.moveToPoint(NSPoint(x: 2,                    y: half))
-        circle.lineToPoint(NSPoint(x: half - offs,             y: half))
+        circle.move(to: NSPoint(x: 2,                    y: half))
+        circle.line(to: NSPoint(x: half - offs,             y: half))
 
-        circle.moveToPoint(NSPoint(x: Int(pickerSize) - 2,  y: half))
-        circle.lineToPoint(NSPoint(x: half + offs,             y: half))
+        circle.move(to: NSPoint(x: Int(pickerSize) - 2,  y: half))
+        circle.line(to: NSPoint(x: half + offs,             y: half))
         
-        circle.moveToPoint(NSPoint(x: half,                 y: 2))
-        circle.lineToPoint(NSPoint(x: half,                 y: half - offs))
+        circle.move(to: NSPoint(x: half,                 y: 2))
+        circle.line(to: NSPoint(x: half,                 y: half - offs))
         
-        circle.moveToPoint(NSPoint(x: half,                 y: Int(pickerSize) - 2))
-        circle.lineToPoint(NSPoint(x: half,                 y: half + offs))
+        circle.move(to: NSPoint(x: half,                 y: Int(pickerSize) - 2))
+        circle.line(to: NSPoint(x: half,                 y: half + offs))
         
     }
     
-    func timerDidFire(timer: NSTimer!) {
-        if (window!.visible) {
+    func timerDidFire(_ timer: Timer!) {
+        if (window!.isVisible) {
             handleMouseMovement()
         }
     }
     
     func changeShapeToSquare() {
         circle = NSBezierPath(roundedRect: NSRect(x:1, y:1, width: pickerSize - 2, height: pickerSize - 2), xRadius: 5, yRadius: 5)
-        setNeedsDisplayInRect(self.bounds)
+        setNeedsDisplay(self.bounds)
     }
 
     func setItemPropertiesToDefault() {
-        circle = NSBezierPath(ovalInRect: NSRect(x: 1, y: 1, width: pickerSize - 2, height: pickerSize - 2))
+        circle = NSBezierPath(ovalIn: NSRect(x: 1, y: 1, width: pickerSize - 2, height: pickerSize - 2))
         
-        NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: #selector(Picker.timerDidFire(_:)), userInfo: nil, repeats: true)
+        Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(Picker.timerDidFire(_:)), userInfo: nil, repeats: true)
 
         frame = NSRect(x: 0, y: 0, width: pickerSize, height: pickerSize)
 
         let t = NSTrackingArea(
             rect: frame,
             options: [
-                NSTrackingAreaOptions.ActiveAlways,
-                NSTrackingAreaOptions.MouseEnteredAndExited,
-                NSTrackingAreaOptions.MouseMoved
+                NSTrackingAreaOptions.activeAlways,
+                NSTrackingAreaOptions.mouseEnteredAndExited,
+                NSTrackingAreaOptions.mouseMoved
             ],
             owner: self,
             userInfo: nil
         )
         self.addTrackingArea(t)
         
-        pixels = [PixelData](count: Int(pickerSize * pickerSize), repeatedValue: PixelData())
+        pixels = [PixelData](repeating: PixelData(), count: Int(pickerSize * pickerSize))
 
-        setNeedsDisplayInRect(frame)
+        setNeedsDisplay(frame)
     }
     
     var downInView: Bool = false
@@ -265,27 +265,27 @@ class Picker: NSView {
         lastX = m.x
         lastY = m.y
         
-        image = CGWindowListCreateImage(s, CGWindowListOption.OptionOnScreenBelowWindow, CGWindowID(window!.windowNumber), CGWindowImageOption.BestResolution)
+        image = CGWindowListCreateImage(s, CGWindowListOption.optionOnScreenBelowWindow, CGWindowID(window!.windowNumber), CGWindowImageOption.bestResolution)
         
         objc_sync_enter(self);
-        imageRep = NSBitmapImageRep(CGImage: image!)
+        imageRep = NSBitmapImageRep(cgImage: image!)
         objc_sync_exit(self);
         
-        setNeedsDisplayInRect(frame)
+        setNeedsDisplay(frame)
     }
 
-    override func mouseMoved(theEvent: NSEvent) {
+    override func mouseMoved(with theEvent: NSEvent) {
         handleMouseMovement()
     }
     
-    override func mouseExited(theEvent: NSEvent) {
+    override func mouseExited(with theEvent: NSEvent) {
         handleMouseMovement()
     }
     
-    override func mouseDown(theEvent: NSEvent) {
+    override func mouseDown(with theEvent: NSEvent) {
         downInView = false
-        let click = self.convertPoint(theEvent.locationInWindow, fromView: nil)
-        if (circle.containsPoint(click)) {
+        let click = self.convert(theEvent.locationInWindow, from: nil)
+        if (circle.contains(click)) {
             downInView = true
         }
     }
@@ -296,13 +296,13 @@ class Picker: NSView {
         picking = false
     }
     
-    override func mouseUp(theEvent: NSEvent) {
+    override func mouseUp(with theEvent: NSEvent) {
         if (downInView) {
             downInView = false
             
-            let click = self.convertPoint(theEvent.locationInWindow, fromView: nil)
-            if (circle.containsPoint(click)) {
-                if !theEvent.modifierFlags.contains(NSEventModifierFlags.CommandKeyMask) {
+            let click = self.convert(theEvent.locationInWindow, from: nil)
+            if (circle.contains(click)) {
+                if !theEvent.modifierFlags.contains(NSEventModifierFlags.command) {
                     closePicker();
                 }
                 
@@ -313,7 +313,7 @@ class Picker: NSView {
         }
     }
     
-    func carbonScreenPointFromCocoaScreenPoint(cocoaPoint: NSPoint) -> NSPoint {
+    func carbonScreenPointFromCocoaScreenPoint(_ cocoaPoint: NSPoint) -> NSPoint {
         //debugPrint("Convert")
         for screen in NSScreen.screens()! {
             /*debugPrint(

@@ -9,7 +9,7 @@
 import Foundation
 
 extension String {
-    func hexNibbleAt(i: Int) -> Int {
+    func hexNibbleAt(_ i: Int) -> Int {
         let c = self[i] as Character
         switch (c) {
         case "0": return 0
@@ -33,15 +33,15 @@ extension String {
         return 0
     }
     
-    func hexByteAt(i: Int) -> Int {
+    func hexByteAt(_ i: Int) -> Int {
         return hexNibbleAt(i) * 16 + hexNibbleAt(i+1)
     }
     
     subscript (i: Int) -> Character {
-        return self[self.startIndex.advancedBy(i)]
+        return self[self.characters.index(self.startIndex, offsetBy: i)]
     }
     
     subscript (r: Range<Int>) -> String {
-        return substringWithRange(startIndex.advancedBy(r.startIndex) ..< startIndex.advancedBy(r.endIndex))
+        return substring(with: characters.index(startIndex, offsetBy: r.lowerBound) ..< characters.index(startIndex, offsetBy: r.upperBound))
     }
 }
