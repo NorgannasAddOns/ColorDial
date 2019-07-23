@@ -657,9 +657,9 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
 
         let bundle = Bundle(for: type(of: self))
         let nib = NSNib(nibNamed: "Picker", bundle: bundle)
-        var topLevelObjects: NSArray?
-        nib?.instantiate(withOwner: pickerWin, topLevelObjects: &topLevelObjects!)
-        for object: AnyObject in topLevelObjects! {
+        var topLevelObjects = NSArray()
+        nib?.instantiate(withOwner: pickerWin, topLevelObjects: &topLevelObjects)
+        for object: Any in topLevelObjects {
             if let obj = object as? Picker {
                 self.picker = obj
             }
@@ -680,7 +680,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
         harmonyPressed(analogousHarmony)
         
         
-        NSEvent.addLocalMonitorForEvents(matching: .keyDown) { (aEvent) -> NSEvent! in
+        NSEvent.addLocalMonitorForEvents(matching: .keyDown) { (aEvent) -> NSEvent? in
             self.keyDown(with: aEvent)
             return aEvent
         }

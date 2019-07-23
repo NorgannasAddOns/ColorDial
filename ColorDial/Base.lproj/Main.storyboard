@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10116"/>
-        <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -299,10 +300,13 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
-                    <window key="window" title="ColorDial" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" frameAutosaveName="ColorDial" animationBehavior="default" id="IQv-IB-iLA" userLabel="ColorDial">
+                    <window key="window" title="ColorDial" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" frameAutosaveName="ColorDial" animationBehavior="default" id="IQv-IB-iLA" userLabel="ColorDial">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
                         <rect key="contentRect" x="1040" y="600" width="580" height="335"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+                        <connections>
+                            <outlet property="delegate" destination="B8D-0N-5wS" id="cDt-Ho-cMP"/>
+                        </connections>
                     </window>
                     <connections>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
@@ -320,18 +324,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="693" height="327"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6Uz-jh-oqA" customClass="TiledImage" customModule="ColorDial" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="576" height="327"/>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topLeft" image="brushed" id="X4Y-Gu-NR2"/>
-                            </imageView>
-                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cdP-t9-Uvz" customClass="TiledImage" customModule="ColorDial" customModuleProvider="target">
-                                <rect key="frame" x="576" y="0.0" width="117" height="327"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="327" id="gBH-d5-1Qh"/>
-                                    <constraint firstAttribute="width" constant="117" id="tfM-nG-eC5"/>
-                                </constraints>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topLeft" image="background" id="WYJ-0u-ibd"/>
-                            </imageView>
                             <colorWell translatesAutoresizingMaskIntoConstraints="NO" id="t3X-9S-ilx">
                                 <rect key="frame" x="8" y="269" width="348" height="50"/>
                                 <constraints>
@@ -347,7 +339,7 @@
                                 <rect key="frame" x="18" y="244" width="20" height="17"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="17" id="Hcf-3j-vtt"/>
-                                    <constraint firstAttribute="width" constant="16" id="m6e-9Y-JqQ"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="16" id="m6e-9Y-JqQ"/>
                                 </constraints>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="R" id="NFi-OT-4YB">
                                     <font key="font" metaFont="system"/>
@@ -375,7 +367,7 @@
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="mYM-PO-oeH">
                                     <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="mMR-qP-8OZ"/>
                                     <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <connections>
@@ -386,7 +378,7 @@
                                 <rect key="frame" x="18" y="216" width="20" height="17"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="17" id="TaJ-5k-Ff8"/>
-                                    <constraint firstAttribute="width" constant="16" id="x5F-QR-rWZ"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="16" id="x5F-QR-rWZ"/>
                                 </constraints>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="G" id="qkO-pI-3Z6">
                                     <font key="font" metaFont="system"/>
@@ -406,7 +398,7 @@
                                 </connections>
                             </slider>
                             <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rfh-fD-Kco">
-                                <rect key="frame" x="340" y="211" width="19" height="27"/>
+                                <rect key="frame" x="340" y="212" width="19" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="22" id="J2Z-OT-YzI"/>
                                     <constraint firstAttribute="width" constant="13" id="gZJ-kx-RbB"/>
@@ -425,7 +417,7 @@
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="SJn-yd-ODh">
                                     <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="qHk-I4-ms2"/>
                                     <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <connections>
@@ -435,7 +427,7 @@
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="84c-1g-DPB">
                                 <rect key="frame" x="18" y="189" width="20" height="17"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="16" id="5RA-jN-hKa"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="16" id="5RA-jN-hKa"/>
                                     <constraint firstAttribute="height" constant="17" id="uBW-dh-kMs"/>
                                 </constraints>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="B" id="Yqr-PH-buB">
@@ -456,7 +448,7 @@
                                 </connections>
                             </slider>
                             <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CNh-tG-zwy">
-                                <rect key="frame" x="340" y="184" width="19" height="27"/>
+                                <rect key="frame" x="340" y="185" width="19" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="22" id="DJe-69-kaU"/>
                                     <constraint firstAttribute="width" constant="13" id="ofT-y7-3Jo"/>
@@ -475,7 +467,7 @@
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="mch-sg-CI4">
                                     <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="4Ae-sE-HU1"/>
                                     <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <connections>
@@ -485,7 +477,7 @@
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aHh-OS-qa6">
                                 <rect key="frame" x="18" y="159" width="20" height="17"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="16" id="5CG-se-a6P"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="16" id="5CG-se-a6P"/>
                                     <constraint firstAttribute="height" constant="17" id="Bpg-Xe-kE4"/>
                                 </constraints>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="H" id="Uo3-sq-QgD">
@@ -506,7 +498,7 @@
                                 </connections>
                             </slider>
                             <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tiI-6x-IkG">
-                                <rect key="frame" x="340" y="154" width="19" height="27"/>
+                                <rect key="frame" x="340" y="155" width="19" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="22" id="EBk-6K-FAz"/>
                                     <constraint firstAttribute="width" constant="13" id="wfI-wm-pmz"/>
@@ -525,7 +517,7 @@
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="4C3-e1-rhq">
                                     <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="ysc-GY-oSf"/>
                                     <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <connections>
@@ -536,7 +528,7 @@
                                 <rect key="frame" x="18" y="132" width="20" height="17"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="17" id="Q0g-pn-iPo"/>
-                                    <constraint firstAttribute="width" constant="16" id="aZB-aP-exB"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="16" id="aZB-aP-exB"/>
                                 </constraints>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="S" id="xdD-aY-d38">
                                     <font key="font" metaFont="system"/>
@@ -556,7 +548,7 @@
                                 </connections>
                             </slider>
                             <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hvZ-z0-R8t">
-                                <rect key="frame" x="340" y="127" width="19" height="27"/>
+                                <rect key="frame" x="340" y="128" width="19" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="13" id="35i-ds-Igp"/>
                                     <constraint firstAttribute="height" constant="22" id="n4m-w0-VmB"/>
@@ -575,7 +567,7 @@
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="O8R-UN-sHH">
                                     <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="6f9-fh-YRq"/>
                                     <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <connections>
@@ -585,7 +577,7 @@
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7Sb-It-12b">
                                 <rect key="frame" x="18" y="105" width="20" height="17"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="16" id="Z5U-Rc-ezA"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="16" id="Z5U-Rc-ezA"/>
                                     <constraint firstAttribute="height" constant="17" id="mEZ-pS-CEM"/>
                                 </constraints>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="V" id="Kkr-IU-lVp">
@@ -606,7 +598,7 @@
                                 </connections>
                             </slider>
                             <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lXh-wD-Yz1">
-                                <rect key="frame" x="340" y="100" width="19" height="27"/>
+                                <rect key="frame" x="340" y="101" width="19" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="22" id="7fQ-T9-h7B"/>
                                     <constraint firstAttribute="width" constant="13" id="v0P-ee-rjy"/>
@@ -625,7 +617,7 @@
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="8JD-2W-r6G">
                                     <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="JYp-e7-L46"/>
                                     <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <connections>
@@ -633,7 +625,7 @@
                                 </connections>
                             </textField>
                             <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="w00-MN-BMo">
-                                <rect key="frame" x="340" y="239" width="19" height="27"/>
+                                <rect key="frame" x="340" y="240" width="19" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="22" id="Hln-i3-V1g"/>
                                     <constraint firstAttribute="width" constant="13" id="PkC-Cn-gfU"/>
@@ -643,15 +635,12 @@
                                     <action selector="stepperUpdated:" target="XfG-lQ-9wD" id="6kC-HF-Hep"/>
                                 </connections>
                             </stepper>
-                            <box horizontalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="yNo-Q7-GQC">
+                            <box horizontalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="yNo-Q7-GQC">
                                 <rect key="frame" x="362" y="93" width="5" height="234"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="234" id="boH-DR-I3A"/>
                                     <constraint firstAttribute="width" constant="1" id="pf8-km-flI"/>
                                 </constraints>
-                                <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                                <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <font key="titleFont" metaFont="system"/>
                             </box>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="ttj-yY-qXp" customClass="ColorCircle" customModule="ColorDial">
                                 <rect key="frame" x="447" y="280" width="43" height="43"/>
@@ -989,6 +978,13 @@
                                         </constraints>
                                     </customView>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="plP-SM-cbx" firstAttribute="leading" secondItem="5Lg-VK-qd0" secondAttribute="leading" id="29E-Tk-wnK"/>
+                                    <constraint firstItem="R1e-d9-RPl" firstAttribute="leading" secondItem="4B9-Xi-WFv" secondAttribute="trailing" constant="3" id="J1T-Tb-pwx"/>
+                                    <constraint firstItem="4B9-Xi-WFv" firstAttribute="leading" secondItem="OnP-tK-wNn" secondAttribute="trailing" constant="3" id="TGs-wH-QRe"/>
+                                    <constraint firstItem="OnP-tK-wNn" firstAttribute="leading" secondItem="Nce-pZ-6aC" secondAttribute="trailing" constant="3" id="TaE-dc-IeG"/>
+                                    <constraint firstItem="Nce-pZ-6aC" firstAttribute="leading" secondItem="plP-SM-cbx" secondAttribute="trailing" constant="3" id="jmf-v9-ZlI"/>
+                                </constraints>
                                 <visibilityPriorities>
                                     <integer value="1000"/>
                                     <integer value="1000"/>
@@ -1004,15 +1000,12 @@
                                     <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
-                            <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="OXc-Hc-zJo">
+                            <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="OXc-Hc-zJo">
                                 <rect key="frame" x="0.0" y="91" width="577" height="5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="dvc-u0-4kz"/>
                                     <constraint firstAttribute="width" constant="577" id="tcM-Wc-jYM"/>
                                 </constraints>
-                                <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                                <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <font key="titleFont" metaFont="system"/>
                             </box>
                             <button translatesAutoresizingMaskIntoConstraints="NO" id="l6G-MC-JVb">
                                 <rect key="frame" x="576" y="272" width="70" height="50"/>
@@ -1142,7 +1135,7 @@
                                 </constraints>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" continuous="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="rgb(255,255,255)" drawsBackground="YES" id="W58-97-qhJ">
                                     <font key="font" metaFont="system" size="18"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <connections>
@@ -1185,7 +1178,7 @@
                                 </constraints>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" continuous="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="hsl(360,100%,100%)" drawsBackground="YES" id="Ahz-cB-Nrs">
                                     <font key="font" metaFont="system" size="18"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <connections>
@@ -1200,7 +1193,7 @@
                                 </constraints>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" continuous="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="#DDDDDD" drawsBackground="YES" id="Cly-ia-4Xs">
                                     <font key="font" metaFont="system" size="40"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <connections>
@@ -1255,6 +1248,7 @@
                             <constraint firstItem="tVM-WL-oS3" firstAttribute="top" secondItem="8Za-1l-iUY" secondAttribute="bottom" constant="3" id="6zD-nz-9hO"/>
                             <constraint firstItem="Zwf-Lv-fFU" firstAttribute="top" secondItem="er1-Y6-ulC" secondAttribute="bottom" constant="8" id="71P-In-Rzm"/>
                             <constraint firstItem="n6e-Ap-zxs" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="75" id="7A3-N6-kxk"/>
+                            <constraint firstItem="rPD-ii-HO6" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="3" id="7CE-nC-Kch"/>
                             <constraint firstItem="5cu-3T-IeH" firstAttribute="top" secondItem="bKi-Cf-Tdm" secondAttribute="bottom" constant="5" id="7J5-C3-ylm"/>
                             <constraint firstItem="28v-1O-zrT" firstAttribute="top" secondItem="shu-lB-rbB" secondAttribute="bottom" constant="11" id="90j-ve-QZr"/>
                             <constraint firstItem="rfh-fD-Kco" firstAttribute="leading" secondItem="bKi-Cf-Tdm" secondAttribute="trailing" id="94H-v3-TN1"/>
@@ -1291,19 +1285,16 @@
                             <constraint firstItem="shu-lB-rbB" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="8" id="Mt7-gr-hdA"/>
                             <constraint firstItem="DTj-Lu-KMw" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="40" id="MyU-TZ-ha3"/>
                             <constraint firstItem="pPO-tf-8vD" firstAttribute="leading" secondItem="c8a-x7-V67" secondAttribute="trailing" constant="8" id="N3f-Z1-WmM"/>
-                            <constraint firstAttribute="bottom" secondItem="6Uz-jh-oqA" secondAttribute="bottom" id="NdE-iT-CfM"/>
                             <constraint firstItem="wso-6O-buf" firstAttribute="top" secondItem="TFG-e0-Z89" secondAttribute="bottom" constant="13" id="OIs-kH-ISI"/>
                             <constraint firstItem="wJd-Ha-Zv9" firstAttribute="leading" secondItem="yNo-Q7-GQC" secondAttribute="trailing" constant="85" id="Os6-Sj-M8q"/>
-                            <constraint firstItem="6Uz-jh-oqA" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="PC3-yn-dKF"/>
-                            <constraint firstItem="cdP-t9-Uvz" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="PEb-3S-oVL"/>
                             <constraint firstAttribute="trailing" secondItem="R2Y-se-Brs" secondAttribute="trailing" constant="47" id="QE8-AU-LNh"/>
                             <constraint firstItem="ZWb-jy-ORd" firstAttribute="top" secondItem="DTj-Lu-KMw" secondAttribute="bottom" constant="33" id="Ro5-KR-5nL"/>
                             <constraint firstItem="q2E-xY-BQe" firstAttribute="leading" secondItem="pPO-tf-8vD" secondAttribute="trailing" constant="8" id="Sid-2i-pWt"/>
                             <constraint firstItem="rM2-0k-99v" firstAttribute="top" secondItem="l6G-MC-JVb" secondAttribute="bottom" constant="50" id="TBa-wr-jd6"/>
+                            <constraint firstItem="shu-lB-rbB" firstAttribute="leading" secondItem="ZTU-tN-jO3" secondAttribute="trailing" constant="12" id="Top-B5-ykb"/>
                             <constraint firstItem="8Za-1l-iUY" firstAttribute="leading" secondItem="NSf-2F-e3C" secondAttribute="trailing" id="Unp-gw-eIL"/>
                             <constraint firstAttribute="trailing" secondItem="Smw-r6-gkg" secondAttribute="trailing" constant="47" id="V4U-3F-R8r"/>
                             <constraint firstItem="S0E-T7-ugE" firstAttribute="top" secondItem="NSf-2F-e3C" secondAttribute="bottom" id="VcT-7d-OvL"/>
-                            <constraint firstItem="cdP-t9-Uvz" firstAttribute="leading" secondItem="Nwn-j7-fHP" secondAttribute="leading" id="Vsc-xY-ITH"/>
                             <constraint firstItem="aDp-rQ-jFW" firstAttribute="leading" secondItem="yNo-Q7-GQC" secondAttribute="trailing" constant="50" id="WJO-sd-gNZ"/>
                             <constraint firstItem="5cu-3T-IeH" firstAttribute="leading" secondItem="hgT-7H-IIM" secondAttribute="trailing" constant="8" id="WcC-9H-saa"/>
                             <constraint firstItem="84c-1g-DPB" firstAttribute="top" secondItem="Wjc-Qz-GGv" secondAttribute="bottom" constant="10" id="Wy2-AN-Gkh"/>
@@ -1324,7 +1315,6 @@
                             <constraint firstItem="h8m-Gp-dGK" firstAttribute="leading" secondItem="Wjc-Qz-GGv" secondAttribute="trailing" constant="8" id="cJm-up-9Kc"/>
                             <constraint firstItem="7Sb-It-12b" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="clk-K6-7QW"/>
                             <constraint firstItem="6IZ-eb-Trm" firstAttribute="leading" secondItem="Zwf-Lv-fFU" secondAttribute="trailing" constant="34" id="cyP-HL-tuJ"/>
-                            <constraint firstItem="6Uz-jh-oqA" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="dLA-XA-Gh6"/>
                             <constraint firstItem="ttj-yY-qXp" firstAttribute="centerX" secondItem="5Lg-VK-qd0" secondAttribute="centerX" constant="-1" id="dxd-3s-RsJ"/>
                             <constraint firstItem="lz3-qT-ztq" firstAttribute="leading" secondItem="yNo-Q7-GQC" secondAttribute="trailing" constant="8" id="ehp-XL-aF5"/>
                             <constraint firstItem="Zwf-Lv-fFU" firstAttribute="leading" secondItem="yNo-Q7-GQC" secondAttribute="trailing" constant="50" id="fBD-9a-pSN"/>
@@ -1333,7 +1323,6 @@
                             <constraint firstItem="OXc-Hc-zJo" firstAttribute="top" secondItem="5Lg-VK-qd0" secondAttribute="bottom" constant="8" symbolic="YES" id="fkq-7F-Dab"/>
                             <constraint firstItem="kYr-cs-Tzm" firstAttribute="top" secondItem="rM2-0k-99v" secondAttribute="bottom" constant="50" id="fxS-KP-7rJ"/>
                             <constraint firstItem="eoN-fA-ehL" firstAttribute="top" secondItem="5cu-3T-IeH" secondAttribute="bottom" constant="8" id="gAu-6D-Lsw"/>
-                            <constraint firstItem="cdP-t9-Uvz" firstAttribute="leading" secondItem="5Lg-VK-qd0" secondAttribute="trailing" constant="8" symbolic="YES" id="gXS-Sp-zJe"/>
                             <constraint firstItem="7Sb-It-12b" firstAttribute="top" secondItem="fbH-re-3co" secondAttribute="bottom" constant="10" id="gZa-di-Zhg"/>
                             <constraint firstItem="itD-8c-I9y" firstAttribute="top" secondItem="OXc-Hc-zJo" secondAttribute="bottom" constant="16" id="gqY-QN-Ocq"/>
                             <constraint firstAttribute="trailing" secondItem="kYr-cs-Tzm" secondAttribute="trailing" constant="47" id="hjo-Vn-XLF"/>
@@ -1342,7 +1331,6 @@
                             <constraint firstItem="rPD-ii-HO6" firstAttribute="leading" secondItem="Smw-r6-gkg" secondAttribute="trailing" constant="7" id="kMh-hD-ZBZ"/>
                             <constraint firstItem="aHh-OS-qa6" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="lUv-2R-ted"/>
                             <constraint firstItem="28v-1O-zrT" firstAttribute="leading" secondItem="aSa-9Q-5S6" secondAttribute="trailing" constant="42" id="lgn-zV-MFg"/>
-                            <constraint firstItem="cdP-t9-Uvz" firstAttribute="leading" secondItem="shu-lB-rbB" secondAttribute="trailing" constant="8" id="mP1-Nn-Dyj"/>
                             <constraint firstItem="mQV-RI-st9" firstAttribute="leading" secondItem="kaM-9c-4XC" secondAttribute="trailing" constant="8" id="mtI-Gc-7WC"/>
                             <constraint firstItem="R2Y-se-Brs" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="55" id="nwp-Y3-K3E"/>
                             <constraint firstItem="Smw-r6-gkg" firstAttribute="top" secondItem="Nwn-j7-fHP" secondAttribute="bottom" constant="50" id="oYi-sJ-leS"/>
@@ -1358,13 +1346,12 @@
                             <constraint firstItem="c8a-x7-V67" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="tJJ-bC-upW"/>
                             <constraint firstItem="wso-6O-buf" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="12" id="tUL-Ul-dvw"/>
                             <constraint firstItem="hgT-7H-IIM" firstAttribute="leading" secondItem="84c-1g-DPB" secondAttribute="trailing" constant="8" id="taI-YY-i3J"/>
+                            <constraint firstItem="5Lg-VK-qd0" firstAttribute="leading" secondItem="yNo-Q7-GQC" secondAttribute="trailing" constant="6" id="thR-ow-t9C"/>
                             <constraint firstItem="ZTU-tN-jO3" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="15" id="tvJ-Sg-Nnd"/>
-                            <constraint firstItem="rPD-ii-HO6" firstAttribute="centerY" secondItem="cdP-t9-Uvz" secondAttribute="centerY" id="u2T-kO-mhH"/>
                             <constraint firstItem="hvZ-z0-R8t" firstAttribute="top" secondItem="tiI-6x-IkG" secondAttribute="bottom" constant="5" id="uyN-Co-v7f"/>
                             <constraint firstItem="Wjc-Qz-GGv" firstAttribute="top" secondItem="c8a-x7-V67" secondAttribute="bottom" constant="11" id="vcC-n1-3lU"/>
                             <constraint firstItem="OXc-Hc-zJo" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="wze-Wv-Nxb"/>
                             <constraint firstItem="h8m-Gp-dGK" firstAttribute="top" secondItem="pPO-tf-8vD" secondAttribute="bottom" constant="12" id="xaS-Ks-po9"/>
-                            <constraint firstItem="cdP-t9-Uvz" firstAttribute="leading" secondItem="6Uz-jh-oqA" secondAttribute="trailing" id="yRw-kM-gCP"/>
                             <constraint firstItem="aol-eE-aUr" firstAttribute="leading" secondItem="0ki-zf-AaF" secondAttribute="trailing" constant="8" id="zZB-pk-gKY"/>
                         </constraints>
                     </view>
@@ -1455,20 +1442,18 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Clipboard" width="140" height="175"/>
-        <image name="Eyedropper" width="149" height="149"/>
+        <image name="Clipboard" width="200" height="200"/>
+        <image name="Eyedropper" width="200" height="200"/>
         <image name="add" width="280" height="430"/>
-        <image name="analogous" width="64" height="44"/>
+        <image name="analogous" width="514" height="350"/>
         <image name="arrowdown" width="280" height="430"/>
         <image name="arrowup" width="280" height="430"/>
-        <image name="background" width="798" height="798"/>
-        <image name="brushed" width="114" height="114"/>
-        <image name="complementary" width="64" height="44"/>
-        <image name="compound" width="64" height="44"/>
+        <image name="complementary" width="514" height="350"/>
+        <image name="compound" width="514" height="350"/>
         <image name="lightoff" width="280" height="430"/>
         <image name="lighton" width="280" height="430"/>
-        <image name="monochromatic" width="64" height="44"/>
-        <image name="shades" width="64" height="44"/>
-        <image name="triadic" width="64" height="44"/>
+        <image name="monochromatic" width="514" height="350"/>
+        <image name="shades" width="514" height="350"/>
+        <image name="triadic" width="514" height="350"/>
     </resources>
 </document>

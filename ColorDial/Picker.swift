@@ -43,12 +43,14 @@ class Picker: NSView {
     internal func imageFromARGB32Bitmap(_ pixels: [PixelData], width: Int, height: Int)->NSImage {
         let bitsPerComponent: Int = 8
         let bitsPerPixel: Int = 32
+        let pixelSize = MemoryLayout<PixelData>.size
         
         assert(pixels.count == Int(width * height))
         
         var data = pixels // Copy to mutable []
+        let dataCopy = Data(bytes: &data, count: data.count * pixelSize)
         let providerRef = CGDataProvider(
-            data: Data(bytes: UnsafePointer<UInt8>(&data), count: data.count * sizeof(PixelData))
+            data: dataCopy as CFData
         )
         
         let cgimage = CGImage(
@@ -56,10 +58,10 @@ class Picker: NSView {
             height: height,
             bitsPerComponent: bitsPerComponent,
             bitsPerPixel: bitsPerPixel,
-            bytesPerRow: width * Int(sizeof(PixelData)),
+            bytesPerRow: width * pixelSize,
             space: rgbColorSpace,
             bitmapInfo: bitmapInfo,
-            provider: providerRef,
+            provider: providerRef!,
             decode: nil,
             shouldInterpolate: true,
             intent: CGColorRenderingIntent.defaultIntent
@@ -117,7 +119,9 @@ class Picker: NSView {
         
         for x in -mid ..< mid {
             for y in -mid ..< mid {
-                let c = imageRep.colorAt(x: cmid + x + offsX, y: cmid + y + offsY)!
+                guard let c = imageRep.colorAt(x: cmid + x + offsX, y: cmid + y + offsY) else {
+                    continue
+                }
                 
                 if (x == 0 && y == 0) {
                     centerColor = c

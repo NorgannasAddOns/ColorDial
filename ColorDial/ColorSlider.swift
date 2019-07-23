@@ -66,7 +66,7 @@ class ColorSlider: NSSliderCell {
     override func drawBar(inside aRect: NSRect, flipped: Bool) {
         var rect = aRect
         
-        rect.offsetInPlace(dx: 5, dy: -5)
+        rect = rect.offsetBy(dx: 5, dy: -5)
         rect.size.height += 10
         rect.size.width -= 10
         
