@@ -137,7 +137,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
     @IBOutlet weak var modeButton: NSButton!
     
     func flashPress(_ item: NSView, _ flash: CGFloat = 0.3, _ dur: CGFloat = 1.2) {
-        NSAnimationContext.current().duration = Double(dur);
+        NSAnimationContext.current.duration = Double(dur);
         item.alphaValue = flash
         item.animator().alphaValue = 1
     }
@@ -153,21 +153,21 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
     
     @IBAction func hexCopy(_ sender: NSButton) {
         flashPress(sender)
-        let pb = NSPasteboard.general()
+        let pb = NSPasteboard.general
         pb.clearContents()
         pb.writeObjects([hexText.stringValue as NSPasteboardWriting])
     }
     
     @IBAction func rgbCopy(_ sender: NSButton) {
         flashPress(sender)
-        let pb = NSPasteboard.general()
+        let pb = NSPasteboard.general
         pb.clearContents()
         pb.writeObjects([rgbText.stringValue as NSPasteboardWriting])
     }
     
     @IBAction func hslCopy(_ sender: NSButton) {
         flashPress(sender)
-        let pb = NSPasteboard.general()
+        let pb = NSPasteboard.general
         pb.clearContents()
         pb.writeObjects([hslText.stringValue as NSPasteboardWriting])
     }
@@ -180,7 +180,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
     }
     
     @IBAction func lockPressed(_ sender: NSButton) {
-        if sender.state == 0 {
+        if sender.state.rawValue == 0 {
             sender.title = "🔓"
             lockedColor = color
             setSliders()
@@ -190,7 +190,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
     }
     
     func setModeIcon() {
-        if modeButton.state == 1 {
+        if modeButton.state.rawValue == 1 {
             modeButton.title = "🎨"
         } else {
             modeButton.title = "📐"
@@ -199,7 +199,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
     
     @IBAction func modePressed(_ sender: NSButton) {
         setModeIcon()
-        defaults.set(sender.state == 0, forKey: "scientificMode")
+        defaults.set(sender.state.rawValue == 0, forKey: "scientificMode")
         
         setSliders()
     }
@@ -228,12 +228,12 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
             break;
         }
         
-        complementaryHarmony.state = 0
-        monochromaticHarmony.state = 0
-        analogousHarmony.state = 0
-        compoundHarmony.state = 0
-        triadicHarmony.state = 0
-        shadesHarmony.state = 0
+        complementaryHarmony.state = convertToNSControlStateValue(0)
+        monochromaticHarmony.state = convertToNSControlStateValue(0)
+        analogousHarmony.state = convertToNSControlStateValue(0)
+        compoundHarmony.state = convertToNSControlStateValue(0)
+        triadicHarmony.state = convertToNSControlStateValue(0)
+        shadesHarmony.state = convertToNSControlStateValue(0)
         complementaryHarmony.alphaValue = 0.8
         monochromaticHarmony.alphaValue = 0.8
         analogousHarmony.alphaValue = 0.8
@@ -242,7 +242,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
         shadesHarmony.alphaValue = 0.8
         
         flashPress(sender, 0.8, 0.6)
-        sender.state = 1
+        sender.state = convertToNSControlStateValue(1)
         setSliders()
     }
     
@@ -252,7 +252,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
     var rgbPattern: Regex = Regex("([\\d\\.]+),\\s*([\\d\\.]+),\\s*([\\d\\.]+)")
     var hslPattern: Regex = Regex("([\\d\\.]+),\\s*([\\d\\.]+)%?,\\s*([\\d\\.]+)%?")
     
-    override func controlTextDidChange(_ obj: Notification) {
+    func controlTextDidChange(_ obj: Notification) {
         if let field = obj.object as? NSTextField {
             inputUpdated(field)
             switch (field) {
@@ -272,7 +272,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
         }
     }
     
-    override func controlTextDidEndEditing(_ obj: Notification) {
+    func controlTextDidEndEditing(_ obj: Notification) {
         editingTextType = ""
     }
     
@@ -386,7 +386,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
             if matches.count > 0 {
                 let code = matches[0].stringAtRange(value, 1)
                 
-                if (code.characters.count == 3) {
+                if (code.count == 3) {
                     let r = code.hexNibbleAt(0) * 17
                     let g = code.hexNibbleAt(1) * 17
                     let b = code.hexNibbleAt(2) * 17
@@ -397,7 +397,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
                     bValue = b
                     updateSliders(true)
                 }
-                if (code.characters.count >= 6) {
+                if (code.count >= 6) {
                     let r = code.hexByteAt(0)
                     let g = code.hexByteAt(2)
                     let b = code.hexByteAt(4)
@@ -578,7 +578,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
         }
         
         let scientificMode = defaults.bool(forKey: "scientificMode")
-        modeButton.state = scientificMode ? 0 : 1
+        modeButton.state = NSControl.StateValue(rawValue: scientificMode ? 0 : 1)
         setModeIcon()
 
         cch[0] = cch1
@@ -657,20 +657,18 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
 
         let bundle = Bundle(for: type(of: self))
         let nib = NSNib(nibNamed: "Picker", bundle: bundle)
-        var topLevelObjects = NSArray()
+        var topLevelObjects: NSArray?
         nib?.instantiate(withOwner: pickerWin, topLevelObjects: &topLevelObjects)
-        for object: Any in topLevelObjects {
-            if let obj = object as? Picker {
-                self.picker = obj
-            }
+        if let found = topLevelObjects?.first(where: { $0 is Picker }) {
+            picker = found as? Picker
+            picker.parent = self
+            picker.delegate = self
         }
-        picker.parent = self
-        picker.delegate = self
 
-        pickerWin = NSWindow(contentRect: NSRect(x: 0, y: 0, width: picker.pickerSize, height: picker.pickerSize), styleMask: NSBorderlessWindowMask, backing: NSBackingStoreType.buffered, defer: true)
+        pickerWin = NSWindow(contentRect: NSRect(x: 0, y: 0, width: picker.pickerSize, height: picker.pickerSize), styleMask: .borderless, backing: .buffered, defer: true)
         
         pickerWin.backgroundColor = NSColor.clear
-        pickerWin.level = Int(CGWindowLevelForKey(.maximumWindow))
+        pickerWin.level = convertToNSWindowLevel(Int(CGWindowLevelForKey(.maximumWindow)))
         pickerWin.contentView?.addSubview(picker)
         pickerWin.hasShadow = true
         pickerWin.invalidateShadow()
@@ -678,7 +676,6 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
         hexText.window?.makeFirstResponder(nil)
 
         harmonyPressed(analogousHarmony)
-        
         
         NSEvent.addLocalMonitorForEvents(matching: .keyDown) { (aEvent) -> NSEvent? in
             self.keyDown(with: aEvent)
@@ -715,7 +712,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
     }
     
     func addHue(_ h: CGFloat, _ add: CGFloat) -> CGFloat {
-        if modeButton.state == 0 {
+        if modeButton.state.rawValue == 0 {
             return (360 + h + add).truncatingRemainder(dividingBy: 360)
         }
         
@@ -726,7 +723,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
     func setSliders() {
         tipLabel.stringValue = "Click + on the color dial to add the current color to history swatches."
 
-        if lockButton.state == 0 && color != lockedColor {
+        if lockButton.state.rawValue == 0 && color != lockedColor {
             lockedColor = color
             defaults.setNSColor(color, forKey: "currentColor")
         }
@@ -876,3 +873,13 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
 
 }
 
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSControlStateValue(_ input: Int) -> NSControl.StateValue {
+	return NSControl.StateValue(rawValue: input)
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSWindowLevel(_ input: Int) -> NSWindow.Level {
+	return NSWindow.Level(rawValue: input)
+}

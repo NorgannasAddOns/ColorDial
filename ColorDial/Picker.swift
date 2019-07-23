@@ -182,7 +182,7 @@ class Picker: NSView {
         
     }
     
-    func timerDidFire(_ timer: Timer!) {
+    @objc func timerDidFire(_ timer: Timer!) {
         if (window!.isVisible) {
             handleMouseMovement()
         }
@@ -203,9 +203,9 @@ class Picker: NSView {
         let t = NSTrackingArea(
             rect: frame,
             options: [
-                NSTrackingAreaOptions.activeAlways,
-                NSTrackingAreaOptions.mouseEnteredAndExited,
-                NSTrackingAreaOptions.mouseMoved
+                NSTrackingArea.Options.activeAlways,
+                NSTrackingArea.Options.mouseEnteredAndExited,
+                NSTrackingArea.Options.mouseMoved
             ],
             owner: self,
             userInfo: nil
@@ -231,7 +231,7 @@ class Picker: NSView {
             return
         }
 
-        let m = NSEvent.mouseLocation()
+        let m = NSEvent.mouseLocation
         
         let half = pickerSize / 2.0
         let nx = m.x - half
@@ -306,7 +306,7 @@ class Picker: NSView {
             
             let click = self.convert(theEvent.locationInWindow, from: nil)
             if (circle.contains(click)) {
-                if !theEvent.modifierFlags.contains(NSEventModifierFlags.command) {
+                if !theEvent.modifierFlags.contains(NSEvent.ModifierFlags.command) {
                     closePicker();
                 }
                 
@@ -319,7 +319,7 @@ class Picker: NSView {
     
     func carbonScreenPointFromCocoaScreenPoint(_ cocoaPoint: NSPoint) -> NSPoint {
         //debugPrint("Convert")
-        for screen in NSScreen.screens()! {
+        for screen in NSScreen.screens {
             /*debugPrint(
                 String(format: "Test if %0.1f, %0.1f inside  %0.1f, %0.1f @ %0.1f x %0.1f",
                     cocoaPoint.x, cocoaPoint.y,

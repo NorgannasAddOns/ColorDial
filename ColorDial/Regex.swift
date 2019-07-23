@@ -22,9 +22,9 @@ extension String {
 
 extension NSTextCheckingResult {
     func stringAtRange(_ value: String, _ index: Int) -> String {
-        let nsrange = self.rangeAt(index)
+        let nsrange = self.range(at: index)
         let range = value.rangeFromNSRange(nsrange)
-        return value.substring(with: range!)
+        return String(value[range!])
     }
 }
 
@@ -43,7 +43,7 @@ class Regex {
         let matches = self.internalExpression.matches(
             in: input,
             options: [],
-            range: NSMakeRange(0, input.characters.count)
+            range: NSMakeRange(0, input.count)
         )
         return matches
     }
