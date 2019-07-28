@@ -31,3 +31,7 @@ large_tuple:
         warning: 4
         error: 6
 
+cyclomatic_complexity:
+    warning: 15
+    error: 25
+

@@ -6,8 +6,11 @@
 //  Copyright © 2015 Kenneth Allan. All rights reserved.
 //
 
+// swiftlint:disable file_length
+
 import Cocoa
 
+// swiftlint:disable:next type_body_length
 class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, NSTextFieldDelegate {
     var rValue: Int {
         get { return Int(round(rFloat.isNaN ? 0 : rFloat * 255)) }
@@ -287,6 +290,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
         }
     }
     
+    // swiftlint:disable:next cyclomatic_complexity function_body_length
     @IBAction func inputUpdated(_ sender: NSTextField) {
         switch (sender) {
         case rText:
@@ -720,6 +724,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
         return convertHueRYBtoRGB((360 + g).truncatingRemainder(dividingBy: 360))
     }
     
+    // swiftlint:disable:next function_body_length
     func setSliders() {
         tipLabel.stringValue = "Click + on the color dial to add the current color to history swatches."
 
