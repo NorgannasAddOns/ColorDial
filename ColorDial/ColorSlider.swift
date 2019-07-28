@@ -20,29 +20,28 @@ class ColorSlider: NSSliderCell {
         )
     }
     
-    func setColors(_ r1:Int, g1:Int, b1:Int, r2:Int, g2:Int, b2:Int) {
+    func setColors(_ r1: Int, g1: Int, b1: Int, r2: Int, g2: Int, b2: Int) {
         grad = NSGradient.init(
             starting: NSColor(red: CGFloat(r1)/255, green: CGFloat(g1)/255, blue: CGFloat(b1)/255, alpha: 1),
             ending: NSColor(red: CGFloat(r2)/255, green: CGFloat(g2)/255, blue: CGFloat(b2)/255, alpha: 1)
         )
     }
-
     
-    func setSaturation(_ h:Int, v:Int) {
+    func setSaturation(_ h: Int, v: Int) {
         grad = NSGradient.init(
             starting: NSColor(hue: CGFloat(h)/360, saturation: 0, brightness: CGFloat(v)/100, alpha: 1),
             ending: NSColor(hue: CGFloat(h)/360, saturation: 1, brightness: CGFloat(v)/100, alpha: 1)
         )
     }
     
-    func setBrightness(_ h:Int, s:Int) {
+    func setBrightness(_ h: Int, s: Int) {
         grad = NSGradient.init(
             starting: NSColor(hue: CGFloat(h)/360, saturation: CGFloat(s)/100, brightness: 0, alpha: 1),
             ending: NSColor(hue: CGFloat(h)/360, saturation: CGFloat(s)/100, brightness: 1, alpha: 1)
         )
     }
     
-    func setHue(_ s:Int, v:Int) {
+    func setHue(_ s: Int, v: Int) {
         let ss = CGFloat(s)/100
         let vv = CGFloat(v)/100
         
@@ -59,7 +58,7 @@ class ColorSlider: NSSliderCell {
             NSColor(hue: 270/360, saturation: ss, brightness: vv, alpha: 1),
             NSColor(hue: 300/360, saturation: ss, brightness: vv, alpha: 1),
             NSColor(hue: 330/360, saturation: ss, brightness: vv, alpha: 1),
-            NSColor(hue: 360/360, saturation: ss, brightness: vv, alpha: 1),
+            NSColor(hue: 360/360, saturation: ss, brightness: vv, alpha: 1)
         ])
     }
     

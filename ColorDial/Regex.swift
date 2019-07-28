@@ -9,7 +9,7 @@
 import Foundation
 
 extension String {
-    func rangeFromNSRange(_ nsRange : NSRange) -> Range<String.Index>? {
+    func rangeFromNSRange(_ nsRange: NSRange) -> Range<String.Index>? {
         let from16 = utf16.index(utf16.startIndex, offsetBy: nsRange.location)
         let to16 = utf16.index(from16, offsetBy: nsRange.length)
         if let from = String.Index(from16, within: self),
@@ -43,7 +43,7 @@ class Regex {
         let matches = self.internalExpression.matches(
             in: input,
             options: [],
-            range: NSMakeRange(0, input.count)
+            range: NSRange(location: 0, length: input.count)
         )
         return matches
     }

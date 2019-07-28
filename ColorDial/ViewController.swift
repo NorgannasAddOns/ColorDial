@@ -137,7 +137,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
     @IBOutlet weak var modeButton: NSButton!
     
     func flashPress(_ item: NSView, _ flash: CGFloat = 0.3, _ dur: CGFloat = 1.2) {
-        NSAnimationContext.current.duration = Double(dur);
+        NSAnimationContext.current.duration = Double(dur)
         item.alphaValue = flash
         item.animator().alphaValue = 1
     }
@@ -225,7 +225,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
             harmony = "shades"
             break
         default:
-            break;
+            break
         }
         
         complementaryHarmony.state = convertToNSControlStateValue(0)
@@ -459,7 +459,7 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
         editingTextType = ""
         hexText.window?.makeFirstResponder(nil)
 
-        var isRGB: Bool = true;
+        var isRGB: Bool = true
         switch (sender) {
         case rSlider:
             rValue = clampTo(rSlider.integerValue)
@@ -830,14 +830,14 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
         
         switch (harmony) {
         case "analogous":
-            cc1.setHSV(addHue(h,  30), s: addValueOverflowBounce(s, 5), v: addValueOverflowSlow(v, 5, min: 20))
-            cc2.setHSV(addHue(h,  15), s: addValueOverflowBounce(s, 5), v: addValueOverflowFlip(v, 9, min: 20))
+            cc1.setHSV(addHue(h, 30), s: addValueOverflowBounce(s, 5), v: addValueOverflowSlow(v, 5, min: 20))
+            cc2.setHSV(addHue(h, 15), s: addValueOverflowBounce(s, 5), v: addValueOverflowFlip(v, 9, min: 20))
             cc4.setHSV(addHue(h, -15), s: addValueOverflowBounce(s, 5), v: addValueOverflowFlip(v, 9, min: 20))
             cc5.setHSV(addHue(h, -30), s: addValueOverflowBounce(s, 5), v: addValueOverflowSlow(v, 5, min: 20))
             break
         case "complementary":
-            cc1.setHSV(addHue(h,   0), s: addValueOverflowSlow(s, 10), v: addValueOverflowFlip(v, -30, lcap: 20))
-            cc2.setHSV(addHue(h,   0), s: addValueOverflowCap(s, -10), v: addValueOverflowCap(v, 30))
+            cc1.setHSV(addHue(h, 0), s: addValueOverflowSlow(s, 10), v: addValueOverflowFlip(v, -30, lcap: 20))
+            cc2.setHSV(addHue(h, 0), s: addValueOverflowCap(s, -10), v: addValueOverflowCap(v, 30))
             cc4.setHSV(addHue(h, 180), s: addValueOverflowCap(s, 20), v: addValueOverflowFlip(v, -30, lcap: 20))
             cc5.setHSV(addHue(h, 180), s: s, v: v)
             break
@@ -873,13 +873,12 @@ class ViewController: NSViewController, ColorSupplyDelegate, NSWindowDelegate, N
 
 }
 
-
 // Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSControlStateValue(_ input: Int) -> NSControl.StateValue {
+private func convertToNSControlStateValue(_ input: Int) -> NSControl.StateValue {
 	return NSControl.StateValue(rawValue: input)
 }
 
 // Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSWindowLevel(_ input: Int) -> NSWindow.Level {
+private func convertToNSWindowLevel(_ input: Int) -> NSWindow.Level {
 	return NSWindow.Level(rawValue: input)
 }

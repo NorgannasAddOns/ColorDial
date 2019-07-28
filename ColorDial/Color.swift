@@ -91,15 +91,14 @@ extension NSColor {
     }
 }
 
-
 func mapRange(_ value: CGFloat, _ fromLower: CGFloat, _ fromUpper: CGFloat, _ toLower: CGFloat, _ toUpper: CGFloat) -> CGFloat {
-    return (round((toLower) + (value - fromLower) * ((toUpper - toLower) / (fromUpper - fromLower))));
+    return (round((toLower) + (value - fromLower) * ((toUpper - toLower) / (fromUpper - fromLower))))
 }
 
 func convertHueRYBtoRGB(_ hue: CGFloat) -> CGFloat {
     if hue < 60 { return (round((hue) * (35 / 60))) }
-    if hue < 122 { return mapRange(hue, 60,  122, 35,  60) }
-    if hue < 165 { return mapRange(hue, 122, 165, 60,  120) }
+    if hue < 122 { return mapRange(hue, 60, 122, 35, 60) }
+    if hue < 165 { return mapRange(hue, 122, 165, 60, 120) }
     if hue < 218 { return mapRange(hue, 165, 218, 120, 180) }
     if hue < 275 { return mapRange(hue, 218, 275, 180, 240) }
     if hue < 330 { return mapRange(hue, 275, 330, 240, 300) }
@@ -108,8 +107,8 @@ func convertHueRYBtoRGB(_ hue: CGFloat) -> CGFloat {
 
 func convertHueRGBtoRYB (_ hue: CGFloat) -> CGFloat {
     if hue < 35 { return (round(CGFloat(hue) * (60 / 35))) }
-    if hue < 60 { return mapRange(hue, 35,  60,  60,  122) }
-    if hue < 120 { return mapRange(hue, 60,  120, 122, 165) }
+    if hue < 60 { return mapRange(hue, 35, 60, 60, 122) }
+    if hue < 120 { return mapRange(hue, 60, 120, 122, 165) }
     if hue < 180 { return mapRange(hue, 120, 180, 165, 218) }
     if hue < 240 { return mapRange(hue, 180, 240, 218, 275) }
     if hue < 300 { return mapRange(hue, 240, 300, 275, 330) }
@@ -180,6 +179,3 @@ func addValueOverflowOppose(_ v: CGFloat, _ add: CGFloat, cap: CGFloat = 100, ro
     if w > cap { w = (roffs + w).truncatingRemainder(dividingBy: cap) }
     return w
 }
-
-
-

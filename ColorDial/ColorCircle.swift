@@ -10,7 +10,7 @@ import Cocoa
 
 class ColorCircle: NSView {
     var fill: NSColor = NSColor.black
-    var bg: NSBezierPath? = nil
+    var bg: NSBezierPath?
     var downInView: Bool = false
     
     var delegate: ColorSupplyDelegate?
@@ -27,12 +27,10 @@ class ColorCircle: NSView {
         self.setNeedsDisplay(self.bounds)
     }
     
-    
     func changeShapeToSquare() {
-        bg = NSBezierPath(roundedRect: NSRect(x:self.bounds.origin.x + 1, y: self.bounds.origin.y + 1, width: self.bounds.size.width - 2, height: self.bounds.size.height - 2), xRadius: 3, yRadius: 3)
+        bg = NSBezierPath(roundedRect: NSRect(x: self.bounds.origin.x + 1, y: self.bounds.origin.y + 1, width: self.bounds.size.width - 2, height: self.bounds.size.height - 2), xRadius: 3, yRadius: 3)
         setNeedsDisplay(self.bounds)
     }
-
     
     override func mouseDown(with theEvent: NSEvent) {
         downInView = false
@@ -62,12 +60,10 @@ class ColorCircle: NSView {
         NSColorPanel.dragColor(fill, with: theEvent, from: self)
     }
     
-    
     func setColor(_ c: NSColor) {
         fill = c
         self.setNeedsDisplay(self.bounds)
     }
-    
     
     func lighten(_ color: NSColor, n: CGFloat) {
         var h: CGFloat = 0

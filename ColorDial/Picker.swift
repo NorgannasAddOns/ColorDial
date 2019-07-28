@@ -31,16 +31,16 @@ class Picker: NSView {
      * {{{
      */
     internal struct PixelData {
-        var a:UInt8 = 255
-        var r:UInt8 = 0
-        var g:UInt8 = 0
-        var b:UInt8 = 0
+        var a: UInt8 = 255
+        var r: UInt8 = 0
+        var g: UInt8 = 0
+        var b: UInt8 = 0
     }
     
     fileprivate let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
-    fileprivate let bitmapInfo:CGBitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedFirst.rawValue)
+    fileprivate let bitmapInfo: CGBitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedFirst.rawValue)
     
-    internal func imageFromARGB32Bitmap(_ pixels: [PixelData], width: Int, height: Int)->NSImage {
+    internal func imageFromARGB32Bitmap(_ pixels: [PixelData], width: Int, height: Int) -> NSImage {
         let bitsPerComponent: Int = 8
         let bitsPerPixel: Int = 32
         let pixelSize = MemoryLayout<PixelData>.size
@@ -91,8 +91,8 @@ class Picker: NSView {
         
         for p in -offs ... offs {
             for q in -offs ... offs {
-                let bx = x + p;
-                let by = y + q;
+                let bx = x + p
+                let by = y + q
                 
                 if (bx < 0 || by < 0) { continue }
                 if (bx >= size || by >= size) { continue }
@@ -109,7 +109,7 @@ class Picker: NSView {
         super.draw(dirtyRect)
         if (image == nil) { return }
 
-        objc_sync_enter(self);
+        objc_sync_enter(self)
         
         let cmid = Int(round(imageRep.size.width/2))
         let half = Int(round(pickerSize / 2))
@@ -136,7 +136,7 @@ class Picker: NSView {
                 )
             }
         }
-        objc_sync_exit(self);
+        objc_sync_exit(self)
 
         drawBlock(
             half,
@@ -151,7 +151,6 @@ class Picker: NSView {
                 lastColor = centerColor
             }
         }
-
         
         let scaled = imageFromARGB32Bitmap(pixels, width: Int(pickerSize), height: Int(pickerSize))
         //parent.eyeDropper.image = scaled
@@ -166,19 +165,18 @@ class Picker: NSView {
         NSColor.white.setStroke()
         circle.lineWidth = 1
         circle.stroke()
+        
+        circle.move(to: NSPoint(x: 2, y: half))
+        circle.line(to: NSPoint(x: half - offs, y: half))
 
+        circle.move(to: NSPoint(x: Int(pickerSize) - 2, y: half))
+        circle.line(to: NSPoint(x: half + offs, y: half))
         
-        circle.move(to: NSPoint(x: 2,                    y: half))
-        circle.line(to: NSPoint(x: half - offs,             y: half))
-
-        circle.move(to: NSPoint(x: Int(pickerSize) - 2,  y: half))
-        circle.line(to: NSPoint(x: half + offs,             y: half))
+        circle.move(to: NSPoint(x: half, y: 2))
+        circle.line(to: NSPoint(x: half, y: half - offs))
         
-        circle.move(to: NSPoint(x: half,                 y: 2))
-        circle.line(to: NSPoint(x: half,                 y: half - offs))
-        
-        circle.move(to: NSPoint(x: half,                 y: Int(pickerSize) - 2))
-        circle.line(to: NSPoint(x: half,                 y: half + offs))
+        circle.move(to: NSPoint(x: half, y: Int(pickerSize) - 2))
+        circle.line(to: NSPoint(x: half, y: half + offs))
         
     }
     
@@ -189,7 +187,7 @@ class Picker: NSView {
     }
     
     func changeShapeToSquare() {
-        circle = NSBezierPath(roundedRect: NSRect(x:1, y:1, width: pickerSize - 2, height: pickerSize - 2), xRadius: 5, yRadius: 5)
+        circle = NSBezierPath(roundedRect: NSRect(x: 1, y: 1, width: pickerSize - 2, height: pickerSize - 2), xRadius: 5, yRadius: 5)
         setNeedsDisplay(self.bounds)
     }
 
@@ -271,9 +269,9 @@ class Picker: NSView {
         
         image = CGWindowListCreateImage(s, CGWindowListOption.optionOnScreenBelowWindow, CGWindowID(window!.windowNumber), CGWindowImageOption.bestResolution)
         
-        objc_sync_enter(self);
+        objc_sync_enter(self)
         imageRep = NSBitmapImageRep(cgImage: image!)
-        objc_sync_exit(self);
+        objc_sync_exit(self)
         
         setNeedsDisplay(frame)
     }
@@ -307,7 +305,7 @@ class Picker: NSView {
             let click = self.convert(theEvent.locationInWindow, from: nil)
             if (circle.contains(click)) {
                 if !theEvent.modifierFlags.contains(NSEvent.ModifierFlags.command) {
-                    closePicker();
+                    closePicker()
                 }
                 
                 if let delegate = self.delegate {
@@ -327,7 +325,7 @@ class Picker: NSView {
                 )
             )*/
             let sr = NSRect(x: screen.frame.origin.x, y: screen.frame.origin.y - 1, width: screen.frame.size.width, height: screen.frame.size.height + 2)
-            if NSPointInRect(cocoaPoint, sr) {
+            if sr.contains(cocoaPoint) {
                 let screenHeight = screen.frame.size.height
                 let convertY = screenHeight + screen.frame.origin.y - cocoaPoint.y - 1
                 //debugPrint(String(format: "  Converting y to %0.1f + %0.1f - %0.1f - 1 = %0.1f", screenHeight, screen.frame.origin.y, cocoaPoint.y, convertY))

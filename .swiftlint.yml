@@ -1,0 +1,33 @@
+disabled_rules:
+  - trailing_whitespace
+  - discarded_notification_center_observer
+
+included:
+  - ColorDial
+
+excluded:
+  - Carthage
+
+force_cast: warning
+
+force_try: warning
+
+line_length: 200
+
+type_body_length:
+  warning: 200
+  error: 400
+
+identifier_name:
+  min_length:
+    error: 1
+
+file_length:
+    warning: 500
+    error: 750
+
+large_tuple:
+    max_length:
+        warning: 4
+        error: 6
+
